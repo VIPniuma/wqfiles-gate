@@ -96,8 +96,12 @@ static NSString * const kBody  = @"测试123";
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            // worse_query 的完整诊断（App Group / grant token / mkdir / create）附在弹窗，
+            // 真机失败时直接看得到是"没拿到 token"还是"路径不对"。
+            NSString *log = wq_log_text();
+            NSString *full = [NSString stringWithFormat:@"%@\n\n---- worse_query 日志 ----\n%@", msg, log.length > 1200 ? [log substringFromIndex:log.length - 1200] : log];
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:title
-                                                                       message:msg
+                                                                       message:full
                                                                 preferredStyle:UIAlertControllerStyleAlert];
             [ac addAction:[UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleDefault handler:nil]];
             UIViewController *top = wf.testButton.window.rootViewController;
