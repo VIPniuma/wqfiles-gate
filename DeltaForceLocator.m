@@ -27,9 +27,24 @@
 // 严格特征目录名（两个都认）：字母逐字匹配，大小写不敏感（iOS 目录大小写不敏感），
 // 但字母本身一个都不能差。DeltaXForce / Delta force / DeltForce 一律不算。
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
+static NSString * const kFeatureKey  = @"deltaforce";   // 归一化后的目标（只留 a-z）
 static NSString * const kDocsRel      = @"Documents";
 static NSString * const kFeatureRel   = @"Documents/DeltaForce 或 Documents/Delta-Force";  // 仅显示用
 static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/Application";
+
+// 归一化特征名：只保留 a-z 字母，忽略大小写与 -/_/空格/零宽/全角连接符等一切非字母。
+// 目标 key = "deltaforce"：DeltaForce / Delta-Force / Delta Force / DELTA_FORCE 都命中；
+// DeltaXForce / DeltForce / DeltaForce2 不命中（字母一个都不能错）。
+static NSString *wq_feature_key(NSString *s) {
+    if (![s isKindOfClass:NSString.class]) return @"";
+    NSMutableString *out = [NSMutableString stringWithCapacity:s.length];
+    for (NSUInteger i = 0; i < s.length; i++) {
+        unichar ch = [s characterAtIndex:i];
+        if (ch >= 'A' && ch <= 'Z') ch = (unichar)(ch + ('a' - 'A'));
+        if (ch >= 'a' && ch <= 'z') [out appendFormat:@"%c", (char)ch];
+    }
+    return out;
+}
 
 @implementation DeltaForceLocator
 
@@ -77,6 +92,7 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
     // 2) 严格检查：对每个容器用两个精确候选名判定（大小写不敏感、字母逐字一致）
     struct stat st;
     NSUInteger checked = 0, listFailed = 0, statFallback = 0;
+    NSMutableArray<NSString *> *nearHits = [NSMutableArray array];  // 近似样本，仅诊断
     NSUInteger featureCount = sizeof(kFeatureNames) / sizeof(kFeatureNames[0]);
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
@@ -90,16 +106,19 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         if (!entries) listFailed++;
 
         NSString *matchedName = nil;
+        BOOL matchedFromList = NO;
         for (NSUInteger fi = 0; fi < featureCount; fi++) {
             NSString *candidate = kFeatureNames[fi];
             NSString *probe = nil;
             if (entries) {
-                // 列目录成功：在真实条目名里找字母逐字匹配（忽略大小写），保留真实拼写
+                // 列目录成功：对每个真实条目名做归一化比对（只比 a-z 字母），保留真实拼写。
+                // 这一层不依赖 candidate 的拼写，DeltaForce / Delta-Force / 带零宽字符都命中。
                 for (NSString *name in entries) {
                     if (![name isKindOfClass:NSString.class]) continue;
-                    NSString *item = [name lastPathComponent];   // wq_enumerate 兜底若返回全路径也归一化
-                    if ([item caseInsensitiveCompare:candidate] == NSOrderedSame) {
-                        probe = [docs stringByAppendingPathComponent:item];
+                    if ([wq_feature_key(name) isEqualToString:kFeatureKey]) {
+                        probe = [docs stringByAppendingPathComponent:name];
+                        matchedName = name;
+                        matchedFromList = YES;   // wq_list 已证明它存在于 Documents 下，采信
                         break;
                     }
                 }
@@ -110,17 +129,34 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
                 probe = [docs stringByAppendingPathComponent:candidate];
             }
             if (!probe) continue;
+            if (matchedFromList) break;   // 列目录命中即为目录条目，无需再 stat（沙盒下 stat 会假失败）
+
             struct stat probeSt = {0};
             if (wq_stat(probe, &probeSt) == 0 && S_ISDIR(probeSt.st_mode)) {
-                matchedName = probe.lastPathComponent;
-                if (!entries) statFallback++;
+                matchedName = candidate;
+                statFallback++;
                 break;
             }
         }
-        if (!matchedName) continue;
-
-        NSString *feature = [docs stringByAppendingPathComponent:matchedName];
-        if (wq_stat(feature, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
+        if (!matchedName) {
+            // 诊断：列出任何与候选名"字母近似但不完全相等"的条目，一次定位隐藏字符/变体
+            for (NSString *name in entries ?: @[]) {
+                if (![name isKindOfClass:NSString.class]) continue;
+                NSString *a = [name lowercaseString];
+                if (a.length < 4) continue;
+                BOOL similar = ([a containsString:@"delta"] || [a containsString:@"force"]);
+                for (NSUInteger fi2 = 0; fi2 < featureCount && !similar; fi2++) {
+                    NSString *b = [kFeatureNames[fi2] lowercaseString];
+                    NSString *prefix = [a substringToIndex:MIN(4, a.length)];
+                    if ([b hasPrefix:prefix]) similar = YES;
+                }
+                if (similar) {
+                    [nearHits addObject:[NSString stringWithFormat:@"%@:Documents/%@(len%lu)",
+                                         c.lastPathComponent, name, (unsigned long)name.length]];
+                }
+            }
+            continue;
+        }
 
         // 把命中名的 Unicode 码点打出来，若有隐藏字符一眼可见
         NSMutableArray *codes = [NSMutableArray array];
@@ -129,14 +165,21 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         }
         NSString *bid = [self labelForContainer:c];
         wq_grant(c);   // 拿容器 token，返回容器根（token 精确覆盖）
-        [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 字母逐字匹配且为目录，码点=%@）",
-                          c.lastPathComponent, bid ?: @"未知", matchedName, [codes componentsJoinedByString:@" "]]];
+        BOOL isDir = (wq_stat([[docs stringByAppendingPathComponent:matchedName] stringByResolvingSymlinksInPath], &st) == 0 && S_ISDIR(st.st_mode));
+        [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 字母逐字匹配%@，码点=%@）",
+                          c.lastPathComponent, bid ?: @"未知", matchedName, isDir ? @"且为目录" : @"(stat 未能确认，但列目录存在)", [codes componentsJoinedByString:@" "]]];
         if (errorText) *errorText = [notes componentsJoinedByString:@"；"];
         return c;
     }
 
     [notes addObject:[NSString stringWithFormat:@"检查 %lu：wq_list 失败 %lu（其中 wq_stat 直探兜底命中 %lu），均无 Documents/DeltaForce 或 Documents/Delta-Force（字母逐字）",
                       (unsigned long)checked, (unsigned long)listFailed, (unsigned long)statFallback]];
+    if (nearHits.count) {
+        NSUInteger n = MIN(8, nearHits.count);
+        [notes addObject:[NSString stringWithFormat:@"近似名字样本(%lu)：%@",
+                          (unsigned long)nearHits.count,
+                          [[nearHits subarrayWithRange:NSMakeRange(0, n)] componentsJoinedByString:@", "]]];
+    }
     if (errorText) {
         *errorText = [notes componentsJoinedByString:@"；"];
     }
