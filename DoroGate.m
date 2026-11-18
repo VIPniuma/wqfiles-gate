@@ -50,7 +50,7 @@
 - (void)showGate {
     self.dialog = [[T3VerifyDialog alloc] initWithVerify:self.verify localVersion:T3_LOCAL_VERSION];
     __weak typeof(self) wf = self;
-    self.dialog.onLoginSuccess = ^(T3LoginResult *result, NSString *card, NSString *stateCode) {
+    self.dialog.onLoginSuccess = ^(T3LoginResult *result __unused, NSString *card, NSString *stateCode __unused) {
         [[NSUserDefaults standardUserDefaults] setObject:card forKey:T3_PREF_KEY_CARD];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [wf onVerified];

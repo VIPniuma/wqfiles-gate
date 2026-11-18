@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 // window 用于验证成功后 dismiss 顶层弹窗。
 - (instancetype)initWithWindow:(UIWindow *)window;
 
+// 启动验证流程（init 之后调用一次）。
+- (void)start;
+
 // 验证成功回调（主线程），在这里放行主界面功能。
 @property (nonatomic, copy, nullable) void (^onSuccess)(void);
 
