@@ -100,6 +100,8 @@ for spec in "AppIcon40x40:40" "AppIcon60x60:60" "AppIcon76x76:76" "AppIcon83.5x8
 done
 # 验证页 logo：Doro 图片
 cp icons/doro_logo.png "$APP/doro_logo.png"
+# 首页右上角头像
+cp icons/doro_avatar.jpg "$APP/doro_avatar.jpg"
 for lproj in "$ROOT"/*.lproj; do
     [[ -d "$lproj" ]] && cp -R "$lproj" "$APP/"
 done
