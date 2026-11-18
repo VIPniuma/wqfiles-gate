@@ -149,18 +149,16 @@ static NSString *wq_feature_key(NSString *s) {
     BOOL createOK = wq_create_file_from(dest, tmp, &detail);
     [[NSFileManager defaultManager] removeItemAtPath:tmp error:nil];
 
-    // 实读校验：grant 父目录后用 [NSString stringWithContentsOfFile] 读真实内容。
+    // 实读校验为准：wq_stat 在 worse_query 沙盒逃逸下对新文件会假失败（返回 ENOENT），
+    // 不能作存在性判断。能读回正确内容 == 写入成功，create 的布尔值仅作参考。
     wq_grant(parent);
     NSString *onDisk = [NSString stringWithContentsOfFile:dest encoding:NSUTF8StringEncoding error:nil];
     BOOL verified = [onDisk isEqualToString:kBody];
-    struct stat st;
-    BOOL statOK = wq_stat(dest, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0;
 
-    if (verified && statOK) return YES;
+    if (verified) return YES;
     if (err) {
-        *err = [NSString stringWithFormat:@"写入未落盘：create=%@（%@）\nstat=%@ size=%lld\n读回=%@\npath=%@",
+        *err = [NSString stringWithFormat:@"写入未落盘：create=%@（%@）\n读回=%@\npath=%@",
                 createOK ? @"OK" : @"失败", detail ?: @"无",
-                statOK ? @"OK" : @"失败", statOK ? (long long)st.st_size : -1LL,
                 onDisk ? [NSString stringWithFormat:@"'%@'", onDisk] : @"读不到", dest];
     }
     return NO;
