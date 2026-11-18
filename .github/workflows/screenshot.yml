@@ -1,0 +1,59 @@
+name: UI Screenshot (Simulator)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  screenshot:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: |
+          XC=$(ls -d /Applications/Xcode*.app/Contents/Developer 2>/dev/null | head -1)
+          if [ -n "$XC" ]; then sudo xcode-select -s "$XC"; fi
+          xcode-select -p
+
+      - name: Build simulator app (skip gate)
+        run: |
+          set -euo pipefail
+          ROOT=$(pwd)
+          APP="$ROOT/Build/WQFiles.app"
+          mkdir -p "$APP"
+          SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
+          ARCH=$(uname -m)
+          xcrun --sdk iphonesimulator clang -fobjc-arc -fmodules -fmodules-cache-path="$ROOT/Build/ModuleCache" -arch "$ARCH" \
+            -miphoneos-version-min=16.0 -DWQ_SCREENSHOT_MODE=1 \
+            -isysroot "$SDK" -I T3SDK \
+            -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers -framework JavaScriptCore \
+            WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m \
+            DoroGate.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
+            main.m -lsqlite3 -lz -o "$APP/WQFiles"
+          cp Info.plist "$APP/Info.plist"
+          plutil -convert binary1 "$APP/Info.plist"
+          cp icons/AppIcon1024.png "$APP/AppIcon1024.png"
+          cp icons/doro_logo.png "$APP/doro_logo.png"
+          cp icons/doro_avatar.jpg "$APP/doro_avatar.jpg"
+          for lproj in "$ROOT"/*.lproj; do [ -d "$lproj" ] && cp -R "$lproj" "$APP/"; done
+          echo "$APP" > "$ROOT/Build/app_path.txt"
+
+      - name: Boot simulator, install, launch, screenshot
+        run: |
+          set -euo pipefail
+          APP=$(cat Build/app_path.txt)
+          DEVICE=$(xcrun simctl list devices available | grep -E 'iPhone 16|iPhone 15' | head -1 | sed -E 's/.*\(([^)]+)\).*/\1/')
+          echo "Device=$DEVICE"
+          xcrun simctl boot "$DEVICE" || true
+          xcrun simctl bootstatus "$DEVICE" -b
+          xcrun simctl install "$DEVICE" "$APP"
+          xcrun simctl launch "$DEVICE" cz.kolbi.wqfiles || true
+          sleep 6
+          xcrun simctl io "$DEVICE" screenshot --type=png Build/home.png
+          ls -la Build/home.png
+
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui_screenshot
+          path: Build/home.png
+          if-no-files-found: error
