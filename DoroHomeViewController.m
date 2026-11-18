@@ -14,7 +14,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.systemBackground;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"首页";
     self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页"
                                                    image:[UIImage systemImageNamed:@"house"]
@@ -28,13 +28,13 @@
     UILabel *hint = [UILabel new];
     hint.text = @"生成 / 删除Documents里的测试文件";
     hint.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-    hint.textColor = UIColor.secondaryLabelColor;
+    hint.textColor = [UIColor grayColor];
     hint.textAlignment = NSTextAlignmentCenter;
     hint.numberOfLines = 0;
 
-    UIButton *generate = [self makeButtonWithTitle:@"生成测试文件" color:UIColor.systemBlueColor];
+    UIButton *generate = [self makeButtonWithTitle:@"生成测试文件" color:[UIColor colorWithRed:0.0 green:0.48 blue:1.0 alpha:1.0]];
     [generate addTarget:self action:@selector(onGenerate:) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *remove = [self makeButtonWithTitle:@"删除测试文件" color:UIColor.systemRedColor];
+    UIButton *remove = [self makeButtonWithTitle:@"删除测试文件" color:[UIColor colorWithRed:1.0 green:0.23 blue:0.19 alpha:1.0]];
     [remove addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
     UIStackView *buttons = [[UIStackView alloc] initWithArrangedSubviews:@[generate, remove]];
     buttons.axis = UILayoutConstraintAxisHorizontal;
@@ -62,7 +62,7 @@
     [btn setTitleColor:color forState:UIControlStateNormal];
     btn.layer.cornerRadius = 12;
     btn.translatesAutoresizingMaskIntoConstraints = NO;
-    [btn.heightAnchor constraintEqualToConstant:52];
+    [NSLayoutConstraint activateConstraints:@[[btn.heightAnchor constraintEqualToConstant:52]]];
     return btn;
 }
 
