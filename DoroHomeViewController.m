@@ -34,8 +34,10 @@
     avatar.clipsToBounds = YES;
     avatar.layer.cornerRadius = 8;
     if (!avatarImg) avatar.backgroundColor = [UIColor colorWithRed:1 green:0.7 blue:0.85 alpha:1];
-    [avatar.widthAnchor constraintEqualToConstant:34];
-    [avatar.heightAnchor constraintEqualToConstant:34];
+    [NSLayoutConstraint activateConstraints:@[
+        [avatar.widthAnchor constraintEqualToConstant:34],
+        [avatar.heightAnchor constraintEqualToConstant:34],
+    ]];
 
     UIStackView *header = [[UIStackView alloc] initWithArrangedSubviews:@[brand, avatar]];
     header.axis = UILayoutConstraintAxisHorizontal;
@@ -125,7 +127,8 @@
         }
         __weak typeof(self) wf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            wf->_noticeLabel.text = text.length ? text : @"暂无公告";
+            __strong typeof(self) strongSelf = wf;
+            if (strongSelf) strongSelf->_noticeLabel.text = text.length ? text : @"暂无公告";
         });
     });
 }
