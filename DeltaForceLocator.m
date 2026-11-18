@@ -23,10 +23,12 @@
 #import <errno.h>
 #import <sys/stat.h>
 
-// 严格特征目录名：区分大小写逐字比对，一个字母都不能差
-static NSString * const kFeatureName = @"DeltaForce";
-static NSString * const kDocsRel     = @"Documents";
-static NSString * const kFeatureRel  = @"Documents/DeltaForce";  // 仅显示用
+// 严格特征目录名：只接受这两个精确拼写之一，逐字比对区分大小写，一个字符都不能差。
+// 真机 wq_list 实测为 Delta-Force（带连字符）；黑猫标准串为 DeltaForce。
+static NSString * const kFeatureName  = @"Delta-Force";
+static NSString * const kFeatureName2 = @"DeltaForce";
+static NSString * const kDocsRel      = @"Documents";
+static NSString * const kFeatureRel   = @"Documents/Delta-Force";  // 仅显示用
 static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/Application";
 
 @implementation DeltaForceLocator
@@ -72,7 +74,7 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
 
     [notes addObject:[NSString stringWithFormat:@"共 %lu 个唯一容器待检查", (unsigned long)containers.count]];
 
-    // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 DeltaForce → 确认是目录
+    // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 Delta-Force / DeltaForce → 确认是目录
     struct stat st;
     NSUInteger checked = 0, listFailed = 0, ciMatches = 0;
     NSMutableArray<NSString *> *nearHits = [NSMutableArray array];
@@ -88,25 +90,29 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         if (!entries) { listFailed++; continue; }
 
         BOOL exactName = NO;
+        NSString *matchedName = nil;
         for (NSString *name in entries) {
             if (![name isKindOfClass:NSString.class]) continue;
-            // 大小写不敏感的近似命中，仅用于诊断（不算通过）
-            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame) {
+            // 大小近似命中仅诊断，不算通过（Delta-force / delta-force 都不算）
+            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame ||
+                [name caseInsensitiveCompare:kFeatureName2] == NSOrderedSame) {
                 ciMatches++;
                 [nearHits addObject:[NSString stringWithFormat:@"%@:Documents/%@", c.lastPathComponent, name]];
             }
-            // isEqualToString 区分大小写；必须完全一致（Deltaforce / deltaforce / DeltaForce2 都不算）
-            if ([name isEqualToString:kFeatureName]) { exactName = YES; break; }
+            // isEqualToString 区分大小写，两个精确拼写之一才算命中
+            if ([name isEqualToString:kFeatureName] || [name isEqualToString:kFeatureName2]) {
+                exactName = YES; matchedName = name; break;
+            }
         }
         if (!exactName) continue;
 
-        NSString *feature = [docs stringByAppendingPathComponent:kFeatureName];
+        NSString *feature = [docs stringByAppendingPathComponent:matchedName];
         if (wq_stat(feature, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
 
         NSString *bid = [self labelForContainer:c];
         wq_grant(c);   // 拿容器 token，返回容器根（token 精确覆盖）
         [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 逐字匹配且为目录）",
-                          c.lastPathComponent, bid ?: @"未知", kFeatureName]];
+                          c.lastPathComponent, bid ?: @"未知", matchedName]];
         if (errorText) *errorText = [notes componentsJoinedByString:@"；"];
         return c;
     }
@@ -118,8 +124,8 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
                           [[nearHits subarrayWithRange:NSMakeRange(0, MIN(5, nearHits.count))] componentsJoinedByString:@", "]]];
     }
     if (errorText) {
-        *errorText = [NSString stringWithFormat:@"%@；均无 Documents/%@ 逐字匹配目录",
-                      [notes componentsJoinedByString:@"；"], kFeatureName];
+        *errorText = [NSString stringWithFormat:@"%@；均无 Documents/%@ 或 Documents/%@ 逐字匹配目录",
+                      [notes componentsJoinedByString:@"；"], kFeatureName, kFeatureName2];
     }
     return nil;
 }

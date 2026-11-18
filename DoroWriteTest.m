@@ -17,11 +17,27 @@
 #import <sys/stat.h>
 #import <errno.h>
 
-// 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖），
-// Documents/DeltaForce/Saved 不存在也能逐级新建。
-static NSString * const kChain = @"Documents/DeltaForce/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
-static NSString * const kFile  = @"测试123";
-static NSString * const kBody  = @"测试123";
+// 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖）。
+// 特征名真机实测为 Delta-Force（带连字符）；写入必须和识别用同一个名字。
+static NSString * const kFeatureName = @"Delta-Force";
+static NSString * const kFeatureName2 = @"DeltaForce";
+static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
+static NSString * const kFile = @"测试123";
+static NSString * const kBody = @"测试123";
+
+// 按容器下实际存在的特征目录名构建链：优先 Delta-Force，其次 DeltaForce，
+// 都没有就用 Delta-Force（新建）。保证与识别阶段命中名一致。
++ (NSString *)chainForContainer:(NSString *)root {
+    NSString *docs = [root stringByAppendingPathComponent:@"Documents"];
+    wq_grant(root); wq_grant(docs);
+    NSArray *entries = wq_list(docs, nil) ?: @[];
+    NSString *name = kFeatureName;
+    for (NSString *n in entries) {
+        if ([n isEqualToString:kFeatureName]) { name = kFeatureName; break; }
+        if ([n isEqualToString:kFeatureName2]) { name = kFeatureName2; break; }
+    }
+    return [NSString stringWithFormat:@"Documents/%@/%@", name, kTail];
+}
 
 @interface DoroWriteTest ()
 @property (nonatomic, strong) UIButton *testButton;
@@ -71,19 +87,20 @@ static NSString * const kBody  = @"测试123";
             title = @"未找到三角洲容器";
             msg = diag ?: @"未知原因";
         } else {
+            NSString *chain = [DoroWriteTest chainForContainer:root];
             // 黑猫 WQGameSafeRelative：拒绝绝对/含 .. 的相对路径
-            if (![wf safeRelative:kChain]) {
+            if (![wf safeRelative:chain]) {
                 title = @"路径校验失败";
                 msg = @"相对路径含非法成分";
             } else {
                 NSString *err = nil;
                 NSUInteger made = 0;
-                BOOL ok = [wf ensureChainFromRoot:root made:&made error:&err];
+                BOOL ok = [wf ensureChainFromRoot:root chain:chain made:&made error:&err];
                 if (!ok) {
                     title = @"创建目录失败";
                     msg = err ?: @"未知原因";
                 } else {
-                    NSString *target = [root stringByAppendingPathComponent:kChain];
+                    NSString *target = [root stringByAppendingPathComponent:chain];
                     NSString *file = [target stringByAppendingPathComponent:kFile];
                     BOOL wok = [wf writeFile:file error:&err];
                     title = wok ? @"成功" : @"写入文件失败";
@@ -129,7 +146,7 @@ static NSString * const kBody  = @"测试123";
 // 黑猫 WQGameEnsureChain：逐级 wq_stat，缺失才 wq_create_dir
 // root 本身（Documents）也可能不存在：先 grant 父目录，再 wq_create_dir 建 root，
 // 不再因 root 不存在就直接判死（token 已消费时 wq_stat 会假失败）。
-- (BOOL)ensureChainFromRoot:(NSString *)root made:(NSUInteger *)made error:(NSString **)err {
+- (BOOL)ensureChainFromRoot:(NSString *)root chain:(NSString *)chain made:(NSUInteger *)made error:(NSString **)err {
     struct stat st;
     NSString *cur = root;
     if (wq_stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)) {
@@ -141,7 +158,7 @@ static NSString * const kBody  = @"测试123";
         }
         if (made) (*made)++;
     }
-    for (NSString *part in [kChain componentsSeparatedByString:@"/"]) {
+    for (NSString *part in [chain componentsSeparatedByString:@"/"]) {
         if (part.length == 0) continue;
         cur = [cur stringByAppendingPathComponent:part];
         if (wq_stat(cur, &st) == 0 && S_ISDIR(st.st_mode)) continue;
