@@ -8,7 +8,7 @@
 "Not restored" = "Chưa khôi phục";
 "Restore failed" = "Khôi phục thất bại";
 "Restore recovery" = "Phục hồi quá trình khôi phục";
-"WQ Files" = "WQ Files";
+"Doro工具箱" = "Doro工具箱";
 "Containers" = "Vùng chứa";
 "Tools" = "Công cụ";
 "App Data" = "Dữ liệu ứng dụng";
@@ -116,8 +116,8 @@
 "Only regular files can be viewed." = "Chỉ có thể xem các tệp thông thường.";
 "Only regular files can be shared." = "Chỉ có thể chia sẻ các tệp thông thường.";
 "Symbolic link" = "Liên kết tượng trưng (Symlink)";
-"WQ Files does not follow symbolic links for viewing, sharing or editing." = "WQ Files không theo các liên kết tượng trưng để xem, chia sẻ hoặc chỉnh sửa.";
-"WQ Files does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "WQ Files không theo các liên kết tượng trưng để xem, chia sẻ hoặc chỉnh sửa. Sử dụng Sao chép Đường dẫn để mở mục tiêu rõ ràng.";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing." = "Doro工具箱 không theo các liên kết tượng trưng để xem, chia sẻ hoặc chỉnh sửa.";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "Doro工具箱 không theo các liên kết tượng trưng để xem, chia sẻ hoặc chỉnh sửa. Sử dụng Sao chép Đường dẫn để mở mục tiêu rõ ràng.";
 "Symbolic links are not followed for viewing, sharing or editing." = "Các liên kết tượng trưng không được theo dõi để xem, chia sẻ hoặc chỉnh sửa.";
 "Delete backups?" = "Xóa các bản sao lưu?";
 "Delete backup?" = "Xóa bản sao lưu?";
@@ -308,7 +308,7 @@
 "Not cleared" = "Chưa dọn dẹp";
 "The backup did not complete, so nothing was deleted." = "Việc sao lưu không hoàn thành nên không có gì bị xóa.";
 "Clear Without Backup" = "Dọn dẹp Không cần Sao lưu";
-"\n\nThis backup is unverified (%@). WQ Files will re-check its parts before changing anything." = "\n\nBản sao lưu này chưa được xác minh (%@). WQ Files sẽ kiểm tra lại các phần của nó trước khi thay đổi bất cứ điều gì.";
+"\n\nThis backup is unverified (%@). Doro工具箱 will re-check its parts before changing anything." = "\n\nBản sao lưu này chưa được xác minh (%@). Doro工具箱 sẽ kiểm tra lại các phần của nó trước khi thay đổi bất cứ điều gì.";
 "no typed manifest" = "không có bản kê khai định kiểu";
 "Replaces the app's current Documents and Library with the backup from %@; tmp is left untouched. The current data is backed up first, and put back if anything fails. Close the app first: a running app can make the operation non-snapshot-consistent.%@" = "Thay thế Documents và Library hiện tại của ứng dụng bằng bản sao lưu từ %@; tmp được giữ nguyên. Dữ liệu hiện tại sẽ được sao lưu trước và khôi phục lại nếu có lỗi. Hãy đóng ứng dụng trước: nếu ứng dụng đang chạy, thao tác có thể sẽ không nhất quán với snapshot.%@";
 "Restoring %@…" = "Đang khôi phục %@…";
@@ -532,9 +532,9 @@
 "Scan all files?" = "Quét tất cả các tệp?";
 "Not Now" = "Để sau";
 "Start Scan" = "Bắt đầu Quét";
-"To list %@, WQ Files has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep WQ Files open while it scans." = "Để liệt kê %@, WQ Files cần phải kiểm tra mọi tệp trên thiết bị này một lần: %@ tệp, %@.\n\nQuá trình này chỉ cần thiết ở lần đầu tiên; các lần quét sau chỉ kiểm tra các tệp mới và mất vài giây.\n\nHãy giữ WQ Files mở trong khi nó quét.";
+"To list %@, Doro工具箱 has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep Doro工具箱 open while it scans." = "Để liệt kê %@, Doro工具箱 cần phải kiểm tra mọi tệp trên thiết bị này một lần: %@ tệp, %@.\n\nQuá trình này chỉ cần thiết ở lần đầu tiên; các lần quét sau chỉ kiểm tra các tệp mới và mất vài giây.\n\nHãy giữ Doro工具箱 mở trong khi nó quét.";
 "Scanning all files" = "Đang quét tất cả các tệp";
-"iOS doesn't let WQ Files list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep WQ Files open. Switching to another app or locking the screen pauses the scan." = "iOS không cho phép WQ Files liệt kê các thư mục này trực tiếp, do đó nó phải kiểm tra mọi tệp trên thiết bị này một lần. Quá trình này chỉ chậm ở lần đầu tiên: các lần quét sau chỉ kiểm tra tệp mới.\n\nHãy giữ WQ Files mở. Chuyển sang ứng dụng khác hoặc khóa màn hình sẽ tạm dừng quá trình quét.";
+"iOS doesn't let Doro工具箱 list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep Doro工具箱 open. Switching to another app or locking the screen pauses the scan." = "iOS không cho phép Doro工具箱 liệt kê các thư mục này trực tiếp, do đó nó phải kiểm tra mọi tệp trên thiết bị này một lần. Quá trình này chỉ chậm ở lần đầu tiên: các lần quét sau chỉ kiểm tra tệp mới.\n\nHãy giữ Doro工具箱 mở. Chuyển sang ứng dụng khác hoặc khóa màn hình sẽ tạm dừng quá trình quét.";
 "Starting…" = "Đang bắt đầu…";
 "Hide" = "Ẩn";
 "Stop Scan" = "Dừng Quét";
@@ -547,7 +547,7 @@
 "the app folders" = "các thư mục ứng dụng";
 "Signing problem: no App Group" = "Vấn đề ký (Signing problem): không có Nhóm ứng dụng (App Group)";
 "Signing Help" = "Trợ giúp Ký ứng dụng";
-"WQ Files %@ (%@) by kolbicz" = "WQ Files %@ (%@) bởi kolbicz";
+"Doro工具箱 %@ (%@) by kolbicz" = "Doro工具箱 %@ (%@) bởi kolbicz";
 "SQLite Viewer" = "Trình xem SQLite";
 "SQL" = "SQL";
 "Copy" = "Sao chép";
@@ -631,7 +631,7 @@
 "Show" = "Hiển thị";
 "Copy Bundle ID" = "Sao chép Bundle ID";
 "%@ of data" = "%@ dữ liệu";
-"WQ Files has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "WQ Files không có Nhóm ứng dụng (App Group), nên nó không thể mở các thư mục của ứng dụng khác. Hãy ký lại (re-sign) nó bằng công cụ giữ lại Nhóm ứng dụng (xem Signing trong tài liệu README).";
+"Doro工具箱 has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "Doro工具箱 không có Nhóm ứng dụng (App Group), nên nó không thể mở các thư mục của ứng dụng khác. Hãy ký lại (re-sign) nó bằng công cụ giữ lại Nhóm ứng dụng (xem Signing trong tài liệu README).";
 "Save in progress" = "Đang tiến hành lưu";
 "Wait for the current save to finish before leaving or making more changes." = "Hãy chờ quá trình lưu hiện tại hoàn tất trước khi rời đi hoặc tạo thêm thay đổi.";
 "Discard changes?" = "Hủy bỏ các thay đổi?";
@@ -651,7 +651,7 @@
 "Select Backups" = "Chọn Bản sao lưu";
 "Delete Backup…" = "Xóa Bản sao lưu…";
 "No App Group" = "Không có Nhóm ứng dụng";
-"WQ Files by kolbicz" = "WQ Files bởi kolbicz";
+"Doro工具箱 by kolbicz" = "Doro工具箱 bởi kolbicz";
 "Sandbox escape: worse_query by @forcequitOS" = "Thoát hộp cát (Sandbox escape): worse_query bởi @forcequitOS";
 "On iOS 26, System Data and System Groups can't be reached (worse_query covers them on iOS 27 only), and Internal Daemons need a scan of every file id: the first one can take most of an hour on a well-used device, later ones only check new files." = "Trên iOS 26, Dữ liệu hệ thống và Nhóm hệ thống không thể truy cập được (worse_query chỉ hỗ trợ chúng trên iOS 27) và Trình nền nội bộ cần phải quét mọi ID tệp: lần quét đầu tiên có thể mất gần một giờ trên một thiết bị đã sử dụng nhiều, những lần sau chỉ kiểm tra tệp mới.";
 "Overwritten and deleted files are copied to Backups first (also visible in the Files app). Long-press a backup to restore it." = "Các tệp bị ghi đè và bị xóa sẽ được sao chép vào Bản sao lưu trước (cũng hiển thị trong ứng dụng Tệp). Nhấn và giữ một bản sao lưu để khôi phục nó.";
@@ -665,7 +665,7 @@
 "the crash-log target is not the expected canonical directory" = "mục tiêu nhật ký crash không phải là thư mục chuẩn (canonical directory) như mong đợi";
 "the scanned cache targets are incomplete" = "các mục tiêu bộ đệm được quét không đầy đủ";
 "the app container identity or ancestry is unavailable" = "định danh hoặc nguồn gốc vùng chứa ứng dụng không khả dụng";
-"WQ Files %@ (%@)\n%@\n\n%@" = "WQ Files %@ (%@)\n%@\n\n%@";
+"Doro工具箱 %@ (%@)\n%@\n\n%@" = "Doro工具箱 %@ (%@)\n%@\n\n%@";
 "0 KB" = "0 KB";
 "Discard" = "Hủy bỏ";
 "%@ · %@ · no identifier" = "%@ · %@ · không có định danh";
@@ -681,7 +681,7 @@
 "change" = "thay đổi";
 "read" = "đọc";
 "open" = "mở";
-"This file belongs to %@ (mode %o) and only its owner may %@ it. WQ Files reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "Tệp này thuộc về %@ (chế độ %o) và chỉ chủ sở hữu của nó mới có thể %@ nó. WQ Files tiếp cận thư mục này, nhưng chạy dưới quyền mobile (uid %d), nên không ứng dụng nào có thể %@ tệp này.";
+"This file belongs to %@ (mode %o) and only its owner may %@ it. Doro工具箱 reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "Tệp này thuộc về %@ (chế độ %o) và chỉ chủ sở hữu của nó mới có thể %@ nó. Doro工具箱 tiếp cận thư mục này, nhưng chạy dưới quyền mobile (uid %d), nên không ứng dụng nào có thể %@ tệp này.";
 "The archive would be larger than 4 GB, which isn't supported yet." = "Tệp nén sẽ lớn hơn 4 GB, điều này hiện chưa được hỗ trợ.";
 "Too many items for one ZIP (more than 65535)." = "Quá nhiều mục cho một ZIP (nhiều hơn 65535).";
 "Can't read %@ (%s)" = "Không thể đọc %@ (%s)";
@@ -712,8 +712,8 @@
 "An item named \"%@\" is already there" = "Một mục có tên \"%@\" đã có ở đó";
 "Items can't be moved to another volume" = "Không thể di chuyển các mục sang phân vùng khác";
 
-/* Plural forms and WQ Files 0.9 localization additions. */
-"%@ isn't installed, or WQ Files can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ chưa được cài đặt, hoặc WQ Files không thể truy cập dữ liệu của nó. Chỉ có thể khôi phục một bản sao lưu vào ứng dụng đã được cài đặt: hãy cài đặt nó, mở nó một lần, sau đó thử lại.";
+/* Plural forms and Doro工具箱 0.9 localization additions. */
+"%@ isn't installed, or Doro工具箱 can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ chưa được cài đặt, hoặc Doro工具箱 không thể truy cập dữ liệu của nó. Chỉ có thể khôi phục một bản sao lưu vào ứng dụng đã được cài đặt: hãy cài đặt nó, mở nó một lần, sau đó thử lại.";
 "%@ selected in %lu item" = "%@ được chọn trong %lu mục";
 "%@ selected in %lu items" = "%@ được chọn trong %lu mục";
 "%ld item" = "%ld mục";
@@ -748,8 +748,8 @@
 "There is no complete backup of %@ to restore." = "Không có bản sao lưu hoàn chỉnh nào của %@ để khôi phục.";
 "This permanently removes %lu complete backup and everything inside it. It cannot be undone." = "Thao tác này xóa vĩnh viễn %lu bản sao lưu hoàn chỉnh và mọi thứ bên trong nó. Nó không thể được hoàn tác.";
 "This permanently removes %lu complete backups and everything inside them. It cannot be undone." = "Thao tác này xóa vĩnh viễn %lu bản sao lưu hoàn chỉnh và mọi thứ bên trong chúng. Nó không thể được hoàn tác.";
-"Turn on Allow Deleting on the start screen of WQ Files to delete, clear or clean." = "Bật Cho phép Xóa trên màn hình bắt đầu của WQ Files để xóa, xóa dữ liệu hoặc dọn dẹp.";
-"WQ Files needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install WQ Files with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "WQ Files cần một Nhóm ứng dụng (App Group) để tiếp cận các thư mục của ứng dụng khác, và công cụ đã ký nó đã xóa phần này. Nếu không có nó, không có gì có thể được mở, và danh sách ứng dụng sẽ trống hoặc hiển thị \"KHÔNG CÓ TOKEN\".\n\nHãy cài đặt lại WQ Files bằng AltStore, SideStore hoặc Impactor (chúng sẽ tạo Nhóm ứng dụng; Sideloadly thì không), hoặc bằng một cấu hình cấp phép có chứa Nhóm ứng dụng. Các chứng chỉ Wildcard (thường được nhiều thiết lập Feather/ESign sử dụng) không thể thực hiện điều này.";
+"Turn on Allow Deleting on the start screen of Doro工具箱 to delete, clear or clean." = "Bật Cho phép Xóa trên màn hình bắt đầu của Doro工具箱 để xóa, xóa dữ liệu hoặc dọn dẹp.";
+"Doro工具箱 needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install Doro工具箱 with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "Doro工具箱 cần một Nhóm ứng dụng (App Group) để tiếp cận các thư mục của ứng dụng khác, và công cụ đã ký nó đã xóa phần này. Nếu không có nó, không có gì có thể được mở, và danh sách ứng dụng sẽ trống hoặc hiển thị \"KHÔNG CÓ TOKEN\".\n\nHãy cài đặt lại Doro工具箱 bằng AltStore, SideStore hoặc Impactor (chúng sẽ tạo Nhóm ứng dụng; Sideloadly thì không), hoặc bằng một cấu hình cấp phép có chứa Nhóm ứng dụng. Các chứng chỉ Wildcard (thường được nhiều thiết lập Feather/ESign sử dụng) không thể thực hiện điều này.";
 
 /* 0.9.1: offloaded apps, Import as Backup, Keep Data Before Restore */
 " · offloaded" = " · đã gỡ cài đặt (offloaded)";
@@ -777,8 +777,8 @@
 "Open %@ to use the restored Documents and Library; tmp was not changed. The data from before was not kept (Keep Data Before Restore is off)." = "Mở %@ để sử dụng Documents và Library đã được khôi phục; tmp không bị thay đổi. Dữ liệu từ trước đó không được giữ lại (Giữ Bản sao lưu Trước khi khôi phục đang tắt).";
 "Language" = "Ngôn ngữ";
 "System Default" = "Mặc định Hệ thống";
-"Restart WQ Files" = "Khởi động lại WQ Files";
-"The new language is used the next time WQ Files starts." = "Ngôn ngữ mới sẽ được sử dụng vào lần tiếp theo WQ Files khởi chạy.";
+"Restart Doro工具箱" = "Khởi động lại Doro工具箱";
+"The new language is used the next time Doro工具箱 starts." = "Ngôn ngữ mới sẽ được sử dụng vào lần tiếp theo Doro工具箱 khởi chạy.";
 "Later" = "Để sau";
 "Quit Now" = "Thoát ngay";
 "%lld rows changed in the copy. Save on the database screen writes them to the app." = "%lld hàng đã thay đổi trong bản sao. Lưu ở màn hình cơ sở dữ liệu sẽ ghi chúng vào ứng dụng.";
@@ -788,7 +788,7 @@
 "Cannot change" = "Không thể thay đổi";
 "Could not make a safety copy first: %@" = "Không thể tạo bản sao an toàn trước: %@";
 "Edit database" = "Chỉnh sửa cơ sở dữ liệu";
-"Editing WQ Files' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "Đang chỉnh sửa bản sao của WQ Files: nhấn vào một giá trị trong hàng để thay đổi, vuốt một hàng để xóa hoặc sử dụng SQL. Lưu sẽ ghi bản sao vào ứng dụng; hãy buộc đóng (force-quit) ứng dụng trước.";
+"Editing Doro工具箱' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "Đang chỉnh sửa bản sao của Doro工具箱: nhấn vào một giá trị trong hàng để thay đổi, vuốt một hàng để xóa hoặc sử dụng SQL. Lưu sẽ ghi bản sao vào ứng dụng; hãy buộc đóng (force-quit) ứng dụng trước.";
 "Force-quit the app first (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "Buộc đóng (force-quit) ứng dụng trước (vuốt bỏ nó trong trình chuyển đổi ứng dụng): việc lưu trong khi nó đang chạy có thể làm hỏng dữ liệu của nó. Cơ sở dữ liệu trước đó được giữ trong Bản sao lưu.";
 "Not saved" = "Chưa lưu";
 "Only read-only statements (SELECT, read-only PRAGMA, EXPLAIN) can run here. Tap Edit on the database screen to change it." = "Chỉ có thể chạy các câu lệnh chỉ đọc (SELECT, PRAGMA chỉ đọc, EXPLAIN) tại đây. Chạm vào Sửa trên màn hình cơ sở dữ liệu để thay đổi.";
@@ -810,7 +810,7 @@
 "The edited copy failed SQLite's integrity check, so nothing was saved: %@" = "Bản sao đã chỉnh sửa không vượt qua bài kiểm tra tính toàn vẹn của SQLite, nên không có gì được lưu: %@";
 "The row is gone." = "Hàng đã biến mất.";
 "Unsaved changes" = "Những thay đổi chưa được lưu";
-"You change WQ Files' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "Bạn đang thay đổi bản sao của WQ Files: chỉnh sửa một giá trị bằng cách chạm vào nó trong hàng, xóa các hàng bằng cách vuốt hoặc chạy SQL. Không có gì tiếp cận đến ứng dụng cho đến khi bạn nhấn Lưu.\n\nTrước khi lưu, hãy buộc đóng ứng dụng (vuốt bỏ trong trình chuyển đổi ứng dụng): việc lưu trong khi nó đang chạy có thể làm hỏng dữ liệu. Cơ sở dữ liệu trước đó được giữ trong Bản sao lưu.";
+"You change Doro工具箱' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "Bạn đang thay đổi bản sao của Doro工具箱: chỉnh sửa một giá trị bằng cách chạm vào nó trong hàng, xóa các hàng bằng cách vuốt hoặc chạy SQL. Không có gì tiếp cận đến ứng dụng cho đến khi bạn nhấn Lưu.\n\nTrước khi lưu, hãy buộc đóng ứng dụng (vuốt bỏ trong trình chuyển đổi ứng dụng): việc lưu trong khi nó đang chạy có thể làm hỏng dữ liệu. Cơ sở dữ liệu trước đó được giữ trong Bản sao lưu.";
 "%@ is not a folder anymore." = "%@ không còn là thư mục nữa.";
 "%@ is removed from Backups and can't be restored anymore." = "%@ đã bị xóa khỏi Bản sao lưu và không thể khôi phục được nữa.";
 "%lu backed-up files are removed from Backups (including files deleted or overwritten at the same time) and can't be restored anymore." = "%lu tệp sao lưu bị xóa khỏi Bản sao lưu (bao gồm các tệp bị xóa hoặc ghi đè cùng lúc) và không thể khôi phục được nữa.";
@@ -823,17 +823,17 @@
 "Checking the App Group…" = "Đang kiểm tra Nhóm ứng dụng…";
 "Continue" = "Tiếp tục";
 "Continue Anyway" = "Vẫn Tiếp tục";
-"Continue Anyway opens WQ Files as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "Vẫn Tiếp tục sẽ mở WQ Files như hiện tại: danh sách có thể trống hoặc sai, và không nên khôi phục hoặc xóa bất kỳ điều gì dựa trên chúng.";
+"Continue Anyway opens Doro工具箱 as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "Vẫn Tiếp tục sẽ mở Doro工具箱 như hiện tại: danh sách có thể trống hoặc sai, và không nên khôi phục hoặc xóa bất kỳ điều gì dựa trên chúng.";
 "Continue Anyway?" = "Vẫn Tiếp tục?";
 "Copy Original Path" = "Sao chép Đường dẫn Gốc";
 "Delete All" = "Xóa Tất cả";
 "Delete Permanently" = "Xóa Vĩnh viễn";
 "Delete Permanently?" = "Xóa Vĩnh viễn?";
-"Files WQ Files deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "Các tệp mà WQ Files đã xóa, từ các bản sao của chúng trong Bản sao lưu. Khôi phục sẽ đặt tệp lại vị trí ban đầu (các thư mục bị thiếu sẽ được tạo); Xóa Vĩnh viễn sẽ xóa nó khỏi Bản sao lưu. Nhấn và giữ để có tất cả các tùy chọn.";
+"Files Doro工具箱 deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "Các tệp mà Doro工具箱 đã xóa, từ các bản sao của chúng trong Bản sao lưu. Khôi phục sẽ đặt tệp lại vị trí ban đầu (các thư mục bị thiếu sẽ được tạo); Xóa Vĩnh viễn sẽ xóa nó khỏi Bản sao lưu. Nhấn và giữ để có tất cả các tùy chọn.";
 "Finding other apps' folders…" = "Đang tìm các thư mục của ứng dụng khác…";
 "Lists may be empty or wrong. Don't restore, clean or delete anything based on them." = "Danh sách có thể trống hoặc sai. Đừng khôi phục, dọn dẹp hoặc xóa bất cứ điều gì dựa trên chúng.";
 "Looking through Backups…" = "Đang xem qua Bản sao lưu…";
-"Missing: the tool that signed WQ Files removed it. Re-install with AltStore, SideStore or Impactor." = "Bị thiếu: công cụ ký WQ Files đã xóa nó. Cài đặt lại bằng AltStore, SideStore hoặc Impactor.";
+"Missing: the tool that signed Doro工具箱 removed it. Re-install with AltStore, SideStore or Impactor." = "Bị thiếu: công cụ ký Doro工具箱 đã xóa nó. Cài đặt lại bằng AltStore, SideStore hoặc Impactor.";
 "Needs sandbox access." = "Cần quyền truy cập hộp cát (sandbox).";
 "Needs the App Group." = "Cần Nhóm ứng dụng (App Group).";
 "None of %lu sampled app folders could be opened: the sandbox escape doesn't work on iOS %@." = "Không có thư mục nào trong số %lu thư mục ứng dụng được lấy mẫu có thể mở được: quá trình thoát hộp cát không hoạt động trên iOS %@.";
@@ -841,7 +841,7 @@
 "Not everything works here" = "Không phải tất cả mọi thứ đều hoạt động tại đây";
 "Nothing deleted" = "Không có gì bị xóa";
 "Nothing to check." = "Không có gì để kiểm tra.";
-"Only WQ Files' own folder was found (%lu in total)." = "Chỉ tìm thấy thư mục riêng của WQ Files (tổng cộng %lu).";
+"Only Doro工具箱' own folder was found (%lu in total)." = "Chỉ tìm thấy thư mục riêng của Doro工具箱 (tổng cộng %lu).";
 "Other apps' folders" = "Thư mục của các ứng dụng khác";
 "Put %@ back in\n%@?" = "Đặt %@ trở lại vào\n%@?";
 "Recently Deleted" = "Đã Xóa Gần đây";
@@ -850,13 +850,13 @@
 "The scan for them was declined; Apps and the Cache Cleaner stay empty until it runs." = "Yêu cầu quét cho chúng đã bị từ chối; Ứng dụng và mục Dọn dẹp Bộ đệm sẽ trống cho đến khi nó chạy.";
 "They can't be found on this device (see Log for the reason)." = "Không thể tìm thấy chúng trên thiết bị này (xem Nhật ký để biết lý do).";
 "Try Again" = "Thử lại";
-"WQ Files can't work properly here" = "WQ Files không thể hoạt động đúng cách tại đây";
-"WQ Files stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "WQ Files đã dừng lại ở đây thay vì hiển thị danh sách trống hoặc sai. Một phiên bản iOS mới có thể chặn quyền truy cập hộp cát (sandbox) của nó; vui lòng gửi Nhật ký kèm theo thiết bị và phiên bản iOS của bạn.";
-"iOS %@ hasn't been tested with this version of WQ Files." = "iOS %@ chưa được kiểm tra với phiên bản WQ Files này.";
+"Doro工具箱 can't work properly here" = "Doro工具箱 không thể hoạt động đúng cách tại đây";
+"Doro工具箱 stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "Doro工具箱 đã dừng lại ở đây thay vì hiển thị danh sách trống hoặc sai. Một phiên bản iOS mới có thể chặn quyền truy cập hộp cát (sandbox) của nó; vui lòng gửi Nhật ký kèm theo thiết bị và phiên bản iOS của bạn.";
+"iOS %@ hasn't been tested with this version of Doro工具箱." = "iOS %@ chưa được kiểm tra với phiên bản Doro工具箱 này.";
 "iOS version" = "Phiên bản iOS";
 "Reset Access Cache" = "Đặt lại Bộ nhớ Đệm Truy cập";
 "Reset Access Cache?" = "Đặt lại Bộ nhớ Đệm Truy cập?";
-"Another app that shares WQ Files' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "Một ứng dụng khác chia sẻ Nhóm ứng dụng (App Group) của WQ Files (ví dụ như được ký bằng cùng một công cụ) có thể để thư mục bộ đệm của nó trong trạng thái chặn quyền truy cập hộp cát. Thao tác này sẽ đặt lại nó; không có gì bị xóa.";
+"Another app that shares Doro工具箱' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "Một ứng dụng khác chia sẻ Nhóm ứng dụng (App Group) của Doro工具箱 (ví dụ như được ký bằng cùng một công cụ) có thể để thư mục bộ đệm của nó trong trạng thái chặn quyền truy cập hộp cát. Thao tác này sẽ đặt lại nó; không có gì bị xóa.";
 "Reset" = "Đặt lại";
 "Reset failed" = "Đặt lại thất bại";
 "The App Group is missing." = "Thiếu Nhóm ứng dụng.";
@@ -900,7 +900,7 @@
 "Backups could not be read: %@" = "Không thể đọc các bản sao lưu: %@";
 "Some backups could not be read, so this list may be incomplete." = "Không thể đọc một số bản sao lưu, vì vậy danh sách này có thể không đầy đủ.";
 "Backup was edited" = "Bản sao lưu đã được chỉnh sửa";
-"The files in %@ of this backup changed after WQ Files made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "Các tệp trong %@ của bản sao lưu này đã thay đổi sau khi WQ Files tạo ra nó, ví dụ: vì các tệp từ một bản sao lưu khác đã được đưa vào. Khôi phục bản sao lưu như hiện tại? Dữ liệu hiện tại của ứng dụng vẫn sẽ được sao lưu trước tiên.";
+"The files in %@ of this backup changed after Doro工具箱 made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "Các tệp trong %@ của bản sao lưu này đã thay đổi sau khi Doro工具箱 tạo ra nó, ví dụ: vì các tệp từ một bản sao lưu khác đã được đưa vào. Khôi phục bản sao lưu như hiện tại? Dữ liệu hiện tại của ứng dụng vẫn sẽ được sao lưu trước tiên.";
 "Restore Anyway" = "Vẫn Khôi phục";
 "Replace existing files?" = "Thay thế các tệp hiện có?";
 "%lu of the %lu files already exist here. Replace them (each is backed up first) or keep both?" = "%lu trong số %lu tệp đã tồn tại ở đây. Thay thế chúng (mỗi tệp sẽ được sao lưu trước) hay giữ cả hai?";
@@ -946,11 +946,11 @@
 "Tap a row to copy its value." = "Chạm vào một hàng để sao chép giá trị của nó.";
 "Reopen Last Folder" = "Mở lại Thư mục Cuối cùng";
 "Check for Updates" = "Kiểm tra Cập nhật";
-"WQ Files %@ is available" = "Đã có WQ Files %@";
-"Reopen Last Folder: WQ Files starts in the folder you were in. Check for Updates: twice a day WQ Files reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "Mở lại Thư mục Cuối cùng: WQ Files khởi động tại thư mục bạn vừa truy cập. Kiểm tra Cập nhật: hai lần một ngày WQ Files sẽ đọc danh sách phát hành công khai trên GitHub và hiển thị thông báo khi có phiên bản mới; không có thông tin nào về thiết bị của bạn bị gửi đi.";
-"WQ Files has no access to the app's data right now (%@). Nothing was backed up; try again." = "WQ Files hiện không có quyền truy cập vào dữ liệu của ứng dụng (%@). Không có gì được sao lưu; hãy thử lại.";
+"Doro工具箱 %@ is available" = "Đã có Doro工具箱 %@";
+"Reopen Last Folder: Doro工具箱 starts in the folder you were in. Check for Updates: twice a day Doro工具箱 reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "Mở lại Thư mục Cuối cùng: Doro工具箱 khởi động tại thư mục bạn vừa truy cập. Kiểm tra Cập nhật: hai lần một ngày Doro工具箱 sẽ đọc danh sách phát hành công khai trên GitHub và hiển thị thông báo khi có phiên bản mới; không có thông tin nào về thiết bị của bạn bị gửi đi.";
+"Doro工具箱 has no access to the app's data right now (%@). Nothing was backed up; try again." = "Doro工具箱 hiện không có quyền truy cập vào dữ liệu của ứng dụng (%@). Không có gì được sao lưu; hãy thử lại.";
 "The app's data folder holds neither Documents nor Library, so there is nothing to back up." = "Thư mục dữ liệu của ứng dụng không chứa Documents cũng không chứa Library, nên không có gì để sao lưu.";
-"This backup is empty (it was made while WQ Files had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "Bản sao lưu này bị trống (nó được tạo ra khi WQ Files không có quyền truy cập vào ứng dụng). Việc khôi phục nó sẽ xóa sạch dữ liệu ứng dụng, do đó không có gì bị thay đổi.";
+"This backup is empty (it was made while Doro工具箱 had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "Bản sao lưu này bị trống (nó được tạo ra khi Doro工具箱 không có quyền truy cập vào ứng dụng). Việc khôi phục nó sẽ xóa sạch dữ liệu ứng dụng, do đó không có gì bị thay đổi.";
 "Quick Check" = "Kiểm tra Nhanh";
 "All your containers, in one place." = "Tất cả các vùng chứa của bạn, ở cùng một nơi.";
 "System" = "Hệ thống";
@@ -963,22 +963,22 @@
 "About" = "Giới thiệu";
 "New Design" = "Thiết kế Mới";
 "Troubleshooting" = "Khắc phục Sự cố";
-"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs WQ Files' own cache folder in its App Group; nothing is deleted." = "Đặt lại Bộ nhớ Đệm Truy cập: sử dụng khi các thư mục trống hoặc quá trình kiểm tra khởi động thông báo truy cập hộp cát (sandbox) thất bại. Nó sẽ sửa chữa thư mục bộ nhớ đệm riêng của WQ Files trong Nhóm ứng dụng (App Group); không có gì bị xóa.";
+"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs Doro工具箱' own cache folder in its App Group; nothing is deleted." = "Đặt lại Bộ nhớ Đệm Truy cập: sử dụng khi các thư mục trống hoặc quá trình kiểm tra khởi động thông báo truy cập hộp cát (sandbox) thất bại. Nó sẽ sửa chữa thư mục bộ nhớ đệm riêng của Doro工具箱 trong Nhóm ứng dụng (App Group); không có gì bị xóa.";
 "Access Cache Reset" = "Đã Đặt lại Bộ nhớ đệm Truy cập";
 "The access cache was repaired. If folders still stay empty, send the Log." = "Bộ nhớ đệm truy cập đã được sửa chữa. Nếu các thư mục vẫn trống, hãy gửi Nhật ký.";
 "Plain Background" = "Nền Đơn sắc";
 "Plain Background: a plain black (or white) background instead of the colored one." = "Nền Đơn sắc: nền đen (hoặc trắng) trơn thay cho nền màu.";
 "No access" = "Không có quyền truy cập";
-"This item belongs to %@ (mode %o). WQ Files runs as mobile (uid %d) and can't open it; no app without root can." = "Mục này thuộc về %@ (chế độ %o). WQ Files chạy dưới quyền mobile (uid %d) và không thể mở nó; không có ứng dụng nào không có quyền root có thể mở được.";
+"This item belongs to %@ (mode %o). Doro工具箱 runs as mobile (uid %d) and can't open it; no app without root can." = "Mục này thuộc về %@ (chế độ %o). Doro工具箱 chạy dưới quyền mobile (uid %d) và không thể mở nó; không có ứng dụng nào không có quyền root có thể mở được.";
 "iOS %@ isn't supported" = "Không hỗ trợ iOS %@";
-"WQ Files needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "WQ Files cần iOS 26 hoặc 27. Bản khai thác thoát hộp cát (sandbox escape) nó sử dụng chỉ tồn tại ở đó, vì vậy trên phiên bản này, mọi thư mục đều bị đóng.\n\nTrên iOS 17 và 18, Cyanide có thể duyệt các thư mục này.";
+"Doro工具箱 needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "Doro工具箱 cần iOS 26 hoặc 27. Bản khai thác thoát hộp cát (sandbox escape) nó sử dụng chỉ tồn tại ở đó, vì vậy trên phiên bản này, mọi thư mục đều bị đóng.\n\nTrên iOS 17 và 18, Cyanide có thể duyệt các thư mục này.";
 "Cyanide on GitHub" = "Cyanide trên GitHub";
 "Pause Scan" = "Tạm dừng quét";
 "Resume Scan" = "Tiếp tục quét";
 "Scan paused" = "Đã tạm dừng quét";
 "Scan queued; previous results kept" = "Đã xếp hàng quét; giữ kết quả trước đó";
 "Last scanned %@ · Pull to refresh" = "Quét lần cuối %@ · Kéo để làm mới";
-"Could not save scan state. Keep WQ Files open." = "Không thể lưu trạng thái quét. Hãy giữ WQ Files mở.";
+"Could not save scan state. Keep Doro工具箱 open." = "Không thể lưu trạng thái quét. Hãy giữ Doro工具箱 mở.";
 "Share on Wi-Fi…" = "Chia sẻ qua Wi-Fi…";
 "Wi-Fi Sharing" = "Chia sẻ Wi-Fi";
 "Sharing “%@” on Wi-Fi" = "Đang chia sẻ “%@” qua Wi-Fi";
@@ -991,16 +991,16 @@
 "Start Sharing" = "Bắt đầu chia sẻ";
 "Requests" = "Yêu cầu";
 "No requests yet." = "Chưa có yêu cầu nào.";
-"Sharing stopped because WQ Files went to the background." = "Đã dừng chia sẻ vì WQ Files chuyển sang chạy nền.";
+"Sharing stopped because Doro工具箱 went to the background." = "Đã dừng chia sẻ vì Doro工具箱 chuyển sang chạy nền.";
 "Sharing could not start." = "Không thể bắt đầu chia sẻ.";
 "Not connected to Wi-Fi. Connect to a Wi-Fi network (or turn on Personal Hotspot) and try again." = "Chưa kết nối Wi-Fi. Hãy kết nối mạng Wi-Fi (hoặc bật Điểm truy cập cá nhân) rồi thử lại.";
-"WQ Files: password required." = "WQ Files: cần mật khẩu.";
+"Doro工具箱: password required." = "Doro工具箱: cần mật khẩu.";
 "Not found." = "Không tìm thấy.";
-"WQ Files can't open this file." = "WQ Files không thể mở tệp này.";
+"Doro工具箱 can't open this file." = "Doro工具箱 không thể mở tệp này.";
 "The ZIP could not be created: %@" = "Không thể tạo ZIP: %@";
 "Up" = "Lên";
 "Download Folder as ZIP" = "Tải thư mục dạng ZIP";
-"WQ Files can't open this folder." = "WQ Files không thể mở thư mục này.";
+"Doro工具箱 can't open this folder." = "Doro工具箱 không thể mở thư mục này.";
 "This folder is empty." = "Thư mục này trống.";
 "Download" = "Tải xuống";
 "%lu items · read-only" = "%lu mục · chỉ đọc";
@@ -1015,7 +1015,7 @@
 "Drop files here or use Upload Files. Nothing is overwritten." = "Thả tệp vào đây hoặc dùng Tải tệp lên. Không ghi đè tệp nào.";
 "Allow Uploads" = "Cho phép tải lên";
 "Allow Uploads: the browser can add files to this folder and its subfolders. Nothing is overwritten or deleted: a file whose name is taken is saved as “name 2”." = "Cho phép tải lên: trình duyệt có thể thêm tệp vào thư mục này và các thư mục con. Không ghi đè hay xóa gì: tệp trùng tên được lưu thành “tên 2”.";
-"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave WQ Files." = "Mở địa chỉ trong trình duyệt trên máy tính hoặc điện thoại cùng mạng Wi-Fi và đăng nhập bằng người dùng và mật khẩu. Có thể mở và tải tệp xuống. Chia sẻ dừng khi bạn đóng màn hình này hoặc rời WQ Files.";
+"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave Doro工具箱." = "Mở địa chỉ trong trình duyệt trên máy tính hoặc điện thoại cùng mạng Wi-Fi và đăng nhập bằng người dùng và mật khẩu. Có thể mở và tải tệp xuống. Chia sẻ dừng khi bạn đóng màn hình này hoặc rời Doro工具箱.";
 "The password is the one set in Settings → Sharing Password." = "Mật khẩu là mật khẩu đã đặt trong Cài đặt → Mật khẩu chia sẻ.";
 "The password changes each time; set a fixed one in Settings → Sharing Password." = "Mật khẩu thay đổi mỗi lần; đặt mật khẩu cố định trong Cài đặt → Mật khẩu chia sẻ.";
 "Sharing Password" = "Mật khẩu chia sẻ";
@@ -1050,7 +1050,7 @@
 "by %@" = "của %@";
 "Import Theme…" = "Nhập chủ đề…";
 "Export Current Colors…" = "Xuất màu hiện tại…";
-"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with WQ Files to install it." = "Chủ đề là một tệp .wqtheme (JSON) nhỏ chứa màu cho chế độ tối và sáng. “Xuất màu hiện tại” cho bạn một tệp để bắt đầu; định dạng được mô tả trong README trên GitHub. Mở tệp .wqtheme bằng WQ Files để cài.";
+"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with Doro工具箱 to install it." = "Chủ đề là một tệp .wqtheme (JSON) nhỏ chứa màu cho chế độ tối và sáng. “Xuất màu hiện tại” cho bạn một tệp để bắt đầu; định dạng được mô tả trong README trên GitHub. Mở tệp .wqtheme bằng Doro工具箱 để cài.";
 "Name of the theme" = "Tên chủ đề";
 "My Theme" = "Chủ đề của tôi";
 "Export" = "Xuất";
@@ -1070,8 +1070,8 @@
 "Empty Folder" = "Thư mục trống";
 "There are no files or folders in here." = "Không có tệp hay thư mục nào ở đây.";
 "Empty" = "Trống";
-"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares WQ Files' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "Không mở được thư mục nào trong %lu thư mục ứng dụng đã kiểm tra, kể cả sau khi sửa bộ nhớ đệm truy cập. Một ứng dụng khác dùng chung App Group với WQ Files (ví dụ trong LiveContainer) có thể gây cản trở: hãy đóng nó, rồi chạm Đặt lại Bộ nhớ Đệm Truy cập và Thử lại. Nếu vẫn vậy, hãy gửi Log.";
-"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape WQ Files is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "Không mở được thư mục nào trong %lu thư mục ứng dụng đã kiểm tra. Apple đã vá worse_query, kỹ thuật thoát sandbox mà WQ Files dựa vào, trong iOS 27.3 beta 2, nên ứng dụng không thể hoạt động trên bản dựng này (%@). Ứng dụng hoạt động đến iOS 27.3 beta 1 và trên iOS 26.";
+"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares Doro工具箱' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "Không mở được thư mục nào trong %lu thư mục ứng dụng đã kiểm tra, kể cả sau khi sửa bộ nhớ đệm truy cập. Một ứng dụng khác dùng chung App Group với Doro工具箱 (ví dụ trong LiveContainer) có thể gây cản trở: hãy đóng nó, rồi chạm Đặt lại Bộ nhớ Đệm Truy cập và Thử lại. Nếu vẫn vậy, hãy gửi Log.";
+"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape Doro工具箱 is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "Không mở được thư mục nào trong %lu thư mục ứng dụng đã kiểm tra. Apple đã vá worse_query, kỹ thuật thoát sandbox mà Doro工具箱 dựa vào, trong iOS 27.3 beta 2, nên ứng dụng không thể hoạt động trên bản dựng này (%@). Ứng dụng hoạt động đến iOS 27.3 beta 1 và trên iOS 26.";
 "iOS %@ (%@): Apple patched worse_query in iOS 27.3 beta 2. Folders that still open here may stop opening." = "iOS %@ (%@): Apple đã vá worse_query trong iOS 27.3 beta 2. Các thư mục vẫn mở được ở đây có thể sẽ không mở được nữa.";
 "Invert Selection" = "Đảo ngược lựa chọn";
 "%@ is not a regular file, so the restored database could open with other data. Remove it and restore again." = "%@ không phải là tệp thông thường, nên cơ sở dữ liệu được khôi phục có thể mở dữ liệu khác. Hãy xóa nó và khôi phục lại.";
@@ -1086,7 +1086,7 @@
 "%@ is not valid JSON (or larger than 4 MB)." = "%@ không phải JSON hợp lệ (hoặc lớn hơn 4 MB).";
 "Custom Inspector" = "Trình kiểm tra tùy chỉnh";
 "Custom Inspector…" = "Trình kiểm tra tùy chỉnh…";
-"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into WQ Files' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "Trình kiểm tra tùy chỉnh là các chương trình JavaScript nhỏ hiển thị nội dung tệp theo cách của bạn. Đặt mỗi trình kiểm tra một thư mục (manifest.json và inspect.js) vào thư mục Inspectors của WQ Files, cũng truy cập được trong ứng dụng Tệp. README trên GitHub mô tả định dạng.";
+"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into Doro工具箱' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "Trình kiểm tra tùy chỉnh là các chương trình JavaScript nhỏ hiển thị nội dung tệp theo cách của bạn. Đặt mỗi trình kiểm tra một thư mục (manifest.json và inspect.js) vào thư mục Inspectors của Doro工具箱, cũng truy cập được trong ứng dụng Tệp. README trên GitHub mô tả định dạng.";
 "Fix the inspector's script, then tap to run it again." = "Hãy sửa tập lệnh của trình kiểm tra, rồi chạm để chạy lại.";
 "From the inspector in %@. Tap a value to copy it." = "Từ trình kiểm tra trong %@. Chạm vào một giá trị để sao chép.";
 "Inspectors" = "Trình kiểm tra";

@@ -8,7 +8,7 @@
 "Not restored" = "Geri yüklenmedi";
 "Restore failed" = "Geri yükleme başarısız";
 "Restore recovery" = "Geri yükleme kurtarma";
-"WQ Files" = "WQ Files";
+"Doro工具箱" = "Doro工具箱";
 "Containers" = "Konteynerler";
 "Tools" = "Araçlar";
 "App Data" = "Uygulama Verileri";
@@ -116,8 +116,8 @@
 "Only regular files can be viewed." = "Yalnızca normal dosyalar görüntülenebilir.";
 "Only regular files can be shared." = "Yalnızca normal dosyalar paylaşılabilir.";
 "Symbolic link" = "Sembolik bağlantı";
-"WQ Files does not follow symbolic links for viewing, sharing or editing." = "WQ Files, görüntüleme, paylaşma veya düzenleme için sembolik bağlantıları izlemez.";
-"WQ Files does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "WQ Files, görüntüleme, paylaşma veya düzenleme için sembolik bağlantıları izlemez. Hedefi açıkça açmak için Yolu Kopyala'yı kullanın.";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing." = "Doro工具箱, görüntüleme, paylaşma veya düzenleme için sembolik bağlantıları izlemez.";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "Doro工具箱, görüntüleme, paylaşma veya düzenleme için sembolik bağlantıları izlemez. Hedefi açıkça açmak için Yolu Kopyala'yı kullanın.";
 "Symbolic links are not followed for viewing, sharing or editing." = "Sembolik bağlantılar görüntüleme, paylaşma veya düzenleme için izlenmez.";
 "Delete backups?" = "Yedekler silinsin mi?";
 "Delete backup?" = "Yedek silinsin mi?";
@@ -308,7 +308,7 @@
 "Not cleared" = "Temizlenmedi";
 "The backup did not complete, so nothing was deleted." = "Yedekleme tamamlanmadı, bu yüzden hiçbir şey silinmedi.";
 "Clear Without Backup" = "Yedeksiz Temizle";
-"\n\nThis backup is unverified (%@). WQ Files will re-check its parts before changing anything." = "\n\nBu yedek doğrulanmamış (%@). WQ Files, bir şeyi değiştirmeden önce parçalarını yeniden kontrol edecek.";
+"\n\nThis backup is unverified (%@). Doro工具箱 will re-check its parts before changing anything." = "\n\nBu yedek doğrulanmamış (%@). Doro工具箱, bir şeyi değiştirmeden önce parçalarını yeniden kontrol edecek.";
 "no typed manifest" = "türlenmiş manifest yok";
 "Replaces the app's current Documents and Library with the backup from %@; tmp is left untouched. The current data is backed up first, and put back if anything fails. Close the app first: a running app can make the operation non-snapshot-consistent.%@" = "Uygulamanın geçerli Documents ve Library klasörlerini %@ tarihli yedekle değiştirir; tmp'ye dokunulmaz. Geçerli verilerin yedeği önce alınır ve bir şey başarısız olursa geri konur. Önce uygulamayı kapatın: çalışan bir uygulama işlemin anlık görüntüyle tutarsız olmasına neden olabilir.%@";
 "Restoring %@…" = "%@ geri yükleniyor…";
@@ -532,9 +532,9 @@
 "Scan all files?" = "Tüm dosyalar taransın mı?";
 "Not Now" = "Şimdi Değil";
 "Start Scan" = "Taramayı Başlat";
-"To list %@, WQ Files has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep WQ Files open while it scans." = "%@ öğesini listelemek için WQ Files'ın bu aygıttaki her dosyayı bir kez kontrol etmesi gerekir: %@ dosya, %@.\n\nBu yalnızca ilk seferde gerekir; sonraki taramalar yalnızca yeni dosyaları kontrol eder ve saniyeler sürer.\n\nTarama sürerken WQ Files'ı açık tutun.";
+"To list %@, Doro工具箱 has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep Doro工具箱 open while it scans." = "%@ öğesini listelemek için Doro工具箱'ın bu aygıttaki her dosyayı bir kez kontrol etmesi gerekir: %@ dosya, %@.\n\nBu yalnızca ilk seferde gerekir; sonraki taramalar yalnızca yeni dosyaları kontrol eder ve saniyeler sürer.\n\nTarama sürerken Doro工具箱'ı açık tutun.";
 "Scanning all files" = "Tüm dosyalar taranıyor";
-"iOS doesn't let WQ Files list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep WQ Files open. Switching to another app or locking the screen pauses the scan." = "iOS, WQ Files'ın bu klasörleri doğrudan listelemesine izin vermez; bu yüzden bu aygıttaki her dosyayı bir kez kontrol eder. Yalnızca ilk seferde yavaştır: sonraki taramalar yalnızca yeni dosyaları kontrol eder.\n\nWQ Files'ı açık tutun. Başka bir uygulamaya geçmek veya ekranı kilitlemek taramayı duraklatır.";
+"iOS doesn't let Doro工具箱 list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep Doro工具箱 open. Switching to another app or locking the screen pauses the scan." = "iOS, Doro工具箱'ın bu klasörleri doğrudan listelemesine izin vermez; bu yüzden bu aygıttaki her dosyayı bir kez kontrol eder. Yalnızca ilk seferde yavaştır: sonraki taramalar yalnızca yeni dosyaları kontrol eder.\n\nDoro工具箱'ı açık tutun. Başka bir uygulamaya geçmek veya ekranı kilitlemek taramayı duraklatır.";
 "Starting…" = "Başlatılıyor…";
 "Hide" = "Gizle";
 "Stop Scan" = "Taramayı Durdur";
@@ -547,7 +547,7 @@
 "the app folders" = "uygulama klasörleri";
 "Signing problem: no App Group" = "İmzalama sorunu: App Group yok";
 "Signing Help" = "İmzalama Yardımı";
-"WQ Files %@ (%@) by kolbicz" = "WQ Files %@ (%@) - kolbicz";
+"Doro工具箱 %@ (%@) by kolbicz" = "Doro工具箱 %@ (%@) - kolbicz";
 "SQLite Viewer" = "SQLite Görüntüleyici";
 "SQL" = "SQL";
 "Copy" = "Kopyala";
@@ -631,7 +631,7 @@
 "Show" = "Göster";
 "Copy Bundle ID" = "Bundle ID'yi Kopyala";
 "%@ of data" = "%@ veri";
-"WQ Files has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "WQ Files'ın App Group'u yok, bu yüzden diğer uygulamaların klasörlerini açamaz. App Group'u koruyan bir araçla yeniden imzalayın (README'deki İmzalama bölümüne bakın).";
+"Doro工具箱 has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "Doro工具箱'ın App Group'u yok, bu yüzden diğer uygulamaların klasörlerini açamaz. App Group'u koruyan bir araçla yeniden imzalayın (README'deki İmzalama bölümüne bakın).";
 "Save in progress" = "Kaydetme sürüyor";
 "Wait for the current save to finish before leaving or making more changes." = "Ayrılmadan veya başka değişiklik yapmadan önce geçerli kaydın bitmesini bekleyin.";
 "Discard changes?" = "Değişiklikler silinsin mi?";
@@ -651,7 +651,7 @@
 "Select Backups" = "Yedekleri Seç";
 "Delete Backup…" = "Yedeği Sil…";
 "No App Group" = "App Group Yok";
-"WQ Files by kolbicz" = "WQ Files - kolbicz";
+"Doro工具箱 by kolbicz" = "Doro工具箱 - kolbicz";
 "Sandbox escape: worse_query by @forcequitOS" = "Sandbox kaçışı: worse_query, @forcequitOS";
 "On iOS 26, System Data and System Groups can't be reached (worse_query covers them on iOS 27 only), and Internal Daemons need a scan of every file id: the first one can take most of an hour on a well-used device, later ones only check new files." = "iOS 26'da Sistem Verileri ve Sistem Grupları erişilemez (worse_query bunları yalnızca iOS 27'de kapsar) ve Dahili Daemon'lar her dosya kimliğinin taranmasını gerektirir: ilk tarama sık kullanılan bir aygıtta bir saate yakın sürebilir, sonrakiler yalnızca yeni dosyaları kontrol eder.";
 "Overwritten and deleted files are copied to Backups first (also visible in the Files app). Long-press a backup to restore it." = "Üzerine yazılan ve silinen dosyalar önce Yedekler'e kopyalanır (Dosyalar uygulamasında da görünür). Geri yüklemek için bir yedeğe uzun basın.";
@@ -665,7 +665,7 @@
 "the crash-log target is not the expected canonical directory" = "çökme günlüğü hedefi beklenen standart dizin değil";
 "the scanned cache targets are incomplete" = "taranan önbellek hedefleri eksik";
 "the app container identity or ancestry is unavailable" = "uygulama konteynerinin kimliği veya üst öğeleri kullanılamıyor";
-"WQ Files %@ (%@)\n%@\n\n%@" = "WQ Files %@ (%@)\n%@\n\n%@";
+"Doro工具箱 %@ (%@)\n%@\n\n%@" = "Doro工具箱 %@ (%@)\n%@\n\n%@";
 "0 KB" = "0 KB";
 "Discard" = "Yoksay";
 "%@ · %@ · no identifier" = "%@ · %@ · tanımlayıcı yok";
@@ -681,7 +681,7 @@
 "change" = "değiştirme";
 "read" = "okuma";
 "open" = "açma";
-"This file belongs to %@ (mode %o) and only its owner may %@ it. WQ Files reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "Bu dosya %@ kullanıcısına ait (mod %o) ve yalnızca sahibi %@ yetkisine sahip. WQ Files klasöre erişir ancak mobile (uid %d) olarak çalışır, bu yüzden hiçbir uygulama bu dosyayı %@ yetkisine sahip olamaz.";
+"This file belongs to %@ (mode %o) and only its owner may %@ it. Doro工具箱 reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "Bu dosya %@ kullanıcısına ait (mod %o) ve yalnızca sahibi %@ yetkisine sahip. Doro工具箱 klasöre erişir ancak mobile (uid %d) olarak çalışır, bu yüzden hiçbir uygulama bu dosyayı %@ yetkisine sahip olamaz.";
 "The archive would be larger than 4 GB, which isn't supported yet." = "Arşiv 4 GB'tan büyük olacak; bu henüz desteklenmiyor.";
 "Too many items for one ZIP (more than 65535)." = "Tek bir ZIP için çok fazla öğe var (65535'ten fazla).";
 "Can't read %@ (%s)" = "%@ okunamıyor (%s)";
@@ -712,8 +712,8 @@
 "An item named \"%@\" is already there" = "\"%@\" adlı bir öğe zaten var";
 "Items can't be moved to another volume" = "Öğeler başka bir birime taşınamaz";
 
-/* Plural forms and WQ Files 0.9 localization additions. */
-"%@ isn't installed, or WQ Files can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ yüklü değil veya WQ Files verilerine erişemiyor. Yedek yalnızca yüklü uygulamaya geri yüklenebilir: uygulamayı yükleyin, bir kez açın ve tekrar deneyin.";
+/* Plural forms and Doro工具箱 0.9 localization additions. */
+"%@ isn't installed, or Doro工具箱 can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ yüklü değil veya Doro工具箱 verilerine erişemiyor. Yedek yalnızca yüklü uygulamaya geri yüklenebilir: uygulamayı yükleyin, bir kez açın ve tekrar deneyin.";
 "%@ selected in %lu item" = "%@ seçili (%lu öğe)";
 "%@ selected in %lu items" = "%@ seçili (%lu öğe)";
 "%ld item" = "%ld öğe";
@@ -748,8 +748,8 @@
 "There is no complete backup of %@ to restore." = "%@ için geri yüklenecek tam bir yedek yok.";
 "This permanently removes %lu complete backup and everything inside it. It cannot be undone." = "%lu tam yedek ve içindeki her şey kalıcı olarak kaldırılır. Bu işlem geri alınamaz.";
 "This permanently removes %lu complete backups and everything inside them. It cannot be undone." = "%lu tam yedek ve içindeki her şey kalıcı olarak kaldırılır. Bu işlem geri alınamaz.";
-"Turn on Allow Deleting on the start screen of WQ Files to delete, clear or clean." = "Silmek, temizlemek veya boşaltmak için WQ Files'ın ana ekranında Silmeye İzin Ver'i açın.";
-"WQ Files needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install WQ Files with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "WQ Files'ın diğer uygulamaların klasörlerine erişmesi için bir App Group gerekir ve onu imzalayan araç bunu kaldırdı. Bu olmadan hiçbir şey açılamaz ve uygulama listeleri boş kalır veya \"NO TOKEN\" gösterir.\n\nWQ Files'ı AltStore, SideStore veya Impactor ile (App Group oluştururlar; Sideloadly oluşturmaz) ya da App Group içeren bir provisioning profili ile yeniden yükleyin. Joker karakterli sertifikalar (birçok Feather/ESign kurulumunda kullanılır) App Group içeremez.";
+"Turn on Allow Deleting on the start screen of Doro工具箱 to delete, clear or clean." = "Silmek, temizlemek veya boşaltmak için Doro工具箱'ın ana ekranında Silmeye İzin Ver'i açın.";
+"Doro工具箱 needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install Doro工具箱 with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "Doro工具箱'ın diğer uygulamaların klasörlerine erişmesi için bir App Group gerekir ve onu imzalayan araç bunu kaldırdı. Bu olmadan hiçbir şey açılamaz ve uygulama listeleri boş kalır veya \"NO TOKEN\" gösterir.\n\nDoro工具箱'ı AltStore, SideStore veya Impactor ile (App Group oluştururlar; Sideloadly oluşturmaz) ya da App Group içeren bir provisioning profili ile yeniden yükleyin. Joker karakterli sertifikalar (birçok Feather/ESign kurulumunda kullanılır) App Group içeremez.";
 
 /* 0.9.1: offloaded apps, Import as Backup, Keep Data Before Restore */
 " · offloaded" = " · yüklemesi kaldırıldı";
@@ -777,8 +777,8 @@
 "Open %@ to use the restored Documents and Library; tmp was not changed. The data from before was not kept (Keep Data Before Restore is off)." = "Geri yüklenen Documents ve Library klasörlerini kullanmak için %@ uygulamasını açın; tmp değiştirilmedi. Önceki veriler saklanmadı (Geri Yükleme Öncesi Yedeği Sakla kapalı).";
 "Language" = "Dil";
 "System Default" = "Sistem Varsayılanı";
-"Restart WQ Files" = "WQ Files'ı Yeniden Başlat";
-"The new language is used the next time WQ Files starts." = "Yeni dil, WQ Files'ın bir sonraki açılışında kullanılır.";
+"Restart Doro工具箱" = "Doro工具箱'ı Yeniden Başlat";
+"The new language is used the next time Doro工具箱 starts." = "Yeni dil, Doro工具箱'ın bir sonraki açılışında kullanılır.";
 "Later" = "Sonra";
 "Quit Now" = "Şimdi Çık";
 "%lld rows changed in the copy. Save on the database screen writes them to the app." = "Kopyada %lld satır değişti. Veritabanı ekranında Kaydet, bunları uygulamaya yazar.";
@@ -788,7 +788,7 @@
 "Cannot change" = "Değiştirilemiyor";
 "Could not make a safety copy first: %@" = "Önce güvenlik kopyası oluşturulamadı: %@";
 "Edit database" = "Veritabanını düzenle";
-"Editing WQ Files' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "WQ Files'ın kopyasını düzenliyorsunuz: bir satırdaki değeri değiştirmek için üzerine dokunun, silmek için satırı kaydırın veya SQL kullanın. Kaydet, kopyayı uygulamaya yazar; önce uygulamayı zorla kapatın.";
+"Editing Doro工具箱' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "Doro工具箱'ın kopyasını düzenliyorsunuz: bir satırdaki değeri değiştirmek için üzerine dokunun, silmek için satırı kaydırın veya SQL kullanın. Kaydet, kopyayı uygulamaya yazar; önce uygulamayı zorla kapatın.";
 "Force-quit the app first (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "Önce uygulamayı zorla kapatın (uygulama değiştiricide kaydırarak): çalışırken kaydetmek verilerini bozabilir. Önceki veritabanı Yedekler'de saklanır.";
 "Not saved" = "Kaydedilmedi";
 "Only read-only statements (SELECT, read-only PRAGMA, EXPLAIN) can run here. Tap Edit on the database screen to change it." = "Burada yalnızca salt okunur ifadeler (SELECT, salt okunur PRAGMA, EXPLAIN) çalıştırılabilir. Değiştirmek için veritabanı ekranında Düzenle'ye dokunun.";
@@ -810,7 +810,7 @@
 "The edited copy failed SQLite's integrity check, so nothing was saved: %@" = "Düzenlenen kopya SQLite bütünlük denetimini geçemedi, bu yüzden hiçbir şey kaydedilmedi: %@";
 "The row is gone." = "Satır artık yok.";
 "Unsaved changes" = "Kaydedilmemiş değişiklikler";
-"You change WQ Files' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "WQ Files'ın kopyasını değiştirirsiniz: bir satırdaki değere dokunarak düzenleyin, satırları kaydırarak silin veya SQL çalıştırın. Kaydet'e dokunana kadar hiçbir şey uygulamaya ulaşmaz.\n\nKaydetmeden önce uygulamayı zorla kapatın (uygulama değiştiricide kaydırarak): çalışırken kaydetmek verilerini bozabilir. Önceki veritabanı Yedekler'de saklanır.";
+"You change Doro工具箱' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "Doro工具箱'ın kopyasını değiştirirsiniz: bir satırdaki değere dokunarak düzenleyin, satırları kaydırarak silin veya SQL çalıştırın. Kaydet'e dokunana kadar hiçbir şey uygulamaya ulaşmaz.\n\nKaydetmeden önce uygulamayı zorla kapatın (uygulama değiştiricide kaydırarak): çalışırken kaydetmek verilerini bozabilir. Önceki veritabanı Yedekler'de saklanır.";
 "%@ is not a folder anymore." = "%@ artık bir klasör değil.";
 "%@ is removed from Backups and can't be restored anymore." = "%@ Yedekler'den kaldırıldı ve artık geri yüklenemez.";
 "%lu backed-up files are removed from Backups (including files deleted or overwritten at the same time) and can't be restored anymore." = "%lu yedeklenmiş dosya Yedekler'den kaldırıldı (aynı anda silinen veya üzerine yazılan dosyalar dahil) ve artık geri yüklenemez.";
@@ -823,17 +823,17 @@
 "Checking the App Group…" = "App Group denetleniyor…";
 "Continue" = "Devam";
 "Continue Anyway" = "Yine de Devam Et";
-"Continue Anyway opens WQ Files as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "Yine de Devam Et, WQ Files'ı olduğu gibi açar: listeler boş veya yanlış olabilir ve bunlara dayanarak hiçbir şey geri yüklenmemeli veya silinmemelidir.";
+"Continue Anyway opens Doro工具箱 as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "Yine de Devam Et, Doro工具箱'ı olduğu gibi açar: listeler boş veya yanlış olabilir ve bunlara dayanarak hiçbir şey geri yüklenmemeli veya silinmemelidir.";
 "Continue Anyway?" = "Yine de devam edilsin mi?";
 "Copy Original Path" = "Özgün Yolu Kopyala";
 "Delete All" = "Tümünü Sil";
 "Delete Permanently" = "Kalıcı Olarak Sil";
 "Delete Permanently?" = "Kalıcı olarak silinsin mi?";
-"Files WQ Files deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "WQ Files'ın sildiği dosyalar, Yedekler'deki kopyalarından. Geri Yükle bir dosyayı özgün yerine koyar (eksik klasörler oluşturulur); Kalıcı Olarak Sil onu Yedekler'den kaldırır. Tüm seçenekler için uzun basın.";
+"Files Doro工具箱 deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "Doro工具箱'ın sildiği dosyalar, Yedekler'deki kopyalarından. Geri Yükle bir dosyayı özgün yerine koyar (eksik klasörler oluşturulur); Kalıcı Olarak Sil onu Yedekler'den kaldırır. Tüm seçenekler için uzun basın.";
 "Finding other apps' folders…" = "Diğer uygulamaların klasörleri bulunuyor…";
 "Lists may be empty or wrong. Don't restore, clean or delete anything based on them." = "Listeler boş veya yanlış olabilir. Bunlara dayanarak hiçbir şeyi geri yüklemeyin, temizlemeyin veya silmeyin.";
 "Looking through Backups…" = "Yedekler taranıyor…";
-"Missing: the tool that signed WQ Files removed it. Re-install with AltStore, SideStore or Impactor." = "Eksik: WQ Files'ı imzalayan araç bunu kaldırdı. AltStore, SideStore veya Impactor ile yeniden yükleyin.";
+"Missing: the tool that signed Doro工具箱 removed it. Re-install with AltStore, SideStore or Impactor." = "Eksik: Doro工具箱'ı imzalayan araç bunu kaldırdı. AltStore, SideStore veya Impactor ile yeniden yükleyin.";
 "Needs sandbox access." = "Sandbox erişimi gerekir.";
 "Needs the App Group." = "App Group gerekir.";
 "None of %lu sampled app folders could be opened: the sandbox escape doesn't work on iOS %@." = "Örneklenen %lu uygulama klasörünün hiçbiri açılamadı: sandbox kaçışı iOS %@ üzerinde çalışmıyor.";
@@ -841,7 +841,7 @@
 "Not everything works here" = "Burada her şey çalışmayabilir";
 "Nothing deleted" = "Hiçbir şey silinmedi";
 "Nothing to check." = "Denetlenecek bir şey yok.";
-"Only WQ Files' own folder was found (%lu in total)." = "Yalnızca WQ Files'ın kendi klasörü bulundu (toplam %lu).";
+"Only Doro工具箱' own folder was found (%lu in total)." = "Yalnızca Doro工具箱'ın kendi klasörü bulundu (toplam %lu).";
 "Other apps' folders" = "Diğer uygulamaların klasörleri";
 "Put %@ back in\n%@?" = "%@ şuraya geri konulsun mu?\n%@";
 "Recently Deleted" = "Son Silinenler";
@@ -850,13 +850,13 @@
 "The scan for them was declined; Apps and the Cache Cleaner stay empty until it runs." = "Bunlar için tarama reddedildi; çalışana kadar Uygulamalar ve Önbellek Temizleyici boş kalır.";
 "They can't be found on this device (see Log for the reason)." = "Bu cihazda bulunamıyorlar (nedeni için Günlüğe bakın).";
 "Try Again" = "Tekrar Dene";
-"WQ Files can't work properly here" = "WQ Files burada düzgün çalışamıyor";
-"WQ Files stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "WQ Files, boş veya yanlış listeler göstermek yerine burada durdu. Yeni bir iOS sürümü sandbox erişimini engelleyebilir; lütfen Günlük'ü cihazınız ve iOS sürümünüzle birlikte gönderin.";
-"iOS %@ hasn't been tested with this version of WQ Files." = "iOS %@ bu WQ Files sürümüyle test edilmedi.";
+"Doro工具箱 can't work properly here" = "Doro工具箱 burada düzgün çalışamıyor";
+"Doro工具箱 stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "Doro工具箱, boş veya yanlış listeler göstermek yerine burada durdu. Yeni bir iOS sürümü sandbox erişimini engelleyebilir; lütfen Günlük'ü cihazınız ve iOS sürümünüzle birlikte gönderin.";
+"iOS %@ hasn't been tested with this version of Doro工具箱." = "iOS %@ bu Doro工具箱 sürümüyle test edilmedi.";
 "iOS version" = "iOS sürümü";
 "Reset Access Cache" = "Erişim Önbelleğini Sıfırla";
 "Reset Access Cache?" = "Erişim Önbelleği Sıfırlansın mı?";
-"Another app that shares WQ Files' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "WQ Files'ın App Group'unu paylaşan başka bir uygulama (örneğin aynı araçla imzalanmış biri), önbellek klasörünü sandbox erişimini engelleyen bir durumda bırakabilir. Bu işlem onu eski haline getirir; hiçbir şey silinmez.";
+"Another app that shares Doro工具箱' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "Doro工具箱'ın App Group'unu paylaşan başka bir uygulama (örneğin aynı araçla imzalanmış biri), önbellek klasörünü sandbox erişimini engelleyen bir durumda bırakabilir. Bu işlem onu eski haline getirir; hiçbir şey silinmez.";
 "Reset" = "Sıfırla";
 "Reset failed" = "Sıfırlama başarısız oldu";
 "The App Group is missing." = "App Group eksik.";
@@ -900,7 +900,7 @@
 "Backups could not be read: %@" = "Yedekler okunamadı: %@";
 "Some backups could not be read, so this list may be incomplete." = "Bazı yedekler okunamadı, bu yüzden bu liste eksik olabilir.";
 "Backup was edited" = "Yedek değiştirildi";
-"The files in %@ of this backup changed after WQ Files made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "Bu yedeğin %@ bölümündeki dosyalar WQ Files yedeği oluşturduktan sonra değişti; örneğin başka bir yedekten dosyalar eklendi. Yedek şu anki hâliyle geri yüklensin mi? Uygulamanın mevcut verileri yine önce yedeklenir.";
+"The files in %@ of this backup changed after Doro工具箱 made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "Bu yedeğin %@ bölümündeki dosyalar Doro工具箱 yedeği oluşturduktan sonra değişti; örneğin başka bir yedekten dosyalar eklendi. Yedek şu anki hâliyle geri yüklensin mi? Uygulamanın mevcut verileri yine önce yedeklenir.";
 "Restore Anyway" = "Yine de Geri Yükle";
 "Replace existing files?" = "Mevcut dosyalar değiştirilsin mi?";
 "%lu of the %lu files already exist here. Replace them (each is backed up first) or keep both?" = "%lu / %lu dosya burada zaten var. Değiştirilsin mi (her biri önce yedeklenir) yoksa ikisi de saklansın mı?";
@@ -946,11 +946,11 @@
 "Tap a row to copy its value." = "Değerini kopyalamak için bir satıra dokunun.";
 "Reopen Last Folder" = "Son Klasörü Yeniden Aç";
 "Check for Updates" = "Güncellemeleri Denetle";
-"WQ Files %@ is available" = "WQ Files %@ kullanılabilir";
-"Reopen Last Folder: WQ Files starts in the folder you were in. Check for Updates: twice a day WQ Files reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "Son Klasörü Yeniden Aç: WQ Files, bulunduğunuz son klasörde açılır. Güncellemeleri Denetle: WQ Files günde iki kez GitHub'daki herkese açık sürüm listesini okur ve yeni bir sürüm çıktığında bir not gösterir; cihazınız hakkında hiçbir şey gönderilmez.";
-"WQ Files has no access to the app's data right now (%@). Nothing was backed up; try again." = "WQ Files şu anda uygulamanın verilerine erişemiyor (%@). Hiçbir şey yedeklenmedi; yeniden deneyin.";
+"Doro工具箱 %@ is available" = "Doro工具箱 %@ kullanılabilir";
+"Reopen Last Folder: Doro工具箱 starts in the folder you were in. Check for Updates: twice a day Doro工具箱 reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "Son Klasörü Yeniden Aç: Doro工具箱, bulunduğunuz son klasörde açılır. Güncellemeleri Denetle: Doro工具箱 günde iki kez GitHub'daki herkese açık sürüm listesini okur ve yeni bir sürüm çıktığında bir not gösterir; cihazınız hakkında hiçbir şey gönderilmez.";
+"Doro工具箱 has no access to the app's data right now (%@). Nothing was backed up; try again." = "Doro工具箱 şu anda uygulamanın verilerine erişemiyor (%@). Hiçbir şey yedeklenmedi; yeniden deneyin.";
 "The app's data folder holds neither Documents nor Library, so there is nothing to back up." = "Uygulamanın veri klasöründe ne Documents ne de Library var, yedeklenecek bir şey yok.";
-"This backup is empty (it was made while WQ Files had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "Bu yedek boş (WQ Files'ın uygulamaya erişimi yokken oluşturuldu). Geri yüklemek uygulamanın verilerini silerdi, bu yüzden hiçbir şey değiştirilmedi.";
+"This backup is empty (it was made while Doro工具箱 had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "Bu yedek boş (Doro工具箱'ın uygulamaya erişimi yokken oluşturuldu). Geri yüklemek uygulamanın verilerini silerdi, bu yüzden hiçbir şey değiştirilmedi.";
 "Quick Check" = "Hızlı Kontrol";
 "All your containers, in one place." = "Tüm konteynerleriniz tek bir yerde.";
 "System" = "Sistem";
@@ -963,22 +963,22 @@
 "About" = "Hakkında";
 "New Design" = "Yeni Tasarım";
 "Troubleshooting" = "Sorun Giderme";
-"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs WQ Files' own cache folder in its App Group; nothing is deleted." = "Erişim Önbelleğini Sıfırla: Klasörler boş kalıyorsa veya başlangıç denetimi sandbox erişiminin başarısız olduğunu söylüyorsa kullanın. WQ Files'ın App Group içindeki kendi önbellek klasörünü onarır; hiçbir şey silinmez.";
+"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs Doro工具箱' own cache folder in its App Group; nothing is deleted." = "Erişim Önbelleğini Sıfırla: Klasörler boş kalıyorsa veya başlangıç denetimi sandbox erişiminin başarısız olduğunu söylüyorsa kullanın. Doro工具箱'ın App Group içindeki kendi önbellek klasörünü onarır; hiçbir şey silinmez.";
 "Access Cache Reset" = "Erişim Önbelleği Sıfırlandı";
 "The access cache was repaired. If folders still stay empty, send the Log." = "Erişim önbelleği onarıldı. Klasörler hâlâ boş kalıyorsa Günlüğü gönderin.";
 "Plain Background" = "Düz Arka Plan";
 "Plain Background: a plain black (or white) background instead of the colored one." = "Düz Arka Plan: renkli arka plan yerine düz siyah (veya beyaz) bir arka plan.";
 "No access" = "Erişim yok";
-"This item belongs to %@ (mode %o). WQ Files runs as mobile (uid %d) and can't open it; no app without root can." = "Bu öğe %@ kullanıcısına ait (mod %o). WQ Files mobile (uid %d) olarak çalışır ve bunu açamaz; root olmadan hiçbir uygulama açamaz.";
+"This item belongs to %@ (mode %o). Doro工具箱 runs as mobile (uid %d) and can't open it; no app without root can." = "Bu öğe %@ kullanıcısına ait (mod %o). Doro工具箱 mobile (uid %d) olarak çalışır ve bunu açamaz; root olmadan hiçbir uygulama açamaz.";
 "iOS %@ isn't supported" = "iOS %@ desteklenmiyor";
-"WQ Files needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "WQ Files için iOS 26 veya 27 gerekir. Kullandığı sandbox kaçışı yalnızca bu sürümlerde var; bu sürümde tüm klasörler kapalı kalır.\n\niOS 17 ve 18'de bu klasörlere Cyanide ile göz atabilirsiniz.";
+"Doro工具箱 needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "Doro工具箱 için iOS 26 veya 27 gerekir. Kullandığı sandbox kaçışı yalnızca bu sürümlerde var; bu sürümde tüm klasörler kapalı kalır.\n\niOS 17 ve 18'de bu klasörlere Cyanide ile göz atabilirsiniz.";
 "Cyanide on GitHub" = "GitHub'da Cyanide";
 "Scan paused" = "Tarama duraklatıldı";
 "Scan queued; previous results kept" = "Tarama sıraya alındı; önceki sonuçlar korunuyor";
 "Last scanned %@ · Pull to refresh" = "Son tarama %@ · Yenilemek için çekin";
 "Pause Scan" = "Taramayı Duraklat";
 "Resume Scan" = "Taramaya Devam Et";
-"Could not save scan state. Keep WQ Files open." = "Tarama durumu kaydedilemedi. WQ Files'ı açık tutun.";
+"Could not save scan state. Keep Doro工具箱 open." = "Tarama durumu kaydedilemedi. Doro工具箱'ı açık tutun.";
 "Share on Wi-Fi…" = "Wi-Fi ile Paylaş…";
 "Wi-Fi Sharing" = "Wi-Fi Paylaşımı";
 "Sharing “%@” on Wi-Fi" = "“%@” Wi-Fi ile paylaşılıyor";
@@ -991,16 +991,16 @@
 "Start Sharing" = "Paylaşımı Başlat";
 "Requests" = "İstekler";
 "No requests yet." = "Henüz istek yok.";
-"Sharing stopped because WQ Files went to the background." = "WQ Files arka plana geçtiği için paylaşım durdu.";
+"Sharing stopped because Doro工具箱 went to the background." = "Doro工具箱 arka plana geçtiği için paylaşım durdu.";
 "Sharing could not start." = "Paylaşım başlatılamadı.";
 "Not connected to Wi-Fi. Connect to a Wi-Fi network (or turn on Personal Hotspot) and try again." = "Wi-Fi'ye bağlı değil. Bir Wi-Fi ağına bağlanın (veya Kişisel Erişim Noktası'nı açın) ve tekrar deneyin.";
-"WQ Files: password required." = "WQ Files: parola gerekli.";
+"Doro工具箱: password required." = "Doro工具箱: parola gerekli.";
 "Not found." = "Bulunamadı.";
-"WQ Files can't open this file." = "WQ Files bu dosyayı açamıyor.";
+"Doro工具箱 can't open this file." = "Doro工具箱 bu dosyayı açamıyor.";
 "The ZIP could not be created: %@" = "ZIP oluşturulamadı: %@";
 "Up" = "Yukarı";
 "Download Folder as ZIP" = "Klasörü ZIP olarak indir";
-"WQ Files can't open this folder." = "WQ Files bu klasörü açamıyor.";
+"Doro工具箱 can't open this folder." = "Doro工具箱 bu klasörü açamıyor.";
 "This folder is empty." = "Bu klasör boş.";
 "Download" = "İndir";
 "%lu items · read-only" = "%lu öğe · salt okunur";
@@ -1015,7 +1015,7 @@
 "Drop files here or use Upload Files. Nothing is overwritten." = "Dosyaları buraya bırakın veya Dosya Yükle'yi kullanın. Hiçbir şeyin üzerine yazılmaz.";
 "Allow Uploads" = "Yüklemelere İzin Ver";
 "Allow Uploads: the browser can add files to this folder and its subfolders. Nothing is overwritten or deleted: a file whose name is taken is saved as “name 2”." = "Yüklemelere İzin Ver: tarayıcı bu klasöre ve alt klasörlerine dosya ekleyebilir. Hiçbir şeyin üzerine yazılmaz veya silinmez: adı kullanılan bir dosya “ad 2” olarak kaydedilir.";
-"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave WQ Files." = "Adresi aynı Wi-Fi ağındaki bir bilgisayar veya telefonda tarayıcıda açın ve kullanıcı adı ile parolayla giriş yapın. Dosyalar açılabilir ve indirilebilir. Bu ekranı kapattığınızda veya WQ Files'tan çıktığınızda paylaşım durur.";
+"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave Doro工具箱." = "Adresi aynı Wi-Fi ağındaki bir bilgisayar veya telefonda tarayıcıda açın ve kullanıcı adı ile parolayla giriş yapın. Dosyalar açılabilir ve indirilebilir. Bu ekranı kapattığınızda veya Doro工具箱'tan çıktığınızda paylaşım durur.";
 "The password is the one set in Settings → Sharing Password." = "Parola, Ayarlar → Paylaşım Parolası'nda belirlenendir.";
 "The password changes each time; set a fixed one in Settings → Sharing Password." = "Parola her seferinde değişir; Ayarlar → Paylaşım Parolası'ndan sabit bir parola belirleyebilirsiniz.";
 "Sharing Password" = "Paylaşım Parolası";
@@ -1050,7 +1050,7 @@
 "by %@" = "%@ tarafından";
 "Import Theme…" = "Tema İçe Aktar…";
 "Export Current Colors…" = "Mevcut Renkleri Dışa Aktar…";
-"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with WQ Files to install it." = "Tema, koyu ve açık mod için renkler içeren küçük bir .wqtheme dosyasıdır (JSON). “Mevcut Renkleri Dışa Aktar” başlangıç için bir tane verir; biçim GitHub'daki README'de açıklanmıştır. Yüklemek için bir .wqtheme dosyasını WQ Files ile açın.";
+"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with Doro工具箱 to install it." = "Tema, koyu ve açık mod için renkler içeren küçük bir .wqtheme dosyasıdır (JSON). “Mevcut Renkleri Dışa Aktar” başlangıç için bir tane verir; biçim GitHub'daki README'de açıklanmıştır. Yüklemek için bir .wqtheme dosyasını Doro工具箱 ile açın.";
 "Name of the theme" = "Temanın adı";
 "My Theme" = "Temam";
 "Export" = "Dışa Aktar";
@@ -1070,8 +1070,8 @@
 "Empty Folder" = "Boş Klasör";
 "There are no files or folders in here." = "Burada dosya veya klasör yok.";
 "Empty" = "Boş";
-"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares WQ Files' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "Denetlenen %lu uygulama klasörünün hiçbiri, erişim önbelleği onarıldıktan sonra bile açılamadı. WQ Files'ın App Group'unu paylaşan başka bir uygulama (örneğin LiveContainer'da) engel olabilir: onu kapatın, ardından Erişim Önbelleğini Sıfırla'ya ve Tekrar Dene'ye dokunun. Böyle kalırsa Log'u gönderin.";
-"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape WQ Files is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "Denetlenen %lu uygulama klasörünün hiçbiri açılamadı. Apple, WQ Files'ın dayandığı sandbox kaçışı worse_query'yi iOS 27.3 beta 2'de kapattı; bu yüzden bu derlemede (%@) çalışamaz. iOS 27.3 beta 1'e kadar ve iOS 26'da çalışır.";
+"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares Doro工具箱' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "Denetlenen %lu uygulama klasörünün hiçbiri, erişim önbelleği onarıldıktan sonra bile açılamadı. Doro工具箱'ın App Group'unu paylaşan başka bir uygulama (örneğin LiveContainer'da) engel olabilir: onu kapatın, ardından Erişim Önbelleğini Sıfırla'ya ve Tekrar Dene'ye dokunun. Böyle kalırsa Log'u gönderin.";
+"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape Doro工具箱 is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "Denetlenen %lu uygulama klasörünün hiçbiri açılamadı. Apple, Doro工具箱'ın dayandığı sandbox kaçışı worse_query'yi iOS 27.3 beta 2'de kapattı; bu yüzden bu derlemede (%@) çalışamaz. iOS 27.3 beta 1'e kadar ve iOS 26'da çalışır.";
 "iOS %@ (%@): Apple patched worse_query in iOS 27.3 beta 2. Folders that still open here may stop opening." = "iOS %@ (%@): Apple, worse_query'yi iOS 27.3 beta 2'de kapattı. Burada hâlâ açılan klasörler açılmamaya başlayabilir.";
 "Invert Selection" = "Seçimi Tersine Çevir";
 "%@ is not a regular file, so the restored database could open with other data. Remove it and restore again." = "%@ normal bir dosya değil, bu yüzden geri yüklenen veritabanı başka verileri açabilir. Onu kaldırın ve yeniden geri yükleyin.";
@@ -1086,7 +1086,7 @@
 "%@ is not valid JSON (or larger than 4 MB)." = "%@ geçerli bir JSON değil (veya 4 MB'tan büyük).";
 "Custom Inspector" = "Özel Denetleyici";
 "Custom Inspector…" = "Özel Denetleyici…";
-"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into WQ Files' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "Özel denetleyiciler, bir dosyanın içeriğini istediğiniz gibi gösteren küçük JavaScript programlarıdır. Her denetleyici için bir klasörü (manifest.json ve inspect.js) WQ Files'ın Inspectors klasörüne koyun; bu klasöre Dosyalar uygulamasından da ulaşılabilir. Biçim GitHub'daki README'de açıklanır.";
+"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into Doro工具箱' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "Özel denetleyiciler, bir dosyanın içeriğini istediğiniz gibi gösteren küçük JavaScript programlarıdır. Her denetleyici için bir klasörü (manifest.json ve inspect.js) Doro工具箱'ın Inspectors klasörüne koyun; bu klasöre Dosyalar uygulamasından da ulaşılabilir. Biçim GitHub'daki README'de açıklanır.";
 "Fix the inspector's script, then tap to run it again." = "Denetleyicinin betiğini düzeltin, ardından yeniden çalıştırmak için dokunun.";
 "From the inspector in %@. Tap a value to copy it." = "%@ içindeki denetleyiciden. Bir değeri kopyalamak için ona dokunun.";
 "Inspectors" = "Denetleyiciler";

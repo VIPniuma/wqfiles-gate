@@ -17,11 +17,11 @@ static const int T3_MAX_HEARTBEAT_FAIL = 5;
 // 卡密本地存储 key
 static NSString * const T3_PREF_KEY_CARD = @"t3_saved_card";
 
-// 验证页文案（改成你的品牌）
-static NSString * const T3_GATE_LOGO       = @"doro";
-static NSString * const T3_GATE_TITLE      = @"doro工具箱";
+// 验证页文案（Doro工具箱）
+static NSString * const T3_GATE_LOGO       = @"Doro";
+static NSString * const T3_GATE_TITLE      = @"Doro工具箱";
 static NSString * const T3_GATE_SUBTITLE   = @"请输入卡密完成验证";
-static NSString * const T3_GATE_FOOTER     = @"验证通过后进入 doro工具箱";
+static NSString * const T3_GATE_FOOTER     = @"验证通过后进入 Doro工具箱";
 
 // 目标被 hook 的类与方法（doro工具箱首页）
 static NSString * const T3_HOOK_CLASS  = @"WQRootViewController";

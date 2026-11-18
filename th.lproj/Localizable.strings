@@ -8,7 +8,7 @@
 "Not restored" = "ไม่ได้กู้คืน";
 "Restore failed" = "กู้คืนไม่สำเร็จ";
 "Restore recovery" = "การกู้คืนข้อมูล";
-"WQ Files" = "WQ Files";
+"Doro工具箱" = "Doro工具箱";
 "Containers" = "คอนเทนเนอร์";
 "Tools" = "เครื่องมือ";
 "App Data" = "ข้อมูลแอป";
@@ -116,8 +116,8 @@
 "Only regular files can be viewed." = "สามารถดูได้เฉพาะไฟล์ปกติเท่านั้น";
 "Only regular files can be shared." = "สามารถแชร์ได้เฉพาะไฟล์ปกติเท่านั้น";
 "Symbolic link" = "ลิงก์สัญลักษณ์";
-"WQ Files does not follow symbolic links for viewing, sharing or editing." = "WQ Files ไม่ตามลิงก์สัญลักษณ์เพื่อดู แชร์ หรือแก้ไข";
-"WQ Files does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "WQ Files ไม่ตามลิงก์สัญลักษณ์เพื่อดู แชร์ หรือแก้ไข ใช้คัดลอกพาธเพื่อเปิดเป้าหมายโดยตรง";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing." = "Doro工具箱 ไม่ตามลิงก์สัญลักษณ์เพื่อดู แชร์ หรือแก้ไข";
+"Doro工具箱 does not follow symbolic links for viewing, sharing or editing. Use Copy Path to open the target explicitly." = "Doro工具箱 ไม่ตามลิงก์สัญลักษณ์เพื่อดู แชร์ หรือแก้ไข ใช้คัดลอกพาธเพื่อเปิดเป้าหมายโดยตรง";
 "Symbolic links are not followed for viewing, sharing or editing." = "ไม่ตามลิงก์สัญลักษณ์เพื่อดู แชร์ หรือแก้ไข";
 "Delete backups?" = "ลบข้อมูลสำรองหรือไม่";
 "Delete backup?" = "ลบข้อมูลสำรองหรือไม่";
@@ -308,7 +308,7 @@
 "Not cleared" = "ไม่ได้ล้างข้อมูล";
 "The backup did not complete, so nothing was deleted." = "การสำรองข้อมูลไม่เสร็จสมบูรณ์ จึงไม่มีการลบสิ่งใด";
 "Clear Without Backup" = "ล้างโดยไม่สำรองข้อมูล";
-"\n\nThis backup is unverified (%@). WQ Files will re-check its parts before changing anything." = "\n\nไม่ได้ตรวจสอบข้อมูลสำรองนี้ (%@) WQ Files จะตรวจสอบส่วนต่างๆ อีกครั้งก่อนเปลี่ยนแปลงใดๆ";
+"\n\nThis backup is unverified (%@). Doro工具箱 will re-check its parts before changing anything." = "\n\nไม่ได้ตรวจสอบข้อมูลสำรองนี้ (%@) Doro工具箱 จะตรวจสอบส่วนต่างๆ อีกครั้งก่อนเปลี่ยนแปลงใดๆ";
 "no typed manifest" = "ไม่มีรายการระบุประเภท";
 "Replaces the app's current Documents and Library with the backup from %@; tmp is left untouched. The current data is backed up first, and put back if anything fails. Close the app first: a running app can make the operation non-snapshot-consistent.%@" = "แทนที่ Documents และ Library ปัจจุบันของแอปด้วยข้อมูลสำรองจาก %@ โดย tmp จะไม่ถูกแตะต้อง ระบบจะสำรองข้อมูลปัจจุบันไว้ก่อน และนำกลับคืนหากเกิดข้อผิดพลาด ปิดแอปก่อน เพราะแอปที่กำลังทำงานอาจทำให้การดำเนินการไม่สอดคล้องกับสแนปช็อต%@";
 "Restoring %@…" = "กำลังกู้คืน %@…";
@@ -532,9 +532,9 @@
 "Scan all files?" = "สแกนไฟล์ทั้งหมดหรือไม่";
 "Not Now" = "ไม่ใช่ตอนนี้";
 "Start Scan" = "เริ่มสแกน";
-"To list %@, WQ Files has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep WQ Files open while it scans." = "หากต้องการแสดงรายการ %@ WQ Files ต้องตรวจสอบทุกไฟล์บนอุปกรณ์นี้หนึ่งครั้ง: %@ ไฟล์ %@\n\nต้องทำเฉพาะครั้งแรกเท่านั้น การสแกนครั้งต่อไปจะตรวจสอบเฉพาะไฟล์ใหม่และใช้เวลาไม่กี่วินาที\n\nเปิด WQ Files ค้างไว้ขณะสแกน";
+"To list %@, Doro工具箱 has to check every file on this device once: %@ files, %@.\n\nThis is only needed the first time; later scans only check new files and take seconds.\n\nKeep Doro工具箱 open while it scans." = "หากต้องการแสดงรายการ %@ Doro工具箱 ต้องตรวจสอบทุกไฟล์บนอุปกรณ์นี้หนึ่งครั้ง: %@ ไฟล์ %@\n\nต้องทำเฉพาะครั้งแรกเท่านั้น การสแกนครั้งต่อไปจะตรวจสอบเฉพาะไฟล์ใหม่และใช้เวลาไม่กี่วินาที\n\nเปิด Doro工具箱 ค้างไว้ขณะสแกน";
 "Scanning all files" = "กำลังสแกนไฟล์ทั้งหมด";
-"iOS doesn't let WQ Files list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep WQ Files open. Switching to another app or locking the screen pauses the scan." = "iOS ไม่อนุญาตให้ WQ Files แสดงรายการโฟลเดอร์เหล่านี้โดยตรง จึงต้องตรวจสอบทุกไฟล์บนอุปกรณ์นี้หนึ่งครั้ง จะช้าเฉพาะครั้งแรกเท่านั้น การสแกนครั้งต่อไปจะตรวจสอบเฉพาะไฟล์ใหม่\n\nเปิด WQ Files ค้างไว้ การสลับไปแอปอื่นหรือล็อกหน้าจอจะหยุดการสแกนชั่วคราว";
+"iOS doesn't let Doro工具箱 list these folders directly, so it checks every file on this device once. This is only slow the first time: later scans only check new files.\n\nKeep Doro工具箱 open. Switching to another app or locking the screen pauses the scan." = "iOS ไม่อนุญาตให้ Doro工具箱 แสดงรายการโฟลเดอร์เหล่านี้โดยตรง จึงต้องตรวจสอบทุกไฟล์บนอุปกรณ์นี้หนึ่งครั้ง จะช้าเฉพาะครั้งแรกเท่านั้น การสแกนครั้งต่อไปจะตรวจสอบเฉพาะไฟล์ใหม่\n\nเปิด Doro工具箱 ค้างไว้ การสลับไปแอปอื่นหรือล็อกหน้าจอจะหยุดการสแกนชั่วคราว";
 "Starting…" = "กำลังเริ่ม…";
 "Hide" = "ซ่อน";
 "Stop Scan" = "หยุดสแกน";
@@ -547,7 +547,7 @@
 "the app folders" = "โฟลเดอร์แอป";
 "Signing problem: no App Group" = "ปัญหาการลงนาม: ไม่มี App Group";
 "Signing Help" = "ความช่วยเหลือการลงนาม";
-"WQ Files %@ (%@) by kolbicz" = "WQ Files %@ (%@) โดย kolbicz";
+"Doro工具箱 %@ (%@) by kolbicz" = "Doro工具箱 %@ (%@) โดย kolbicz";
 "SQLite Viewer" = "SQLite Viewer";
 "SQL" = "SQL";
 "Copy" = "คัดลอก";
@@ -631,7 +631,7 @@
 "Show" = "แสดง";
 "Copy Bundle ID" = "คัดลอก Bundle ID";
 "%@ of data" = "ข้อมูล %@";
-"WQ Files has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "WQ Files ไม่มี App Group จึงเปิดโฟลเดอร์ของแอปอื่นไม่ได้ ให้ลงชื่อใหม่ด้วยเครื่องมือที่คง App Group ไว้ (ดูหัวข้อ Signing ใน README)";
+"Doro工具箱 has no App Group, so it can't open other apps' folders. Re-sign it with a tool that keeps the App Group (see Signing in the README)." = "Doro工具箱 ไม่มี App Group จึงเปิดโฟลเดอร์ของแอปอื่นไม่ได้ ให้ลงชื่อใหม่ด้วยเครื่องมือที่คง App Group ไว้ (ดูหัวข้อ Signing ใน README)";
 "Save in progress" = "กำลังบันทึก";
 "Wait for the current save to finish before leaving or making more changes." = "รอให้การบันทึกปัจจุบันเสร็จก่อนออกหรือทำการเปลี่ยนแปลงเพิ่มเติม";
 "Discard changes?" = "ละทิ้งการเปลี่ยนแปลงหรือไม่";
@@ -651,7 +651,7 @@
 "Select Backups" = "เลือกข้อมูลสำรอง";
 "Delete Backup…" = "ลบข้อมูลสำรอง…";
 "No App Group" = "ไม่มี App Group";
-"WQ Files by kolbicz" = "WQ Files โดย kolbicz";
+"Doro工具箱 by kolbicz" = "Doro工具箱 โดย kolbicz";
 "Sandbox escape: worse_query by @forcequitOS" = "Sandbox escape: worse_query โดย @forcequitOS";
 "On iOS 26, System Data and System Groups can't be reached (worse_query covers them on iOS 27 only), and Internal Daemons need a scan of every file id: the first one can take most of an hour on a well-used device, later ones only check new files." = "บน iOS 26 เข้าถึงข้อมูลระบบและ System Groups ไม่ได้ (worse_query รองรับเฉพาะ iOS 27) และ Internal Daemons ต้องสแกนไฟล์ทุก id: ครั้งแรกอาจใช้เวลาเกือบชั่วโมงบนเครื่องที่ใช้งานมาก ครั้งต่อไปจะตรวจเฉพาะไฟล์ใหม่";
 "Overwritten and deleted files are copied to Backups first (also visible in the Files app). Long-press a backup to restore it." = "ไฟล์ที่ถูกเขียนทับและลบจะถูกคัดลอกไปยังข้อมูลสำรองก่อน (มองเห็นได้ในแอปไฟล์ด้วย) กดค้างที่ข้อมูลสำรองเพื่อกู้คืน";
@@ -665,7 +665,7 @@
 "the crash-log target is not the expected canonical directory" = "เป้าหมายบันทึกข้อขัดข้องไม่ใช่ไดเรกทอรีมาตรฐานที่คาดไว้";
 "the scanned cache targets are incomplete" = "เป้าหมายแคชที่สแกนไม่สมบูรณ์";
 "the app container identity or ancestry is unavailable" = "ไม่มีข้อมูลตัวตนหรือสายบรรพบุรุษของคอนเทนเนอร์แอป";
-"WQ Files %@ (%@)\n%@\n\n%@" = "WQ Files %@ (%@)\n%@\n\n%@";
+"Doro工具箱 %@ (%@)\n%@\n\n%@" = "Doro工具箱 %@ (%@)\n%@\n\n%@";
 "0 KB" = "0 KB";
 "Discard" = "ละทิ้ง";
 "%@ · %@ · no identifier" = "%@ · %@ · ไม่มีตัวระบุ";
@@ -681,7 +681,7 @@
 "change" = "เปลี่ยนแปลง";
 "read" = "อ่าน";
 "open" = "เปิด";
-"This file belongs to %@ (mode %o) and only its owner may %@ it. WQ Files reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "ไฟล์นี้เป็นของ %@ (โหมด %o) และมีเพียงเจ้าของเท่านั้นที่ %@ ได้ WQ Files เข้าถึงโฟลเดอร์ได้ แต่ทำงานในชื่อ mobile (uid %d) จึงไม่มีแอปใดที่ %@ ไฟล์นี้ได้";
+"This file belongs to %@ (mode %o) and only its owner may %@ it. Doro工具箱 reaches the folder, but runs as mobile (uid %d), so no app can %@ this file." = "ไฟล์นี้เป็นของ %@ (โหมด %o) และมีเพียงเจ้าของเท่านั้นที่ %@ ได้ Doro工具箱 เข้าถึงโฟลเดอร์ได้ แต่ทำงานในชื่อ mobile (uid %d) จึงไม่มีแอปใดที่ %@ ไฟล์นี้ได้";
 "The archive would be larger than 4 GB, which isn't supported yet." = "ไฟล์เก็บถาวรจะมีขนาดเกิน 4 GB ซึ่งยังไม่รองรับ";
 "Too many items for one ZIP (more than 65535)." = "มีรายการมากเกินไปสำหรับ ZIP เดียว (เกิน 65535)";
 "Can't read %@ (%s)" = "ไม่สามารถอ่าน %@ ได้ (%s)";
@@ -712,8 +712,8 @@
 "An item named \"%@\" is already there" = "มีรายการชื่อ \"%@\" อยู่ที่นั่นแล้ว";
 "Items can't be moved to another volume" = "ไม่สามารถย้ายรายการไปยังวอลุ่มอื่นได้";
 
-/* Plural forms and WQ Files 0.9 localization additions. */
-"%@ isn't installed, or WQ Files can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ ไม่ได้ติดตั้ง หรือ WQ Files เข้าถึงข้อมูลไม่ได้ กู้คืนข้อมูลสำรองได้เฉพาะในแอปที่ติดตั้งแล้ว: ติดตั้ง เปิดหนึ่งครั้ง แล้วลองอีกครั้ง";
+/* Plural forms and Doro工具箱 0.9 localization additions. */
+"%@ isn't installed, or Doro工具箱 can't reach its data. A backup can only be restored into the installed app: install it, open it once, then try again." = "%@ ไม่ได้ติดตั้ง หรือ Doro工具箱 เข้าถึงข้อมูลไม่ได้ กู้คืนข้อมูลสำรองได้เฉพาะในแอปที่ติดตั้งแล้ว: ติดตั้ง เปิดหนึ่งครั้ง แล้วลองอีกครั้ง";
 "%@ selected in %lu item" = "เลือก %@ ใน %lu รายการ";
 "%@ selected in %lu items" = "เลือก %@ ใน %lu รายการ";
 "%ld item" = "%ld รายการ";
@@ -748,8 +748,8 @@
 "There is no complete backup of %@ to restore." = "ไม่มีข้อมูลสำรองที่สมบูรณ์ของ %@ ให้กู้คืน";
 "This permanently removes %lu complete backup and everything inside it. It cannot be undone." = "การดำเนินการนี้จะลบข้อมูลสำรองที่สมบูรณ์ %lu รายการและทุกอย่างในนั้นอย่างถาวร ไม่สามารถเลิกทำได้";
 "This permanently removes %lu complete backups and everything inside them. It cannot be undone." = "การดำเนินการนี้จะลบข้อมูลสำรองที่สมบูรณ์ %lu รายการและทุกอย่างในนั้นอย่างถาวร ไม่สามารถเลิกทำได้";
-"Turn on Allow Deleting on the start screen of WQ Files to delete, clear or clean." = "เปิด อนุญาตให้ลบ ในหน้าจอเริ่มต้นของ WQ Files เพื่อลบ ล้าง หรือทำความสะอาด";
-"WQ Files needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install WQ Files with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "WQ Files ต้องใช้ App Group เพื่อเข้าถึงโฟลเดอร์ของแอปอื่น และเครื่องมือที่ลงชื่อได้ลบออกไปแล้ว หากไม่มีจะเปิดอะไรไม่ได้ และรายการแอปจะว่างเปล่าหรือแสดง \"NO TOKEN\"\n\nติดตั้ง WQ Files ใหม่ด้วย AltStore, SideStore หรือ Impactor (สร้าง App Group ให้ ส่วน Sideloadly ไม่สร้าง) หรือใช้ provisioning profile ที่มี App Group ใบรับรองแบบ Wildcard (ที่หลายการตั้งค่า Feather/ESign ใช้) ใช้ไม่ได้";
+"Turn on Allow Deleting on the start screen of Doro工具箱 to delete, clear or clean." = "เปิด อนุญาตให้ลบ ในหน้าจอเริ่มต้นของ Doro工具箱 เพื่อลบ ล้าง หรือทำความสะอาด";
+"Doro工具箱 needs an App Group to reach other apps' folders, and the tool that signed it removed it. Without it nothing can be opened, and app lists stay empty or show \"NO TOKEN\".\n\nRe-install Doro工具箱 with AltStore, SideStore or Impactor (they create the App Group; Sideloadly doesn't), or with a provisioning profile that contains one. Wildcard certificates (as used by many Feather/ESign setups) can't." = "Doro工具箱 ต้องใช้ App Group เพื่อเข้าถึงโฟลเดอร์ของแอปอื่น และเครื่องมือที่ลงชื่อได้ลบออกไปแล้ว หากไม่มีจะเปิดอะไรไม่ได้ และรายการแอปจะว่างเปล่าหรือแสดง \"NO TOKEN\"\n\nติดตั้ง Doro工具箱 ใหม่ด้วย AltStore, SideStore หรือ Impactor (สร้าง App Group ให้ ส่วน Sideloadly ไม่สร้าง) หรือใช้ provisioning profile ที่มี App Group ใบรับรองแบบ Wildcard (ที่หลายการตั้งค่า Feather/ESign ใช้) ใช้ไม่ได้";
 
 /* 0.9.1: offloaded apps, Import as Backup, Keep Data Before Restore */
 " · offloaded" = " · ถอนการติดตั้งชั่วคราว";
@@ -777,8 +777,8 @@
 "Open %@ to use the restored Documents and Library; tmp was not changed. The data from before was not kept (Keep Data Before Restore is off)." = "เปิด %@ เพื่อใช้ Documents และ Library ที่กู้คืน ส่วน tmp ไม่มีการเปลี่ยนแปลง ข้อมูลก่อนหน้าไม่ได้ถูกเก็บไว้ (เก็บข้อมูลสำรองก่อนกู้คืน ปิดอยู่)";
 "Language" = "ภาษา";
 "System Default" = "ค่าเริ่มต้นของระบบ";
-"Restart WQ Files" = "เริ่ม WQ Files ใหม่";
-"The new language is used the next time WQ Files starts." = "ภาษาใหม่จะมีผลเมื่อ WQ Files เริ่มทำงานครั้งถัดไป";
+"Restart Doro工具箱" = "เริ่ม Doro工具箱 ใหม่";
+"The new language is used the next time Doro工具箱 starts." = "ภาษาใหม่จะมีผลเมื่อ Doro工具箱 เริ่มทำงานครั้งถัดไป";
 "Later" = "ภายหลัง";
 "Quit Now" = "ออกตอนนี้";
 "%lld rows changed in the copy. Save on the database screen writes them to the app." = "เปลี่ยนแปลง %lld แถวในสำเนา การบันทึกในหน้าจอฐานข้อมูลจะเขียนลงในแอป";
@@ -788,7 +788,7 @@
 "Cannot change" = "ไม่สามารถเปลี่ยนแปลงได้";
 "Could not make a safety copy first: %@" = "ไม่สามารถสร้างสำเนาสำรองเพื่อความปลอดภัยก่อนได้: %@";
 "Edit database" = "แก้ไขฐานข้อมูล";
-"Editing WQ Files' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "กำลังแก้ไขสำเนาของ WQ Files: แตะค่าในแถวเพื่อเปลี่ยน ปัดแถวเพื่อลบ หรือใช้ SQL การบันทึกจะเขียนสำเนาลงในแอป บังคับปิดแอปก่อน";
+"Editing Doro工具箱' copy: tap a value in a row to change it, swipe a row to delete it, or use SQL. Save writes the copy to the app; force-quit the app first." = "กำลังแก้ไขสำเนาของ Doro工具箱: แตะค่าในแถวเพื่อเปลี่ยน ปัดแถวเพื่อลบ หรือใช้ SQL การบันทึกจะเขียนสำเนาลงในแอป บังคับปิดแอปก่อน";
 "Force-quit the app first (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "บังคับปิดแอปก่อน (ปัดแอปออกในตัวสลับแอป): การบันทึกขณะแอปทำงานอาจทำให้ข้อมูลเสียหาย ฐานข้อมูลเดิมจะเก็บไว้ในข้อมูลสำรอง";
 "Not saved" = "ไม่ได้บันทึก";
 "Only read-only statements (SELECT, read-only PRAGMA, EXPLAIN) can run here. Tap Edit on the database screen to change it." = "รันได้เฉพาะคำสั่งแบบอ่านอย่างเดียว (SELECT, PRAGMA แบบอ่านอย่างเดียว, EXPLAIN) ที่นี่ แตะ แก้ไข ในหน้าจอฐานข้อมูลเพื่อเปลี่ยนแปลง";
@@ -810,7 +810,7 @@
 "The edited copy failed SQLite's integrity check, so nothing was saved: %@" = "สำเนาที่แก้ไขไม่ผ่านการตรวจสอบความสมบูรณ์ของ SQLite จึงไม่ได้บันทึกอะไร: %@";
 "The row is gone." = "ไม่พบแถวนี้แล้ว";
 "Unsaved changes" = "การเปลี่ยนแปลงที่ยังไม่ได้บันทึก";
-"You change WQ Files' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "คุณกำลังเปลี่ยนสำเนาของ WQ Files: แก้ไขค่าโดยแตะในแถว ลบแถวโดยปัด หรือรัน SQL จะไม่มีอะไรไปถึงแอปจนกว่าคุณจะแตะ บันทึก\n\nก่อนบันทึก ให้บังคับปิดแอป (ปัดแอปออกในตัวสลับแอป): การบันทึกขณะแอปทำงานอาจทำให้ข้อมูลเสียหาย ฐานข้อมูลเดิมจะเก็บไว้ในข้อมูลสำรอง";
+"You change Doro工具箱' copy: edit a value by tapping it in a row, delete rows by swiping, or run SQL. Nothing reaches the app until you tap Save.\n\nBefore saving, force-quit the app (swipe it away in the app switcher): saving while it runs can corrupt its data. The previous database is kept in Backups." = "คุณกำลังเปลี่ยนสำเนาของ Doro工具箱: แก้ไขค่าโดยแตะในแถว ลบแถวโดยปัด หรือรัน SQL จะไม่มีอะไรไปถึงแอปจนกว่าคุณจะแตะ บันทึก\n\nก่อนบันทึก ให้บังคับปิดแอป (ปัดแอปออกในตัวสลับแอป): การบันทึกขณะแอปทำงานอาจทำให้ข้อมูลเสียหาย ฐานข้อมูลเดิมจะเก็บไว้ในข้อมูลสำรอง";
 "%@ is not a folder anymore." = "%@ ไม่ใช่โฟลเดอร์อีกต่อไป";
 "%@ is removed from Backups and can't be restored anymore." = "%@ ถูกลบออกจากข้อมูลสำรองและไม่สามารถกู้คืนได้อีก";
 "%lu backed-up files are removed from Backups (including files deleted or overwritten at the same time) and can't be restored anymore." = "ไฟล์สำรอง %lu ไฟล์ถูกลบออกจากข้อมูลสำรอง (รวมถึงไฟล์ที่ถูกลบหรือเขียนทับในเวลาเดียวกัน) และไม่สามารถกู้คืนได้อีก";
@@ -823,17 +823,17 @@
 "Checking the App Group…" = "กำลังตรวจสอบ App Group…";
 "Continue" = "ดำเนินการต่อ";
 "Continue Anyway" = "ดำเนินการต่อไป";
-"Continue Anyway opens WQ Files as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "ดำเนินการต่อไป จะเปิด WQ Files ตามสภาพ: รายการอาจว่างเปล่าหรือไม่ถูกต้อง และไม่ควรกู้คืนหรือลบสิ่งใดโดยอ้างอิงจากรายการเหล่านั้น";
+"Continue Anyway opens Doro工具箱 as it is: lists may be empty or wrong, and nothing should be restored or deleted based on them." = "ดำเนินการต่อไป จะเปิด Doro工具箱 ตามสภาพ: รายการอาจว่างเปล่าหรือไม่ถูกต้อง และไม่ควรกู้คืนหรือลบสิ่งใดโดยอ้างอิงจากรายการเหล่านั้น";
 "Continue Anyway?" = "ดำเนินการต่อไปหรือไม่";
 "Copy Original Path" = "คัดลอกพาธต้นฉบับ";
 "Delete All" = "ลบทั้งหมด";
 "Delete Permanently" = "ลบถาวร";
 "Delete Permanently?" = "ลบถาวรหรือไม่";
-"Files WQ Files deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "ไฟล์ที่ WQ Files ลบ จากสำเนาในข้อมูลสำรอง กู้คืนจะนำไฟล์กลับไปที่เดิม (สร้างโฟลเดอร์ที่หายไปให้) ลบถาวรจะลบออกจากข้อมูลสำรอง กดค้างเพื่อดูตัวเลือกทั้งหมด";
+"Files Doro工具箱 deleted, from their copies in Backups. Restore puts a file back where it was (missing folders are created); Delete Permanently removes it from Backups. Long-press for all options." = "ไฟล์ที่ Doro工具箱 ลบ จากสำเนาในข้อมูลสำรอง กู้คืนจะนำไฟล์กลับไปที่เดิม (สร้างโฟลเดอร์ที่หายไปให้) ลบถาวรจะลบออกจากข้อมูลสำรอง กดค้างเพื่อดูตัวเลือกทั้งหมด";
 "Finding other apps' folders…" = "กำลังค้นหาโฟลเดอร์ของแอปอื่น…";
 "Lists may be empty or wrong. Don't restore, clean or delete anything based on them." = "รายการอาจว่างเปล่าหรือไม่ถูกต้อง อย่ากู้คืน ล้าง หรือลบสิ่งใดโดยอ้างอิงจากรายการเหล่านั้น";
 "Looking through Backups…" = "กำลังค้นหาในข้อมูลสำรอง…";
-"Missing: the tool that signed WQ Files removed it. Re-install with AltStore, SideStore or Impactor." = "ขาดหายไป: เครื่องมือที่ลงชื่อ WQ Files ได้ลบออก ติดตั้งใหม่ด้วย AltStore, SideStore หรือ Impactor";
+"Missing: the tool that signed Doro工具箱 removed it. Re-install with AltStore, SideStore or Impactor." = "ขาดหายไป: เครื่องมือที่ลงชื่อ Doro工具箱 ได้ลบออก ติดตั้งใหม่ด้วย AltStore, SideStore หรือ Impactor";
 "Needs sandbox access." = "ต้องใช้สิทธิ์เข้าถึงแซนด์บ็อกซ์";
 "Needs the App Group." = "ต้องใช้ App Group";
 "None of %lu sampled app folders could be opened: the sandbox escape doesn't work on iOS %@." = "เปิดโฟลเดอร์แอปที่สุ่มตรวจ %lu โฟลเดอร์ไม่ได้เลย: sandbox escape ใช้ไม่ได้บน iOS %@";
@@ -841,7 +841,7 @@
 "Not everything works here" = "ใช้งานได้ไม่ครบทุกอย่างที่นี่";
 "Nothing deleted" = "ไม่มีสิ่งที่ถูกลบ";
 "Nothing to check." = "ไม่มีสิ่งที่ต้องตรวจสอบ";
-"Only WQ Files' own folder was found (%lu in total)." = "พบเฉพาะโฟลเดอร์ของ WQ Files เอง (รวม %lu)";
+"Only Doro工具箱' own folder was found (%lu in total)." = "พบเฉพาะโฟลเดอร์ของ Doro工具箱 เอง (รวม %lu)";
 "Other apps' folders" = "โฟลเดอร์ของแอปอื่น";
 "Put %@ back in\n%@?" = "นำ %@ กลับไปไว้ใน\n%@ หรือไม่";
 "Recently Deleted" = "ลบล่าสุด";
@@ -850,13 +850,13 @@
 "The scan for them was declined; Apps and the Cache Cleaner stay empty until it runs." = "การสแกนถูกปฏิเสธ แอปและตัวล้างแคชจะว่างเปล่าจนกว่าจะสแกน";
 "They can't be found on this device (see Log for the reason)." = "ไม่พบบนอุปกรณ์เครื่องนี้ (ดูสาเหตุในบันทึก)";
 "Try Again" = "ลองอีกครั้ง";
-"WQ Files can't work properly here" = "WQ Files ทำงานได้ไม่ถูกต้องที่นี่";
-"WQ Files stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "WQ Files หยุดทำงานที่นี่แทนการแสดงรายการว่างเปล่าหรือไม่ถูกต้อง iOS เวอร์ชันใหม่อาจบล็อกการเข้าถึงแซนด์บ็อกซ์ โปรดส่งบันทึกพร้อมรุ่นอุปกรณ์และเวอร์ชัน iOS ของคุณ";
-"iOS %@ hasn't been tested with this version of WQ Files." = "iOS %@ ยังไม่ได้ทดสอบกับ WQ Files เวอร์ชันนี้";
+"Doro工具箱 can't work properly here" = "Doro工具箱 ทำงานได้ไม่ถูกต้องที่นี่";
+"Doro工具箱 stopped here instead of showing empty or wrong lists. A new iOS version can block its sandbox access; please send the Log with your device and iOS version." = "Doro工具箱 หยุดทำงานที่นี่แทนการแสดงรายการว่างเปล่าหรือไม่ถูกต้อง iOS เวอร์ชันใหม่อาจบล็อกการเข้าถึงแซนด์บ็อกซ์ โปรดส่งบันทึกพร้อมรุ่นอุปกรณ์และเวอร์ชัน iOS ของคุณ";
+"iOS %@ hasn't been tested with this version of Doro工具箱." = "iOS %@ ยังไม่ได้ทดสอบกับ Doro工具箱 เวอร์ชันนี้";
 "iOS version" = "เวอร์ชัน iOS";
 "Reset Access Cache" = "รีเซ็ตแคชการเข้าถึง";
 "Reset Access Cache?" = "รีเซ็ตแคชการเข้าถึงหรือไม่";
-"Another app that shares WQ Files' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "แอปอื่นที่ใช้ App Group ร่วมกับ WQ Files (เช่นแอปที่ลงชื่อด้วยเครื่องมือเดียวกัน) อาจทิ้งโฟลเดอร์แคชไว้ในสภาพที่บล็อกการเข้าถึงแซนด์บ็อกซ์ การรีเซ็ตจะคืนสภาพเดิม ไม่มีสิ่งใดถูกลบ";
+"Another app that shares Doro工具箱' App Group (for example one signed with the same tool) can leave its cache folder in a state that blocks sandbox access. This puts it back; nothing is deleted." = "แอปอื่นที่ใช้ App Group ร่วมกับ Doro工具箱 (เช่นแอปที่ลงชื่อด้วยเครื่องมือเดียวกัน) อาจทิ้งโฟลเดอร์แคชไว้ในสภาพที่บล็อกการเข้าถึงแซนด์บ็อกซ์ การรีเซ็ตจะคืนสภาพเดิม ไม่มีสิ่งใดถูกลบ";
 "Reset" = "รีเซ็ต";
 "Reset failed" = "รีเซ็ตไม่สำเร็จ";
 "The App Group is missing." = "ไม่มี App Group";
@@ -900,7 +900,7 @@
 "Backups could not be read: %@" = "อ่านข้อมูลสำรองไม่ได้: %@";
 "Some backups could not be read, so this list may be incomplete." = "อ่านข้อมูลสำรองบางรายการไม่ได้ รายการนี้จึงอาจไม่ครบถ้วน";
 "Backup was edited" = "ข้อมูลสำรองถูกแก้ไข";
-"The files in %@ of this backup changed after WQ Files made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "ไฟล์ใน %@ ของข้อมูลสำรองนี้เปลี่ยนแปลงหลังจาก WQ Files สร้างขึ้น เช่น มีการนำไฟล์จากข้อมูลสำรองอื่นใส่เข้ามา กู้คืนข้อมูลสำรองตามสภาพปัจจุบันหรือไม่ ข้อมูลปัจจุบันของแอปจะยังคงถูกสำรองก่อน";
+"The files in %@ of this backup changed after Doro工具箱 made it, for example because files from another backup were put in. Restore the backup as it is now? The app's current data is still backed up first." = "ไฟล์ใน %@ ของข้อมูลสำรองนี้เปลี่ยนแปลงหลังจาก Doro工具箱 สร้างขึ้น เช่น มีการนำไฟล์จากข้อมูลสำรองอื่นใส่เข้ามา กู้คืนข้อมูลสำรองตามสภาพปัจจุบันหรือไม่ ข้อมูลปัจจุบันของแอปจะยังคงถูกสำรองก่อน";
 "Restore Anyway" = "กู้คืนแม้มีการแก้ไข";
 "Replace existing files?" = "แทนที่ไฟล์ที่มีอยู่หรือไม่";
 "%lu of the %lu files already exist here. Replace them (each is backed up first) or keep both?" = "ไฟล์ %lu จาก %lu ไฟล์มีอยู่ที่นี่แล้ว แทนที่ (แต่ละไฟล์จะถูกสำรองก่อน) หรือเก็บไว้ทั้งสอง";
@@ -946,11 +946,11 @@
 "Tap a row to copy its value." = "แตะแถวเพื่อคัดลอกค่า";
 "Reopen Last Folder" = "เปิดโฟลเดอร์ล่าสุดอีกครั้ง";
 "Check for Updates" = "ตรวจสอบการอัปเดต";
-"WQ Files %@ is available" = "WQ Files %@ พร้อมใช้งานแล้ว";
-"Reopen Last Folder: WQ Files starts in the folder you were in. Check for Updates: twice a day WQ Files reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "เปิดโฟลเดอร์ล่าสุดอีกครั้ง: WQ Files จะเริ่มต้นในโฟลเดอร์ที่คุณอยู่ล่าสุด ตรวจสอบการอัปเดต: WQ Files จะอ่านรายการรุ่นสาธารณะบน GitHub วันละสองครั้ง และแสดงข้อความเมื่อมีเวอร์ชันใหม่ โดยจะไม่มีการส่งข้อมูลใดๆ เกี่ยวกับอุปกรณ์ของคุณ";
-"WQ Files has no access to the app's data right now (%@). Nothing was backed up; try again." = "ขณะนี้ WQ Files เข้าถึงข้อมูลของแอปไม่ได้ (%@) ไม่มีการสำรองข้อมูลใดๆ โปรดลองอีกครั้ง";
+"Doro工具箱 %@ is available" = "Doro工具箱 %@ พร้อมใช้งานแล้ว";
+"Reopen Last Folder: Doro工具箱 starts in the folder you were in. Check for Updates: twice a day Doro工具箱 reads the public release list on GitHub and shows a note when a new version is out; nothing about your device is sent." = "เปิดโฟลเดอร์ล่าสุดอีกครั้ง: Doro工具箱 จะเริ่มต้นในโฟลเดอร์ที่คุณอยู่ล่าสุด ตรวจสอบการอัปเดต: Doro工具箱 จะอ่านรายการรุ่นสาธารณะบน GitHub วันละสองครั้ง และแสดงข้อความเมื่อมีเวอร์ชันใหม่ โดยจะไม่มีการส่งข้อมูลใดๆ เกี่ยวกับอุปกรณ์ของคุณ";
+"Doro工具箱 has no access to the app's data right now (%@). Nothing was backed up; try again." = "ขณะนี้ Doro工具箱 เข้าถึงข้อมูลของแอปไม่ได้ (%@) ไม่มีการสำรองข้อมูลใดๆ โปรดลองอีกครั้ง";
 "The app's data folder holds neither Documents nor Library, so there is nothing to back up." = "โฟลเดอร์ข้อมูลของแอปไม่มีทั้ง Documents และ Library จึงไม่มีอะไรให้สำรอง";
-"This backup is empty (it was made while WQ Files had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "ข้อมูลสำรองนี้ว่างเปล่า (สร้างขึ้นขณะที่ WQ Files เข้าถึงแอปไม่ได้) การกู้คืนจะลบข้อมูลของแอป จึงไม่มีการเปลี่ยนแปลงใดๆ";
+"This backup is empty (it was made while Doro工具箱 had no access to the app). Restoring it would delete the app's data, so nothing was changed." = "ข้อมูลสำรองนี้ว่างเปล่า (สร้างขึ้นขณะที่ Doro工具箱 เข้าถึงแอปไม่ได้) การกู้คืนจะลบข้อมูลของแอป จึงไม่มีการเปลี่ยนแปลงใดๆ";
 "Quick Check" = "ตรวจสอบด่วน";
 "All your containers, in one place." = "คอนเทนเนอร์ทั้งหมดของคุณ ในที่เดียว";
 "System" = "ระบบ";
@@ -963,22 +963,22 @@
 "About" = "เกี่ยวกับ";
 "New Design" = "ดีไซน์ใหม่";
 "Troubleshooting" = "การแก้ไขปัญหา";
-"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs WQ Files' own cache folder in its App Group; nothing is deleted." = "รีเซ็ตแคชการเข้าถึง: ใช้เมื่อโฟลเดอร์ยังว่างอยู่ หรือการตรวจสอบตอนเริ่มแจ้งว่าการเข้าถึงแซนด์บ็อกซ์ล้มเหลว ระบบจะซ่อมโฟลเดอร์แคชของ WQ Files เองใน App Group โดยไม่มีการลบสิ่งใด";
+"Reset Access Cache: use it when folders stay empty or the startup check says sandbox access failed. It repairs Doro工具箱' own cache folder in its App Group; nothing is deleted." = "รีเซ็ตแคชการเข้าถึง: ใช้เมื่อโฟลเดอร์ยังว่างอยู่ หรือการตรวจสอบตอนเริ่มแจ้งว่าการเข้าถึงแซนด์บ็อกซ์ล้มเหลว ระบบจะซ่อมโฟลเดอร์แคชของ Doro工具箱 เองใน App Group โดยไม่มีการลบสิ่งใด";
 "Access Cache Reset" = "รีเซ็ตแคชการเข้าถึงแล้ว";
 "The access cache was repaired. If folders still stay empty, send the Log." = "ซ่อมแคชการเข้าถึงแล้ว หากโฟลเดอร์ยังว่างอยู่ โปรดส่งบันทึก";
 "Plain Background" = "พื้นหลังเรียบ";
 "Plain Background: a plain black (or white) background instead of the colored one." = "พื้นหลังเรียบ: ใช้พื้นหลังสีดำ (หรือสีขาว) แบบเรียบแทนพื้นหลังสี";
 "No access" = "ไม่มีสิทธิ์เข้าถึง";
-"This item belongs to %@ (mode %o). WQ Files runs as mobile (uid %d) and can't open it; no app without root can." = "รายการนี้เป็นของ %@ (โหมด %o) WQ Files ทำงานเป็น mobile (uid %d) จึงเปิดไม่ได้ และไม่มีแอปใดที่ไม่มี root เปิดได้";
+"This item belongs to %@ (mode %o). Doro工具箱 runs as mobile (uid %d) and can't open it; no app without root can." = "รายการนี้เป็นของ %@ (โหมด %o) Doro工具箱 ทำงานเป็น mobile (uid %d) จึงเปิดไม่ได้ และไม่มีแอปใดที่ไม่มี root เปิดได้";
 "iOS %@ isn't supported" = "ไม่รองรับ iOS %@";
-"WQ Files needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "WQ Files ต้องใช้ iOS 26 หรือ 27 การหลุดจากแซนด์บ็อกซ์ที่ใช้มีอยู่เฉพาะในเวอร์ชันเหล่านั้น ดังนั้นในเวอร์ชันนี้ทุกโฟลเดอร์จะยังคงปิดอยู่\n\nบน iOS 17 และ 18 สามารถใช้ Cyanide เพื่อเรียกดูโฟลเดอร์เหล่านี้ได้";
+"Doro工具箱 needs iOS 26 or 27. The sandbox escape it uses only exists there, so on this version every folder stays closed.\n\nOn iOS 17 and 18, Cyanide can browse these folders." = "Doro工具箱 ต้องใช้ iOS 26 หรือ 27 การหลุดจากแซนด์บ็อกซ์ที่ใช้มีอยู่เฉพาะในเวอร์ชันเหล่านั้น ดังนั้นในเวอร์ชันนี้ทุกโฟลเดอร์จะยังคงปิดอยู่\n\nบน iOS 17 และ 18 สามารถใช้ Cyanide เพื่อเรียกดูโฟลเดอร์เหล่านี้ได้";
 "Cyanide on GitHub" = "Cyanide บน GitHub";
 "Scan paused" = "หยุดการสแกนชั่วคราวแล้ว";
 "Scan queued; previous results kept" = "การสแกนอยู่ในคิว เก็บผลลัพธ์ก่อนหน้าไว้";
 "Last scanned %@ · Pull to refresh" = "สแกนล่าสุด %@ · ดึงลงเพื่อรีเฟรช";
 "Pause Scan" = "หยุดการสแกนชั่วคราว";
 "Resume Scan" = "สแกนต่อ";
-"Could not save scan state. Keep WQ Files open." = "บันทึกสถานะการสแกนไม่ได้ โปรดเปิด WQ Files ค้างไว้";
+"Could not save scan state. Keep Doro工具箱 open." = "บันทึกสถานะการสแกนไม่ได้ โปรดเปิด Doro工具箱 ค้างไว้";
 "Share on Wi-Fi…" = "แชร์ผ่าน Wi-Fi…";
 "Wi-Fi Sharing" = "การแชร์ผ่าน Wi-Fi";
 "Sharing “%@” on Wi-Fi" = "กำลังแชร์ “%@” ผ่าน Wi-Fi";
@@ -991,16 +991,16 @@
 "Start Sharing" = "เริ่มแชร์";
 "Requests" = "คำขอ";
 "No requests yet." = "ยังไม่มีคำขอ";
-"Sharing stopped because WQ Files went to the background." = "หยุดแชร์แล้วเพราะ WQ Files ไปทำงานเบื้องหลัง";
+"Sharing stopped because Doro工具箱 went to the background." = "หยุดแชร์แล้วเพราะ Doro工具箱 ไปทำงานเบื้องหลัง";
 "Sharing could not start." = "ไม่สามารถเริ่มแชร์ได้";
 "Not connected to Wi-Fi. Connect to a Wi-Fi network (or turn on Personal Hotspot) and try again." = "ไม่ได้เชื่อมต่อ Wi-Fi เชื่อมต่อเครือข่าย Wi-Fi (หรือเปิดฮอตสปอตส่วนบุคคล) แล้วลองอีกครั้ง";
-"WQ Files: password required." = "WQ Files: ต้องใช้รหัสผ่าน";
+"Doro工具箱: password required." = "Doro工具箱: ต้องใช้รหัสผ่าน";
 "Not found." = "ไม่พบ";
-"WQ Files can't open this file." = "WQ Files เปิดไฟล์นี้ไม่ได้";
+"Doro工具箱 can't open this file." = "Doro工具箱 เปิดไฟล์นี้ไม่ได้";
 "The ZIP could not be created: %@" = "ไม่สามารถสร้าง ZIP: %@";
 "Up" = "ขึ้น";
 "Download Folder as ZIP" = "ดาวน์โหลดโฟลเดอร์เป็น ZIP";
-"WQ Files can't open this folder." = "WQ Files เปิดโฟลเดอร์นี้ไม่ได้";
+"Doro工具箱 can't open this folder." = "Doro工具箱 เปิดโฟลเดอร์นี้ไม่ได้";
 "This folder is empty." = "โฟลเดอร์นี้ว่างเปล่า";
 "Download" = "ดาวน์โหลด";
 "%lu items · read-only" = "%lu รายการ · อ่านอย่างเดียว";
@@ -1015,7 +1015,7 @@
 "Drop files here or use Upload Files. Nothing is overwritten." = "ลากไฟล์มาวางที่นี่หรือใช้อัปโหลดไฟล์ จะไม่มีการเขียนทับ";
 "Allow Uploads" = "อนุญาตการอัปโหลด";
 "Allow Uploads: the browser can add files to this folder and its subfolders. Nothing is overwritten or deleted: a file whose name is taken is saved as “name 2”." = "อนุญาตการอัปโหลด: เบราว์เซอร์สามารถเพิ่มไฟล์ลงในโฟลเดอร์นี้และโฟลเดอร์ย่อย จะไม่มีการเขียนทับหรือลบ: ไฟล์ที่ชื่อซ้ำจะถูกบันทึกเป็น “ชื่อ 2”";
-"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave WQ Files." = "เปิดที่อยู่นี้ในเบราว์เซอร์บนคอมพิวเตอร์หรือโทรศัพท์ที่ใช้ Wi-Fi เดียวกัน แล้วลงชื่อเข้าด้วยผู้ใช้และรหัสผ่าน เปิดและดาวน์โหลดไฟล์ได้ การแชร์จะหยุดเมื่อคุณปิดหน้าจอนี้หรือออกจาก WQ Files";
+"Open the address in a browser on a computer or phone on the same Wi-Fi and sign in with the user and password. Files can be opened and downloaded. Sharing stops when you close this screen or leave Doro工具箱." = "เปิดที่อยู่นี้ในเบราว์เซอร์บนคอมพิวเตอร์หรือโทรศัพท์ที่ใช้ Wi-Fi เดียวกัน แล้วลงชื่อเข้าด้วยผู้ใช้และรหัสผ่าน เปิดและดาวน์โหลดไฟล์ได้ การแชร์จะหยุดเมื่อคุณปิดหน้าจอนี้หรือออกจาก Doro工具箱";
 "The password is the one set in Settings → Sharing Password." = "รหัสผ่านคือรหัสที่ตั้งไว้ใน การตั้งค่า → รหัสผ่านการแชร์";
 "The password changes each time; set a fixed one in Settings → Sharing Password." = "รหัสผ่านเปลี่ยนทุกครั้ง ตั้งรหัสแบบคงที่ได้ใน การตั้งค่า → รหัสผ่านการแชร์";
 "Sharing Password" = "รหัสผ่านการแชร์";
@@ -1050,7 +1050,7 @@
 "by %@" = "โดย %@";
 "Import Theme…" = "นำเข้าธีม…";
 "Export Current Colors…" = "ส่งออกสีปัจจุบัน…";
-"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with WQ Files to install it." = "ธีมคือไฟล์ .wqtheme (JSON) ขนาดเล็กที่มีสีสำหรับโหมดมืดและโหมดสว่าง “ส่งออกสีปัจจุบัน” จะให้ไฟล์ตั้งต้น รูปแบบอธิบายไว้ใน README บน GitHub เปิดไฟล์ .wqtheme ด้วย WQ Files เพื่อติดตั้ง";
+"A theme is a small .wqtheme file (JSON) with colors for dark and light mode. Export Current Colors gives you one to start from; the format is described in the README on GitHub. Open a .wqtheme file with Doro工具箱 to install it." = "ธีมคือไฟล์ .wqtheme (JSON) ขนาดเล็กที่มีสีสำหรับโหมดมืดและโหมดสว่าง “ส่งออกสีปัจจุบัน” จะให้ไฟล์ตั้งต้น รูปแบบอธิบายไว้ใน README บน GitHub เปิดไฟล์ .wqtheme ด้วย Doro工具箱 เพื่อติดตั้ง";
 "Name of the theme" = "ชื่อธีม";
 "My Theme" = "ธีมของฉัน";
 "Export" = "ส่งออก";
@@ -1070,8 +1070,8 @@
 "Empty Folder" = "โฟลเดอร์ว่าง";
 "There are no files or folders in here." = "ไม่มีไฟล์หรือโฟลเดอร์ในนี้";
 "Empty" = "ว่าง";
-"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares WQ Files' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "ไม่สามารถเปิดโฟลเดอร์แอปที่ตรวจ %lu โฟลเดอร์ได้เลย แม้หลังซ่อมแคชการเข้าถึงแล้ว แอปอื่นที่ใช้ App Group เดียวกับ WQ Files (เช่นใน LiveContainer) อาจรบกวน: ปิดแอปนั้น แล้วแตะ รีเซ็ตแคชการเข้าถึง และ ลองอีกครั้ง หากยังเป็นอยู่ โปรดส่ง Log";
-"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape WQ Files is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "ไม่สามารถเปิดโฟลเดอร์แอปที่ตรวจ %lu โฟลเดอร์ได้เลย Apple ได้ปิดช่องโหว่ worse_query ซึ่งเป็นวิธีหลุดแซนด์บ็อกซ์ที่ WQ Files ใช้ ใน iOS 27.3 beta 2 จึงใช้งานบนบิลด์นี้ (%@) ไม่ได้ ใช้งานได้ถึง iOS 27.3 beta 1 และบน iOS 26";
+"None of %lu sampled app folders could be opened, even after repairing the access cache. Another app that shares Doro工具箱' App Group (for example in LiveContainer) can get in the way: close it, then tap Reset Access Cache and Try Again. If it stays like this, send the Log." = "ไม่สามารถเปิดโฟลเดอร์แอปที่ตรวจ %lu โฟลเดอร์ได้เลย แม้หลังซ่อมแคชการเข้าถึงแล้ว แอปอื่นที่ใช้ App Group เดียวกับ Doro工具箱 (เช่นใน LiveContainer) อาจรบกวน: ปิดแอปนั้น แล้วแตะ รีเซ็ตแคชการเข้าถึง และ ลองอีกครั้ง หากยังเป็นอยู่ โปรดส่ง Log";
+"None of %lu sampled app folders could be opened. Apple patched worse_query, the sandbox escape Doro工具箱 is built on, in iOS 27.3 beta 2, so it can't work on this build (%@). It works up to iOS 27.3 beta 1 and on iOS 26." = "ไม่สามารถเปิดโฟลเดอร์แอปที่ตรวจ %lu โฟลเดอร์ได้เลย Apple ได้ปิดช่องโหว่ worse_query ซึ่งเป็นวิธีหลุดแซนด์บ็อกซ์ที่ Doro工具箱 ใช้ ใน iOS 27.3 beta 2 จึงใช้งานบนบิลด์นี้ (%@) ไม่ได้ ใช้งานได้ถึง iOS 27.3 beta 1 และบน iOS 26";
 "iOS %@ (%@): Apple patched worse_query in iOS 27.3 beta 2. Folders that still open here may stop opening." = "iOS %@ (%@): Apple ได้ปิดช่องโหว่ worse_query ใน iOS 27.3 beta 2 โฟลเดอร์ที่ยังเปิดได้ที่นี่อาจเปิดไม่ได้อีก";
 "Invert Selection" = "สลับการเลือก";
 "%@ is not a regular file, so the restored database could open with other data. Remove it and restore again." = "%@ ไม่ใช่ไฟล์ปกติ ฐานข้อมูลที่กู้คืนจึงอาจเปิดข้อมูลอื่นได้ โปรดลบไฟล์นั้นแล้วกู้คืนอีกครั้ง";
@@ -1086,7 +1086,7 @@
 "%@ is not valid JSON (or larger than 4 MB)." = "%@ ไม่ใช่ JSON ที่ถูกต้อง (หรือใหญ่กว่า 4 MB)";
 "Custom Inspector" = "ตัวตรวจสอบแบบกำหนดเอง";
 "Custom Inspector…" = "ตัวตรวจสอบแบบกำหนดเอง…";
-"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into WQ Files' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "ตัวตรวจสอบแบบกำหนดเองคือโปรแกรม JavaScript ขนาดเล็กที่แสดงเนื้อหาของไฟล์ในแบบที่คุณต้องการ ใส่โฟลเดอร์หนึ่งโฟลเดอร์ต่อหนึ่งตัวตรวจสอบ (manifest.json และ inspect.js) ลงในโฟลเดอร์ Inspectors ของ WQ Files ซึ่งเข้าถึงได้จากแอปไฟล์ด้วย README บน GitHub อธิบายรูปแบบไว้";
+"Custom inspectors are small JavaScript programs that show a file's contents your way. Put one folder per inspector (manifest.json and inspect.js) into Doro工具箱' Inspectors folder, also reachable in the Files app. The README on GitHub describes the format." = "ตัวตรวจสอบแบบกำหนดเองคือโปรแกรม JavaScript ขนาดเล็กที่แสดงเนื้อหาของไฟล์ในแบบที่คุณต้องการ ใส่โฟลเดอร์หนึ่งโฟลเดอร์ต่อหนึ่งตัวตรวจสอบ (manifest.json และ inspect.js) ลงในโฟลเดอร์ Inspectors ของ Doro工具箱 ซึ่งเข้าถึงได้จากแอปไฟล์ด้วย README บน GitHub อธิบายรูปแบบไว้";
 "Fix the inspector's script, then tap to run it again." = "แก้ไขสคริปต์ของตัวตรวจสอบ แล้วแตะเพื่อเรียกใช้อีกครั้ง";
 "From the inspector in %@. Tap a value to copy it." = "จากตัวตรวจสอบใน %@ แตะค่าเพื่อคัดลอก";
 "Inspectors" = "ตัวตรวจสอบ";

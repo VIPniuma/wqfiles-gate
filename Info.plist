@@ -139,7 +139,7 @@
 			<string>cz.kolbi.wqfiles.theme</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
-				<string>public.filename-extension</string>
+				<key>public.filename-extension</key>
 				<array>
 					<string>wqtheme</string>
 				</array>

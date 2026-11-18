@@ -92,10 +92,14 @@ cp Info.plist "$APP/Info.plist"
 # 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
 # Xcode 26 下编译失败，这里直接用 sips 从 1024 源图生成各尺寸，稳定可复现。
 cp icons/AppIcon1024.png "$APP/AppIcon1024.png"
+cp icons/AppIcon1024-dark.png "$APP/AppIcon1024-dark.png" 2>/dev/null || true
+cp icons/AppIcon1024-tinted.png "$APP/AppIcon1024-tinted.png" 2>/dev/null || true
 for spec in "AppIcon40x40:40" "AppIcon60x60:60" "AppIcon76x76:76" "AppIcon83.5x83.5:83"; do
     name=${spec%%:*}; size=${spec##*:}
     sips -z "$size" "$size" icons/AppIcon1024.png --out "$APP/$name.png" >/dev/null || fail "sips failed for $name"
 done
+# 验证页 logo：Doro 图片
+cp icons/doro_logo.png "$APP/doro_logo.png"
 for lproj in "$ROOT"/*.lproj; do
     [[ -d "$lproj" ]] && cp -R "$lproj" "$APP/"
 done
