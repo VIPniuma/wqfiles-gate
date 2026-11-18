@@ -20,9 +20,22 @@
 // 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖）。
 // 特征名以容器里实际存在的为准：DeltaForce / Delta-Force 两个都认（大小写不敏感、字母逐字一致）。
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
+static NSString * const kFeatureKey  = @"deltaforce";
 static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
 static NSString * const kFile = @"测试123";
 static NSString * const kBody = @"测试123";
+
+// 与 DeltaForceLocator 一致：只比 a-z 字母，忽略连接符/空格/大小写。
+static NSString *wq_feature_key(NSString *s) {
+    if (![s isKindOfClass:NSString.class]) return @"";
+    NSMutableString *out = [NSMutableString stringWithCapacity:s.length];
+    for (NSUInteger i = 0; i < s.length; i++) {
+        unichar ch = [s characterAtIndex:i];
+        if (ch >= 'A' && ch <= 'Z') ch = (unichar)(ch + ('a' - 'A'));
+        if (ch >= 'a' && ch <= 'z') [out appendFormat:@"%c", (char)ch];
+    }
+    return out;
+}
 
 @interface DoroWriteTest ()
 @property (nonatomic, strong) UIButton *testButton;
@@ -40,22 +53,19 @@ static NSString * const kBody = @"测试123";
     NSUInteger count = sizeof(kFeatureNames) / sizeof(kFeatureNames[0]);
     NSString *name = kFeatureNames[0];   // 默认：目录还没建时的落盘名
     struct stat st;
-    for (NSUInteger i = 0; i < count; i++) {
-        NSString *candidate = kFeatureNames[i];
-        NSString *probe = nil;
-        if (entries) {
-            for (NSString *n in entries) {
-                if (![n isKindOfClass:NSString.class]) continue;
-                NSString *item = [n lastPathComponent];
-                if ([item caseInsensitiveCompare:candidate] == NSOrderedSame) {
-                    probe = [docs stringByAppendingPathComponent:item]; break;
-                }
+    if (entries) {
+        // 归一化比对，取容器里真实存在的拼写（含 Delta-Force / 隐藏字符变体）
+        for (NSString *n in entries) {
+            if ([n isKindOfClass:NSString.class] && [wq_feature_key(n) isEqualToString:kFeatureKey]) {
+                name = n; break;
             }
-        } else {
-            probe = [docs stringByAppendingPathComponent:candidate];
         }
-        if (!probe) continue;
-        if (wq_stat(probe, &st) == 0 && S_ISDIR(st.st_mode)) { name = probe.lastPathComponent; break; }
+    } else {
+        // wq_list 失败：wq_stat 直探两个候选名（内部 grant 重试）
+        for (NSUInteger i = 0; i < count; i++) {
+            NSString *probe = [docs stringByAppendingPathComponent:kFeatureNames[i]];
+            if (wq_stat(probe, &st) == 0 && S_ISDIR(st.st_mode)) { name = kFeatureNames[i]; break; }
+        }
     }
     return [NSString stringWithFormat:@"Documents/%@/%@", name, kTail];
 }
