@@ -1,13 +1,13 @@
 //
 //  DoroWriteTest.m
-//  WQ Files + 写入测试
-//
+//  写入流程复刻自黑猫工具箱：
+//   - 安全相对路径校验 WQGameSafeRelative (0x10003884c)
+//   - 逐级建链 WQGameEnsureChain (0x10003de80)：wq_stat + wq_create_dir
+//   - 写文件 performWrite_block_invoke_2 (0x100044288)：wq_create_file_from 流式写
+//   - 写入后 wq_stat 校验
 //  目标：<DeltaForce容器>/Documents/DeltaForce/Saved/
 //        LuaDebug/LuaSource/DFM/BusinessEntrance/测试123
-//  目录与文件创建全部走 WQAccess 的 wq_create_dir / wq_create_file，
-//  它们在沙盒拒绝时自动调用 wq_grant 申请 sandbox extension，即所谓"逃逸漏洞"。
-//  容器根路径不写死：优先用确认路径，失败则动态枚举（DeltaForceLocator）。
-//  复杂度：O(n)，n = 枚举容器数。
+//  复杂度：O(k)，k = 路径级数。
 //
 
 #import "DoroWriteTest.h"
@@ -15,8 +15,9 @@
 #import "WQAccess.h"
 #import <sys/stat.h>
 
-static NSString * const kTargetChain = @"LuaDebug/LuaSource/DFM/BusinessEntrance";
-static NSString * const kTestFile    = @"测试123";
+static NSString * const kChain = @"LuaDebug/LuaSource/DFM/BusinessEntrance";
+static NSString * const kFile  = @"测试123";
+static NSString * const kBody  = @"测试123";
 
 @interface DoroWriteTest ()
 @property (nonatomic, strong) UIButton *testButton;
@@ -35,8 +36,6 @@ static NSString * const kTestFile    = @"测试123";
     UIViewController *top = window.rootViewController;
     while (top.presentedViewController) top = top.presentedViewController;
     if (!top.view) return;
-
-    // 用悬浮按钮挂到当前界面，避开 WQRootViewController 对 navigationItem 的占用
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     [btn setTitle:@"测试：创建目录并写入文件" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightSemibold];
@@ -65,23 +64,35 @@ static NSString * const kTestFile    = @"测试123";
         NSString *root = [DeltaForceLocator findSavedRoot:&diag];
         NSString *title, *msg;
         if (!root) {
-            title = @"未找到 DeltaForce 容器";
+            title = @"未找到三角洲容器";
             msg = diag ?: @"未知原因";
         } else {
-            NSString *target = [root stringByAppendingPathComponent:kTargetChain];
-            NSString *err = nil;
-            BOOL ok = [wf ensureDirFromRoot:root error:&err];
-            if (ok) {
-                NSString *file = [target stringByAppendingPathComponent:kTestFile];
-                NSData *data = [@"测试123" dataUsingEncoding:NSUTF8StringEncoding];
-                BOOL wok = wq_create_file(file, data, &err);
-                title = wok ? @"成功" : @"写入文件失败";
-                msg = wok
-                    ? [NSString stringWithFormat:@"目录：%@\n文件：%@", target, file]
-                    : (err ?: @"未知原因");
+            // 黑猫 WQGameSafeRelative：拒绝绝对/含 .. 的相对路径
+            if (![wf safeRelative:kChain]) {
+                title = @"路径校验失败";
+                msg = @"相对路径含非法成分";
             } else {
-                title = @"创建目录失败";
-                msg = err ?: @"未知原因";
+                NSString *err = nil;
+                NSUInteger made = 0;
+                BOOL ok = [wf ensureChainFromRoot:root made:&made error:&err];
+                if (!ok) {
+                    title = @"创建目录失败";
+                    msg = err ?: @"未知原因";
+                } else {
+                    NSString *target = [root stringByAppendingPathComponent:kChain];
+                    NSString *file = [target stringByAppendingPathComponent:kFile];
+                    BOOL wok = [wf writeFile:file error:&err];
+                    title = wok ? @"成功" : @"写入文件失败";
+                    if (wok) {
+                        struct stat st;
+                        BOOL verified = wq_stat(file, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0;
+                        msg = [NSString stringWithFormat:@"%@目录：%@\n文件：%@\n新建目录：%lu 级\n校验：%@",
+                               verified ? @"" : @"警告：写入后校验未通过\n",
+                               target, file, (unsigned long)made, verified ? @"通过" : @"未通过"];
+                    } else {
+                        msg = err ?: @"未知原因";
+                    }
+                }
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -98,22 +109,44 @@ static NSString * const kTestFile    = @"测试123";
     });
 }
 
-// 逐级创建路径（wq_create_dir 每次只建一级，且会按需 grant token）
-- (BOOL)ensureDirFromRoot:(NSString *)root error:(NSString **)err {
-    NSArray *parts = [kTargetChain componentsSeparatedByString:@"/"];
-    NSString *cur = root;
+// 黑猫 WQGameSafeRelative：不以 / 开头、不含 .. 成分
+- (BOOL)safeRelative:(NSString *)rel {
+    if (rel.length == 0 || [rel hasPrefix:@"/"]) return NO;
+    for (NSString *part in [rel componentsSeparatedByString:@"/"]) {
+        if ([part isEqualToString:@".."] || [part isEqualToString:@"."]) return NO;
+    }
+    return YES;
+}
+
+// 黑猫 WQGameEnsureChain：逐级 wq_stat，缺失才 wq_create_dir
+- (BOOL)ensureChainFromRoot:(NSString *)root made:(NSUInteger *)made error:(NSString **)err {
     struct stat st;
-    if (wq_stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)) {
-        if (err) *err = @"目标根路径不存在或不是目录";
+    if (wq_stat(root, &st) != 0 || !S_ISDIR(st.st_mode)) {
+        if (err) *err = @"容器根路径不存在或不是目录";
         return NO;
     }
-    for (NSString *part in parts) {
+    NSString *cur = root;
+    for (NSString *part in [kChain componentsSeparatedByString:@"/"]) {
         if (part.length == 0) continue;
         cur = [cur stringByAppendingPathComponent:part];
         if (wq_stat(cur, &st) == 0 && S_ISDIR(st.st_mode)) continue;
         if (!wq_create_dir(cur, err)) return NO;
+        if (made) (*made)++;
     }
     return YES;
+}
+
+// 黑猫 performWrite：本地沙盒落临时文件 → wq_create_file_from 流式写 → 校验
+- (BOOL)writeFile:(NSString *)dest error:(NSString **)err {
+    NSString *tmp = [NSTemporaryDirectory() stringByAppendingPathComponent:
+                     [NSString stringWithFormat:@"doro_write_%llu", (unsigned long long)NSDate.date.timeIntervalSince1970]];
+    if (![kBody writeToFile:tmp atomically:YES encoding:NSUTF8StringEncoding error:nil]) {
+        if (err) *err = @"本地临时文件写入失败";
+        return NO;
+    }
+    BOOL ok = wq_create_file_from(dest, tmp, err);
+    [[NSFileManager defaultManager] removeItemAtPath:tmp error:nil];
+    return ok;
 }
 
 @end
