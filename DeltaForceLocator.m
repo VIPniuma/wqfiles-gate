@@ -7,7 +7,8 @@
 //      - wq_ls_container_paths（LaunchServices 数据库）
 //      - wq_list(/private/var/mobile/Containers/Data/Application)
 //      - wq_enumerate（fsgetpath 扫 inode，不受沙盒目录列表限制）
-//   2) 逐个容器拼 Documents/DeltaForce，用 wq_stat 判目录；命中者即三角洲。
+//   2) 逐个容器：wq_list 列出 Documents 下真实条目名，用区分大小写的
+//      isEqualToString:@"DeltaForce" 精确匹配（一个字母都不能差），再 wq_stat 确认是目录。
 //      bundle id / metadata.plist 只作显示备注，不参与判定。
 //   3) wq_grant 命中容器拿 token，返回容器根（token 精确覆盖该路径）。
 //
@@ -22,8 +23,10 @@
 #import <errno.h>
 #import <sys/stat.h>
 
-// 特征目录：DeltaForce（游戏必然创建）；Saved 交给写入模块新建
-static NSString * const kFeatureRel  = @"Documents/DeltaForce";
+// 严格特征目录名：区分大小写逐字比对，一个字母都不能差
+static NSString * const kFeatureName = @"DeltaForce";
+static NSString * const kDocsRel     = @"Documents";
+static NSString * const kFeatureRel  = @"Documents/DeltaForce";  // 仅显示用
 static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/Application";
 
 @implementation DeltaForceLocator
@@ -69,26 +72,37 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
 
     [notes addObject:[NSString stringWithFormat:@"共 %lu 个唯一容器待检查", (unsigned long)containers.count]];
 
-    // 2) 逐个检查特征目录 Documents/DeltaForce；谁有谁就是三角洲
+    // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 DeltaForce → 确认是目录
     struct stat st;
     NSUInteger checked = 0;
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
-        NSString *feature = [c stringByAppendingPathComponent:kFeatureRel];
         checked++;
-        if (wq_stat(feature, &st) == 0 && S_ISDIR(st.st_mode)) {
-            NSString *bid = [self labelForContainer:c];
-            wq_grant(c);   // 拿容器 token，返回容器根（token 精确覆盖）
-            [notes addObject:[NSString stringWithFormat:@"命中容器 %@（bundle=%@，特征=%@）",
-                              c.lastPathComponent, bid ?: @"未知", kFeatureRel]];
-            if (errorText) *errorText = [notes componentsJoinedByString:@"；"];
-            return c;
+        NSString *docs = [c stringByAppendingPathComponent:kDocsRel];
+        NSString *listErr = nil;
+        NSArray *entries = wq_list(docs, &listErr);   // Documents 下的真实名字（不走大小写折叠）
+        BOOL exactName = NO;
+        for (NSString *name in entries ?: @[]) {
+            if (![name isKindOfClass:NSString.class]) continue;
+            // isEqualToString 区分大小写；必须完全一致（Deltaforce / deltaforce / DeltaForce2 都不算）
+            if ([name isEqualToString:kFeatureName]) { exactName = YES; break; }
         }
+        if (!exactName) continue;
+
+        NSString *feature = [docs stringByAppendingPathComponent:kFeatureName];
+        if (wq_stat(feature, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
+
+        NSString *bid = [self labelForContainer:c];
+        wq_grant(c);   // 拿容器 token，返回容器根（token 精确覆盖）
+        [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 逐字匹配且为目录）",
+                          c.lastPathComponent, bid ?: @"未知", kFeatureName]];
+        if (errorText) *errorText = [notes componentsJoinedByString:@"；"];
+        return c;
     }
 
     if (errorText) {
-        *errorText = [NSString stringWithFormat:@"%@；检查 %lu 个容器均无特征目录 %@",
-                      [notes componentsJoinedByString:@"；"], (unsigned long)checked, kFeatureRel];
+        *errorText = [NSString stringWithFormat:@"%@；检查 %lu 个容器，均无 Documents/%@ 逐字匹配目录",
+                      [notes componentsJoinedByString:@"；"], (unsigned long)checked, kFeatureName];
     }
     return nil;
 }
