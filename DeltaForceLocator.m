@@ -25,8 +25,11 @@ static NSString * const kFeatureRel   = @"Documents/DeltaForce/Saved";
 static NSString * const kAppDataRoot  = @"/private/var/mobile/Containers/Data/Application";
 // 目标应用 bundle id（三角洲行动）。容器目录名是 UUID，不写死。
 static NSString * const kTargetBundle = @"com.tencent.tmgp.dfm";
-// 用户提供的已知完整路径（Data/ Application 的空格是换行，真实路径无空格）
-static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/com.tencent.tmgp.dfm/Documents/DeltaForce/Saved";
+// 用户提供的已知容器 UUID（Data/ Application 的空格是换行，真实路径无空格）
+// iOS 数据容器目录名是 UUID；容器内 .com.apple.mobile_container_manager.metadata.plist
+// 的 MCMMetadataIdentifier 映射回 bundle id（由 wq_container_label 读取）。
+static NSString * const kKnownUUID    = @"ED9354EB-FB6C-4CA3A2E6-B0509CFA08FE";
+static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/ED9354EB-FB6C-4CA3A2E6-B0509CFA08FE/Documents/DeltaForce/Saved";
 
 @implementation DeltaForceLocator
 
@@ -40,10 +43,13 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
     [self grantParentOfPath:kKnownRoot notes:notes];
     struct stat st;
     if (wq_stat(kKnownRoot, &st) == 0 && S_ISDIR(st.st_mode)) {
-        [notes addObject:@"命中用户指定完整路径"];
+        NSString *container = [kAppDataRoot stringByAppendingPathComponent:kKnownUUID];
+        NSString *bid = wq_container_label(container);
+        [notes addObject:[NSString stringWithFormat:@"命中已知 UUID 容器 %@（label=%@）",
+                          kKnownUUID, bid ?: @"未知"]];
         return kKnownRoot;
     }
-    [notes addObject:@"用户指定完整路径不可用（容器名多半是 UUID 而非 bundle id）"];
+    [notes addObject:@"已知 UUID 路径不可用，转入枚举"];
 
     // 先加载 LaunchServices 名称库：按 bundle id 匹配容器要用
     wq_display_names_reset_miss();
@@ -100,7 +106,10 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
     NSUInteger bundleHits = 0;
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
-        NSString *bid = wq_bundle_id_for_container(c);
+        // wq_container_label 依次用 xattr(com.apple.containermanager.identifier)、
+        // container-manager 查询、metadata.plist 的 MCMMetadataIdentifier 识别容器，
+        // 比只查 LaunchServices 的 wq_bundle_id_for_container 覆盖更全。
+        NSString *bid = wq_container_label(c);
         BOOL bundleMatch = bid.length && [bid isEqualToString:bundleID];
         if (bundleMatch) bundleHits++;
         NSString *candidate = [c stringByAppendingPathComponent:kFeatureRel];
