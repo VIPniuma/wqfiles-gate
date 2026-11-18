@@ -7463,6 +7463,7 @@ static UIViewController *wq_top_view_controller(void);
                                                name:WQThemeChangedNotification object:nil];
     if (options.URLContexts.count) [self scene:scene openURLContexts:options.URLContexts];
 
+#ifndef WQ_SCREENSHOT_MODE
     // Doro：验证通过后放行。测试按钮已常驻首页，无需再挂悬浮按钮。
     static DoroGate *gate;
     static dispatch_once_t once;
@@ -7473,6 +7474,7 @@ static UIViewController *wq_top_view_controller(void);
         };
     });
     [gate start];
+#endif
 }
 
 // A theme's accent colors the whole window (the iPad's floating tab bar only
