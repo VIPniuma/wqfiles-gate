@@ -18,9 +18,8 @@
 #import <errno.h>
 
 // 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖）。
-// 特征名真机实测为 Delta-Force（带连字符）；写入必须和识别用同一个名字。
-static NSString * const kFeatureName = @"Delta-Force";
-static NSString * const kFeatureName2 = @"DeltaForce";
+// 特征名以容器里实际存在的为准（大小写变体），默认 DeltaForce。
+static NSString * const kFeatureName = @"DeltaForce";
 static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
 static NSString * const kFile = @"测试123";
 static NSString * const kBody = @"测试123";
@@ -31,16 +30,16 @@ static NSString * const kBody = @"测试123";
 
 @implementation DoroWriteTest
 
-// 按容器下实际存在的特征目录名构建链：优先 Delta-Force，其次 DeltaForce，
-// 都没有就用 Delta-Force（新建）。保证与识别阶段命中名一致。
+// 按容器下实际存在的特征目录名构建链：取 DeltaForce 的真实大小写变体，
+// 没有就默认 DeltaForce（新建）。保证与识别阶段命中名一致。
 + (NSString *)chainForContainer:(NSString *)root {
     NSString *docs = [root stringByAppendingPathComponent:@"Documents"];
     wq_grant(root); wq_grant(docs);
     NSArray *entries = wq_list(docs, nil) ?: @[];
     NSString *name = kFeatureName;
     for (NSString *n in entries) {
-        if ([n isEqualToString:kFeatureName]) { name = kFeatureName; break; }
-        if ([n isEqualToString:kFeatureName2]) { name = kFeatureName2; break; }
+        if ([n isKindOfClass:NSString.class] &&
+            [n caseInsensitiveCompare:kFeatureName] == NSOrderedSame) { name = n; break; }
     }
     return [NSString stringWithFormat:@"Documents/%@/%@", name, kTail];
 }

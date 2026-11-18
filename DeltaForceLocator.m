@@ -23,12 +23,11 @@
 #import <errno.h>
 #import <sys/stat.h>
 
-// 严格特征目录名：只接受这两个精确拼写之一，逐字比对区分大小写，一个字符都不能差。
-// 真机 wq_list 实测为 Delta-Force（带连字符）；黑猫标准串为 DeltaForce。
-static NSString * const kFeatureName  = @"Delta-Force";
-static NSString * const kFeatureName2 = @"DeltaForce";
+// 严格特征目录名：字母逐字匹配 DeltaForce（大小写不敏感，因 iOS 目录大小写不敏感；
+// 但字母本身一个都不能差，Delta-Force / DeltaXForce 都不算）。
+static NSString * const kFeatureName  = @"DeltaForce";
 static NSString * const kDocsRel      = @"Documents";
-static NSString * const kFeatureRel   = @"Documents/Delta-Force";  // 仅显示用
+static NSString * const kFeatureRel   = @"Documents/DeltaForce";  // 仅显示用
 static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/Application";
 
 @implementation DeltaForceLocator
@@ -76,8 +75,7 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
 
     // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 Delta-Force / DeltaForce → 确认是目录
     struct stat st;
-    NSUInteger checked = 0, listFailed = 0, ciMatches = 0;
-    NSMutableArray<NSString *> *nearHits = [NSMutableArray array];
+    NSUInteger checked = 0, listFailed = 0;
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
         checked++;
@@ -89,43 +87,38 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         NSArray *entries = wq_list(docs, &listErr);   // Documents 下的真实名字（不走大小写折叠）
         if (!entries) { listFailed++; continue; }
 
-        BOOL exactName = NO;
+        BOOL nameMatch = NO;
         NSString *matchedName = nil;
         for (NSString *name in entries) {
             if (![name isKindOfClass:NSString.class]) continue;
-            // 大小近似命中仅诊断，不算通过（Delta-force / delta-force 都不算）
-            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame ||
-                [name caseInsensitiveCompare:kFeatureName2] == NSOrderedSame) {
-                ciMatches++;
-                [nearHits addObject:[NSString stringWithFormat:@"%@:Documents/%@", c.lastPathComponent, name]];
-            }
-            // isEqualToString 区分大小写，两个精确拼写之一才算命中
-            if ([name isEqualToString:kFeatureName] || [name isEqualToString:kFeatureName2]) {
-                exactName = YES; matchedName = name; break;
+            // 字母逐字比对、仅忽略大小写：DeltaForce 的任意大小写变体算命中；
+            // Delta-Force / DeltaXForce 等字母不同的都不算。
+            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame) {
+                nameMatch = YES; matchedName = name; break;
             }
         }
-        if (!exactName) continue;
+        if (!nameMatch) continue;
 
         NSString *feature = [docs stringByAppendingPathComponent:matchedName];
         if (wq_stat(feature, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
 
+        // 把命中名的 Unicode 码点打出来，若有隐藏字符一眼可见
+        NSMutableArray *codes = [NSMutableArray array];
+        for (NSUInteger i = 0; i < matchedName.length; i++) {
+            [codes addObject:[NSString stringWithFormat:@"%04X", [matchedName characterAtIndex:i]]];
+        }
         NSString *bid = [self labelForContainer:c];
         wq_grant(c);   // 拿容器 token，返回容器根（token 精确覆盖）
-        [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 逐字匹配且为目录）",
-                          c.lastPathComponent, bid ?: @"未知", matchedName]];
+        [notes addObject:[NSString stringWithFormat:@"严格命中容器 %@（bundle=%@，Documents/%@ 字母逐字匹配且为目录，码点=%@）",
+                          c.lastPathComponent, bid ?: @"未知", matchedName, [codes componentsJoinedByString:@" "]]];
         if (errorText) *errorText = [notes componentsJoinedByString:@"；"];
         return c;
     }
 
-    [notes addObject:[NSString stringWithFormat:@"检查 %lu：Documents 列不出 %lu，大小写近似命中 %lu",
-                      (unsigned long)checked, (unsigned long)listFailed, (unsigned long)ciMatches]];
-    if (nearHits.count) {
-        [notes addObject:[NSString stringWithFormat:@"近似名字样本：%@",
-                          [[nearHits subarrayWithRange:NSMakeRange(0, MIN(5, nearHits.count))] componentsJoinedByString:@", "]]];
-    }
+    [notes addObject:[NSString stringWithFormat:@"检查 %lu：Documents 列不出 %lu，均无 Documents/%@（字母逐字）目录",
+                      (unsigned long)checked, (unsigned long)listFailed, kFeatureName]];
     if (errorText) {
-        *errorText = [NSString stringWithFormat:@"%@；均无 Documents/%@ 或 Documents/%@ 逐字匹配目录",
-                      [notes componentsJoinedByString:@"；"], kFeatureName, kFeatureName2];
+        *errorText = [notes componentsJoinedByString:@"；"];
     }
     return nil;
 }
