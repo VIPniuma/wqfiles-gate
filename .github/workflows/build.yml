@@ -1,0 +1,28 @@
+name: Build wqfiles-gate
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: |
+          XC=$(ls -d /Applications/Xcode*.app/Contents/Developer 2>/dev/null | head -1)
+          if [ -n "$XC" ]; then sudo xcode-select -s "$XC"; fi
+          xcode-select -p
+      - name: 编译
+        run: bash build.sh
+        env:
+          WQ_SKIP_PREFLIGHT: "1"
+          WQFILES_FINAL_IPA: wqfiles_gate.ipa
+      - name: 上传 IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: wqfiles_gate
+          path: wqfiles_gate.ipa
+          if-no-files-found: error
