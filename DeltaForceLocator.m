@@ -44,7 +44,7 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
     struct stat st;
     if (wq_stat(kKnownRoot, &st) == 0 && S_ISDIR(st.st_mode)) {
         NSString *container = [kAppDataRoot stringByAppendingPathComponent:kKnownUUID];
-        NSString *bid = wq_container_label(container);
+        NSString *bid = [self labelForContainer:container];
         [notes addObject:[NSString stringWithFormat:@"命中已知 UUID 容器 %@（label=%@）",
                           kKnownUUID, bid ?: @"未知"]];
         return kKnownRoot;
@@ -97,34 +97,65 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
     return nil;
 }
 
-// 对候选容器逐个验证：bundle id 命中（若可读）且特征目录存在则 grant 整个容器。
+// 两种识别方式共存，任一命中即返回：
+//   A. 特征目录命中（黑猫主路径）：Documents/DeltaForce/Saved 存在且 wq_stat 能过；
+//   B. bundle id 命中（含 metadata.plist 的 MCMMetadataIdentifier/xattr）：
+//      wq_container_label 读不到时回退 wq_bundle_id_for_container。
+// 命中后 wq_grant 整个容器拿 token，返回特征目录绝对路径。
 + (nullable NSString *)scanContainers:(NSArray<NSString *> *)containers
                              bundleID:(NSString *)bundleID
                                 notes:(NSMutableArray<NSString *> *)notes {
     struct stat st;
-    NSUInteger checked = 0;
-    NSUInteger bundleHits = 0;
+    NSUInteger checked = 0, featureHits = 0, bundleHits = 0;
+
+    // ---- 第一轮：特征目录优先（黑猫方案，最可靠）----
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
-        // wq_container_label 依次用 xattr(com.apple.containermanager.identifier)、
-        // container-manager 查询、metadata.plist 的 MCMMetadataIdentifier 识别容器，
-        // 比只查 LaunchServices 的 wq_bundle_id_for_container 覆盖更全。
-        NSString *bid = wq_container_label(c);
-        BOOL bundleMatch = bid.length && [bid isEqualToString:bundleID];
-        if (bundleMatch) bundleHits++;
         NSString *candidate = [c stringByAppendingPathComponent:kFeatureRel];
         checked++;
-        // bundle 命中优先，但仍要用 wq_stat 确认特征目录真的存在（且能拿到 token）
         if (wq_stat(candidate, &st) == 0 && S_ISDIR(st.st_mode)) {
+            featureHits++;
+            NSString *bid = [self labelForContainer:c];
+            if (bid.length && [bid isEqualToString:bundleID]) bundleHits++;
             wq_grant(c);
-            [notes addObject:[NSString stringWithFormat:@"命中容器 %@（bundle=%@）",
+            [notes addObject:[NSString stringWithFormat:@"A·特征命中容器 %@（bundle=%@）",
                               c.lastPathComponent, bid ?: @"未知"]];
             return candidate;
         }
     }
-    [notes addObject:[NSString stringWithFormat:@"检查 %lu 个容器，bundle=%@ 命中 %lu 个，但特征目录 %@ 均未命中",
-                      (unsigned long)checked, bundleID, (unsigned long)bundleHits, kFeatureRel]];
+
+    // ---- 第二轮：bundle id 命中兜底（xattr / metadata.plist / LaunchServices）----
+    for (NSString *c in containers) {
+        if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
+        NSString *bid = [self labelForContainer:c];
+        if (!bid.length || ![bid isEqualToString:bundleID]) continue;
+        bundleHits++;
+        wq_grant(c);               // 先拿容器 token
+        NSString *candidate = [c stringByAppendingPathComponent:kFeatureRel];
+        NSString *hitPath = candidate;
+        if (wq_stat(candidate, &st) == 0 && S_ISDIR(st.st_mode)) {
+            hitPath = candidate;   // 特征目录已存在
+        } else {
+            // bundle 命中但 Saved 还不存在：返回 Saved 的父路径 Document，
+            // 由 ensureChainFromRoot 逐级建目录（wq_create_dir 走漏洞新建）
+            hitPath = [c stringByAppendingPathComponent:@"Documents"];
+        }
+        [notes addObject:[NSString stringWithFormat:@"B·bundle 命中容器 %@（%@），写入根=%@",
+                          c.lastPathComponent, bid, hitPath.lastPathComponent]];
+        return hitPath;
+    }
+
+    [notes addObject:[NSString stringWithFormat:@"检查 %lu 个容器：A 特征命中 %lu，B bundle(%@) 命中 %lu，均未命中",
+                      (unsigned long)checked, (unsigned long)featureHits, bundleID, (unsigned long)bundleHits]];
     return nil;
+}
+
+// 容器 label 双通道：xattr / metadata.plist(wq_container_label) 优先，
+// 读不到再回退 LaunchServices(wq_bundle_id_for_container)。
++ (nullable NSString *)labelForContainer:(NSString *)container {
+    NSString *bid = wq_container_label(container);
+    if (!bid.length) bid = wq_bundle_id_for_container(container);
+    return bid;
 }
 
 + (void)grantParentOfPath:(NSString *)path notes:(NSMutableArray<NSString *> *)notes {
