@@ -25,6 +25,12 @@ static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance"
 static NSString * const kFile = @"测试123";
 static NSString * const kBody = @"测试123";
 
+@interface DoroWriteTest ()
+@property (nonatomic, strong) UIButton *testButton;
+@end
+
+@implementation DoroWriteTest
+
 // 按容器下实际存在的特征目录名构建链：优先 Delta-Force，其次 DeltaForce，
 // 都没有就用 Delta-Force（新建）。保证与识别阶段命中名一致。
 + (NSString *)chainForContainer:(NSString *)root {
@@ -38,12 +44,6 @@ static NSString * const kBody = @"测试123";
     }
     return [NSString stringWithFormat:@"Documents/%@/%@", name, kTail];
 }
-
-@interface DoroWriteTest ()
-@property (nonatomic, strong) UIButton *testButton;
-@end
-
-@implementation DoroWriteTest
 
 + (void)installIntoWindow:(UIWindow *)window {
     static DoroWriteTest *installer;
