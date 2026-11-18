@@ -166,8 +166,24 @@ static NSString * const kBody  = @"测试123";
         if (err) *err = @"本地临时文件写入失败";
         return NO;
     }
-    BOOL ok = wq_create_file_from(dest, tmp, err);
+    // wq_create_file_from 内部 wq_open_directory_flags(parent,O_SEARCH) 失败时不会 grant 重试，
+    // 这里先显式 grant 目标父目录，避免 errno 2（父目录打不开被当成 ENOENT）。
+    NSString *parent = dest.stringByDeletingLastPathComponent;
+    wq_grant(parent);
+    // 目标已存在时 wq_create_file_from 用 O_EXCL 会失败；先删除（走漏洞）再建
+    struct stat st;
+    if (wq_stat(dest, &st) == 0) {
+        NSString *delErr = nil;
+        wq_delete(dest, &delErr);
+    }
+
+    NSString *detail = nil;
+    BOOL ok = wq_create_file_from(dest, tmp, &detail);
     [[NSFileManager defaultManager] removeItemAtPath:tmp error:nil];
+    if (!ok && err) {
+        *err = [NSString stringWithFormat:@"写文件失败 path=%@ parentGrant 后 errno=%d（%@）",
+                dest, errno, detail ?: @"无"];
+    }
     return ok;
 }
 
