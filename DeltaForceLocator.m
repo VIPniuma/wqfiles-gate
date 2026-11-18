@@ -7,8 +7,9 @@
 //      - wq_ls_container_paths（LaunchServices 数据库）
 //      - wq_list(/private/var/mobile/Containers/Data/Application)
 //      - wq_enumerate（fsgetpath 扫 inode，不受沙盒目录列表限制）
-//   2) 逐个容器：wq_list 列出 Documents 下真实条目名，用区分大小写的
-//      isEqualToString:@"DeltaForce" 精确匹配（一个字母都不能差），再 wq_stat 确认是目录。
+//   2) 逐个容器：wq_list 列出 Documents 下真实条目名，字母逐字比对
+//      DeltaForce / Delta-Force 两个特征名（大小写不敏感、字母一个都不能差），再 wq_stat 确认是目录。
+//      wq_list 被沙盒挡住时：先 wq_stat 直接探测两个候选名，仍失败才 wq_enumerate(inode) 兜底。
 //      bundle id / metadata.plist 只作显示备注，不参与判定。
 //   3) wq_grant 命中容器拿 token，返回容器根（token 精确覆盖该路径）。
 //
@@ -23,11 +24,11 @@
 #import <errno.h>
 #import <sys/stat.h>
 
-// 严格特征目录名：字母逐字匹配 DeltaForce（大小写不敏感，因 iOS 目录大小写不敏感；
-// 但字母本身一个都不能差，Delta-Force / DeltaXForce 都不算）。
-static NSString * const kFeatureName  = @"DeltaForce";
+// 严格特征目录名（两个都认）：字母逐字匹配，大小写不敏感（iOS 目录大小写不敏感），
+// 但字母本身一个都不能差。DeltaXForce / Delta force / DeltForce 一律不算。
+static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kDocsRel      = @"Documents";
-static NSString * const kFeatureRel   = @"Documents/DeltaForce";  // 仅显示用
+static NSString * const kFeatureRel   = @"Documents/DeltaForce 或 Documents/Delta-Force";  // 仅显示用
 static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/Application";
 
 @implementation DeltaForceLocator
@@ -73,9 +74,10 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
 
     [notes addObject:[NSString stringWithFormat:@"共 %lu 个唯一容器待检查", (unsigned long)containers.count]];
 
-    // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 Delta-Force / DeltaForce → 确认是目录
+    // 2) 严格检查：对每个容器用两个精确候选名判定（大小写不敏感、字母逐字一致）
     struct stat st;
-    NSUInteger checked = 0, listFailed = 0;
+    NSUInteger checked = 0, listFailed = 0, statFallback = 0;
+    NSUInteger featureCount = sizeof(kFeatureNames) / sizeof(kFeatureNames[0]);
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
         checked++;
@@ -84,20 +86,38 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         wq_grant(c);
         wq_grant(docs);
         NSString *listErr = nil;
-        NSArray *entries = wq_list(docs, &listErr);   // Documents 下的真实名字（不走大小写折叠）
-        if (!entries) { listFailed++; continue; }
+        NSArray *entries = wq_list(docs, &listErr);   // 只用于取真实拼写；失败不再直接判死
+        if (!entries) listFailed++;
 
-        BOOL nameMatch = NO;
         NSString *matchedName = nil;
-        for (NSString *name in entries) {
-            if (![name isKindOfClass:NSString.class]) continue;
-            // 字母逐字比对、仅忽略大小写：DeltaForce 的任意大小写变体算命中；
-            // Delta-Force / DeltaXForce 等字母不同的都不算。
-            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame) {
-                nameMatch = YES; matchedName = name; break;
+        for (NSUInteger fi = 0; fi < featureCount; fi++) {
+            NSString *candidate = kFeatureNames[fi];
+            NSString *probe = nil;
+            if (entries) {
+                // 列目录成功：在真实条目名里找字母逐字匹配（忽略大小写），保留真实拼写
+                for (NSString *name in entries) {
+                    if (![name isKindOfClass:NSString.class]) continue;
+                    NSString *item = [name lastPathComponent];   // wq_enumerate 兜底若返回全路径也归一化
+                    if ([item caseInsensitiveCompare:candidate] == NSOrderedSame) {
+                        probe = [docs stringByAppendingPathComponent:item];
+                        break;
+                    }
+                }
+            } else {
+                // wq_list 被沙盒挡住：不依赖列目录，直接对精确候选名 wq_stat 探测。
+                // wq_stat 内部会 grant(docs) 重试，比列目录更强；且只探两个固定名字，
+                // 不会像 wq_enumerate(docs) 那样触发全卷 inode 扫描（iOS 26 可达 40 分钟）。
+                probe = [docs stringByAppendingPathComponent:candidate];
+            }
+            if (!probe) continue;
+            struct stat probeSt = {0};
+            if (wq_stat(probe, &probeSt) == 0 && S_ISDIR(probeSt.st_mode)) {
+                matchedName = probe.lastPathComponent;
+                if (!entries) statFallback++;
+                break;
             }
         }
-        if (!nameMatch) continue;
+        if (!matchedName) continue;
 
         NSString *feature = [docs stringByAppendingPathComponent:matchedName];
         if (wq_stat(feature, &st) != 0 || !S_ISDIR(st.st_mode)) continue;
@@ -115,8 +135,8 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         return c;
     }
 
-    [notes addObject:[NSString stringWithFormat:@"检查 %lu：Documents 列不出 %lu，均无 Documents/%@（字母逐字）目录",
-                      (unsigned long)checked, (unsigned long)listFailed, kFeatureName]];
+    [notes addObject:[NSString stringWithFormat:@"检查 %lu：wq_list 失败 %lu（其中 wq_stat 直探兜底命中 %lu），均无 Documents/DeltaForce 或 Documents/Delta-Force（字母逐字）",
+                      (unsigned long)checked, (unsigned long)listFailed, (unsigned long)statFallback]];
     if (errorText) {
         *errorText = [notes componentsJoinedByString:@"；"];
     }
