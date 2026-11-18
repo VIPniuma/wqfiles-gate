@@ -18,8 +18,8 @@
 #import <errno.h>
 
 // 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖）。
-// 特征名以容器里实际存在的为准（大小写变体），默认 DeltaForce。
-static NSString * const kFeatureName = @"DeltaForce";
+// 特征名以容器里实际存在的为准：DeltaForce / Delta-Force 两个都认（大小写不敏感、字母逐字一致）。
+static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
 static NSString * const kFile = @"测试123";
 static NSString * const kBody = @"测试123";
@@ -30,16 +30,32 @@ static NSString * const kBody = @"测试123";
 
 @implementation DoroWriteTest
 
-// 按容器下实际存在的特征目录名构建链：取 DeltaForce 的真实大小写变体，
-// 没有就默认 DeltaForce（新建）。保证与识别阶段命中名一致。
+// 按容器下实际存在的特征目录名构建链：与 DeltaForceLocator 判定保持一致——
+// 两个精确候选名（DeltaForce / Delta-Force）都认，取真实拼写；wq_list 失败时
+// 用 wq_stat 直探（内部 grant 重试），都没有则取第一个候选名新建。
 + (NSString *)chainForContainer:(NSString *)root {
     NSString *docs = [root stringByAppendingPathComponent:@"Documents"];
     wq_grant(root); wq_grant(docs);
-    NSArray *entries = wq_list(docs, nil) ?: @[];
-    NSString *name = kFeatureName;
-    for (NSString *n in entries) {
-        if ([n isKindOfClass:NSString.class] &&
-            [n caseInsensitiveCompare:kFeatureName] == NSOrderedSame) { name = n; break; }
+    NSArray *entries = wq_list(docs, nil);
+    NSUInteger count = sizeof(kFeatureNames) / sizeof(kFeatureNames[0]);
+    NSString *name = kFeatureNames[0];   // 默认：目录还没建时的落盘名
+    struct stat st;
+    for (NSUInteger i = 0; i < count; i++) {
+        NSString *candidate = kFeatureNames[i];
+        NSString *probe = nil;
+        if (entries) {
+            for (NSString *n in entries) {
+                if (![n isKindOfClass:NSString.class]) continue;
+                NSString *item = [n lastPathComponent];
+                if ([item caseInsensitiveCompare:candidate] == NSOrderedSame) {
+                    probe = [docs stringByAppendingPathComponent:item]; break;
+                }
+            }
+        } else {
+            probe = [docs stringByAppendingPathComponent:candidate];
+        }
+        if (!probe) continue;
+        if (wq_stat(probe, &st) == 0 && S_ISDIR(st.st_mode)) { name = probe.lastPathComponent; break; }
     }
     return [NSString stringWithFormat:@"Documents/%@/%@", name, kTail];
 }
