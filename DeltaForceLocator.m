@@ -21,8 +21,9 @@
 
 static NSString * const kFeatureRel   = @"Documents/DeltaForce/Saved";
 static NSString * const kAppDataRoot  = @"/private/var/mobile/Containers/Data/Application";
-// 用户提供的已知完整路径（聊天里 Data/ Application 的空格是换行，真实路径无空格）
-static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/ED9354EB-FB6C-4CA3A2E6-B0509CFA08FE/Documents/DeltaForce/Saved";
+// 用户指定的已知完整路径（Data/ Application 的空格是换行，真实路径无空格）
+// 容器目录名用包名 com.tencent.tmgp.dfm，命中后直接在该 Saved 下建链写入
+static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/com.tencent.tmgp.dfm/Documents/DeltaForce/Saved";
 
 @implementation DeltaForceLocator
 
