@@ -41,8 +41,10 @@ jobs:
         run: |
           set -euo pipefail
           APP=$(cat Build/app_path.txt)
-          DEVICE=$(xcrun simctl list devices available | grep -E 'iPhone 16|iPhone 15' | head -1 | sed -E 's/.*\(([^)]+)\).*/\1/')
+          # 取设备名（行首缩进后的名称，第一个 ' (' 之前），不要括号里的 UDID/状态
+          DEVICE=$(xcrun simctl list devices available | grep -E '^    iPhone (16|15)' | head -1 | awk -F' \\(' '{gsub(/^ +/, "", $1); print $1}')
           echo "Device=$DEVICE"
+          [ -n "$DEVICE" ] || { echo "no available iPhone device"; xcrun simctl list devices available; exit 1; }
           xcrun simctl boot "$DEVICE" || true
           xcrun simctl bootstatus "$DEVICE" -b
           xcrun simctl install "$DEVICE" "$APP"
