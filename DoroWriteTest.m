@@ -16,8 +16,9 @@
 #import "WQAccess.h"
 #import <sys/stat.h>
 
-// 完整建链：从 Documents 下开始，Saved 不存在也能逐级新建
-static NSString * const kChain = @"DeltaForce/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
+// 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖），
+// Documents/DeltaForce/Saved 不存在也能逐级新建。
+static NSString * const kChain = @"Documents/DeltaForce/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
 static NSString * const kFile  = @"测试123";
 static NSString * const kBody  = @"测试123";
 
@@ -125,18 +126,29 @@ static NSString * const kBody  = @"测试123";
 }
 
 // 黑猫 WQGameEnsureChain：逐级 wq_stat，缺失才 wq_create_dir
+// root 本身（Documents）也可能不存在：先 grant 父目录，再 wq_create_dir 建 root，
+// 不再因 root 不存在就直接判死（token 已消费时 wq_stat 会假失败）。
 - (BOOL)ensureChainFromRoot:(NSString *)root made:(NSUInteger *)made error:(NSString **)err {
     struct stat st;
-    if (wq_stat(root, &st) != 0 || !S_ISDIR(st.st_mode)) {
-        if (err) *err = @"容器根路径不存在或不是目录";
-        return NO;
-    }
     NSString *cur = root;
+    if (wq_stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)) {
+        wq_grant([cur stringByDeletingLastPathComponent]);   // grant 容器根
+        NSString *detail = nil;
+        if (!wq_create_dir(cur, &detail)) {
+            if (err) *err = [NSString stringWithFormat:@"建根失败 path=%@ errno=%d（%@）", cur, errno, detail ?: @"无"];
+            return NO;
+        }
+        if (made) (*made)++;
+    }
     for (NSString *part in [kChain componentsSeparatedByString:@"/"]) {
         if (part.length == 0) continue;
         cur = [cur stringByAppendingPathComponent:part];
         if (wq_stat(cur, &st) == 0 && S_ISDIR(st.st_mode)) continue;
-        if (!wq_create_dir(cur, err)) return NO;
+        NSString *detail = nil;
+        if (!wq_create_dir(cur, &detail)) {
+            if (err) *err = [NSString stringWithFormat:@"建目录失败 path=%@ errno=%d（%@）", cur, errno, detail ?: @"无"];
+            return NO;
+        }
         if (made) (*made)++;
     }
     return YES;
