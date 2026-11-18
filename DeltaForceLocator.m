@@ -93,10 +93,13 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
     return nil;
 }
 
-// 容器去重加入
+// 只接受应用数据容器 Data/Application/<UUID>，排除 PluginKitPlugin / group 容器
+// （wq_ls_container_paths 会把插件容器也列出来，它们不是目标）
 + (void)addContainers:(NSArray<NSString *> *)items to:(NSMutableArray<NSString *> *)out seen:(NSMutableSet<NSString *> *)seen {
     for (NSString *c in items) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
+        NSString *parent = [c stringByDeletingLastPathComponent];
+        if (![parent isEqualToString:kAppDataRoot]) continue;   // 关键：排除 PluginKitPlugin 等
         NSString *key = c.stringByStandardizingPath;
         if ([seen containsObject:key]) continue;
         [seen addObject:key];

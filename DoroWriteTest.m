@@ -15,6 +15,7 @@
 #import "DeltaForceLocator.h"
 #import "WQAccess.h"
 #import <sys/stat.h>
+#import <errno.h>
 
 // 完整建链：从容器根开始（root = 容器根，正好被 grant token 覆盖），
 // Documents/DeltaForce/Saved 不存在也能逐级新建。
@@ -134,7 +135,7 @@ static NSString * const kBody  = @"测试123";
     if (wq_stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)) {
         wq_grant([cur stringByDeletingLastPathComponent]);   // grant 容器根
         NSString *detail = nil;
-        if (!wq_create_dir(cur, &detail)) {
+        if (!wq_create_dir(cur, &detail) && errno != EEXIST) {
             if (err) *err = [NSString stringWithFormat:@"建根失败 path=%@ errno=%d（%@）", cur, errno, detail ?: @"无"];
             return NO;
         }
@@ -146,8 +147,11 @@ static NSString * const kBody  = @"测试123";
         if (wq_stat(cur, &st) == 0 && S_ISDIR(st.st_mode)) continue;
         NSString *detail = nil;
         if (!wq_create_dir(cur, &detail)) {
-            if (err) *err = [NSString stringWithFormat:@"建目录失败 path=%@ errno=%d（%@）", cur, errno, detail ?: @"无"];
-            return NO;
+            // EEXIST=17：_stat 被沙盒挡了但目录其实在，创建撞已存在 → 视为成功继续
+            if (errno != EEXIST) {
+                if (err) *err = [NSString stringWithFormat:@"建目录失败 path=%@ errno=%d（%@）", cur, errno, detail ?: @"无"];
+                return NO;
+            }
         }
         if (made) (*made)++;
     }
