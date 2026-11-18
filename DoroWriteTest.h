@@ -1,10 +1,7 @@
 //
 //  DoroWriteTest.h
-//  WQ Files + 写入测试
-//
-//  验证通过后，在当前界面挂一个悬浮测试按钮；点击后走 WQFiles 的
-//  worse_query（wq_create_dir / wq_create_file）在 DeltaForce 容器里
-//  创建目录并写入测试文件。不改动 WQFiles 原有源码。
+//  生成测试文件：走 worse_query 在 DeltaForce 容器里创建目录并写入测试文件。
+//  纯逻辑模块，不含 UI；结果通过 completion 回传给首页控制器弹窗。
 //
 
 #import <Foundation/Foundation.h>
@@ -14,8 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DoroWriteTest : NSObject
 
-// 在 window 的顶层界面安装测试按钮（验证成功后调用一次）。
-+ (void)installIntoWindow:(UIWindow *)window;
+// host 仅用于保留调用语义；结果以 (标题, 正文) 回传，UI 由调用方负责。
++ (void)runWithHost:(UIViewController *)host
+         completion:(void (^)(NSString *title, NSString *message))completion;
 
 @end
 
