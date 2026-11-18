@@ -66,7 +66,6 @@ static NSString *wq_feature_key(NSString *s) {
             msg = diag ?: @"未知原因";
         } else {
             NSString *chain = [self chainForContainer:root];
-            struct stat st;
             if (![self safeRelative:chain]) {
                 title = @"路径校验失败";
                 msg = @"相对路径含非法成分";
@@ -80,16 +79,12 @@ static NSString *wq_feature_key(NSString *s) {
                 } else {
                     NSString *target = [root stringByAppendingPathComponent:chain];
                     NSString *file = [target stringByAppendingPathComponent:kFile];
-                    BOOL wok = [self writeFile:file error:&err];
+                    BOOL wok = [self writeFile:file error:&err];   // 内部已做实读校验
                     title = wok ? @"生成成功" : @"写入文件失败";
-                    if (wok) {
-                        BOOL verified = wq_stat(file, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0;
-                        msg = [NSString stringWithFormat:@"%@目录：%@\n文件：%@\n新建目录：%lu 级\n校验：%@",
-                               verified ? @"" : @"警告：写入后校验未通过\n",
-                               target, file, (unsigned long)made, verified ? @"通过" : @"未通过"];
-                    } else {
-                        msg = err ?: @"未知原因";
-                    }
+                    msg = wok
+                        ? [NSString stringWithFormat:@"目录：%@\n文件：%@\n新建目录：%lu 级\n读回校验：通过",
+                           target, file, (unsigned long)made]
+                        : (err ?: @"未知原因");
                 }
             }
         }
@@ -133,7 +128,8 @@ static NSString *wq_feature_key(NSString *s) {
     return YES;
 }
 
-// 本地沙盒落临时文件 → wq_create_file_from 流式写 → 校验。
+// 本地沙盒落临时文件 → 无条件删旧（O_EXCL 需要目标不存在）→ wq_create_file_from 流式写 → 实读校验。
+// 返回值以"文件真实存在且内容正确"为准，不轻信 wq_create_file_from 的布尔值。
 + (BOOL)writeFile:(NSString *)dest error:(NSString **)err {
     NSString *tmp = [NSTemporaryDirectory() stringByAppendingPathComponent:
                      [NSString stringWithFormat:@"doro_write_%llu", (unsigned long long)NSDate.date.timeIntervalSince1970]];
@@ -143,19 +139,31 @@ static NSString *wq_feature_key(NSString *s) {
     }
     NSString *parent = dest.stringByDeletingLastPathComponent;
     wq_grant(parent);
-    struct stat st;
-    if (wq_stat(dest, &st) == 0) {
-        NSString *delErr = nil;
-        wq_delete(dest, &delErr);
-    }
+
+    // 不依赖 wq_stat 判断存在与否（沙盒下会假失败）：无条件删一次，忽略"本来就不存在"。
+    NSString *delErr = nil;
+    wq_delete(dest, &delErr);
+    wq_grant(parent);   // 删除可能消费掉 token，重新授权父目录再建
+
     NSString *detail = nil;
-    BOOL ok = wq_create_file_from(dest, tmp, &detail);
+    BOOL createOK = wq_create_file_from(dest, tmp, &detail);
     [[NSFileManager defaultManager] removeItemAtPath:tmp error:nil];
-    if (!ok && err) {
-        *err = [NSString stringWithFormat:@"写文件失败 path=%@ parentGrant 后 errno=%d（%@）",
-                dest, errno, detail ?: @"无"];
+
+    // 实读校验：grant 父目录后用 [NSString stringWithContentsOfFile] 读真实内容。
+    wq_grant(parent);
+    NSString *onDisk = [NSString stringWithContentsOfFile:dest encoding:NSUTF8StringEncoding error:nil];
+    BOOL verified = [onDisk isEqualToString:kBody];
+    struct stat st;
+    BOOL statOK = wq_stat(dest, &st) == 0 && S_ISREG(st.st_mode) && st.st_size > 0;
+
+    if (verified && statOK) return YES;
+    if (err) {
+        *err = [NSString stringWithFormat:@"写入未落盘：create=%@（%@）\nstat=%@ size=%lld\n读回=%@\npath=%@",
+                createOK ? @"OK" : @"失败", detail ?: @"无",
+                statOK ? @"OK" : @"失败", statOK ? (long long)st.st_size : -1LL,
+                onDisk ? [NSString stringWithFormat:@"'%@'", onDisk] : @"读不到", dest];
     }
-    return ok;
+    return NO;
 }
 
 @end
