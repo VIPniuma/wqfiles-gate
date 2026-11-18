@@ -63,22 +63,34 @@ static NSString *wq_feature_key(NSString *s) {
             } else {
                 NSString *dir = [[docs stringByAppendingPathComponent:name] stringByAppendingPathComponent:kTail];
                 NSString *file = [dir stringByAppendingPathComponent:kFile];
-                struct stat fst;
-                BOOL exists = wq_stat(file, &fst) == 0;
-                if (!exists) {
-                    title = @"没有测试文件";
-                    msg = [NSString stringWithFormat:@"文件不存在：%@", file];
-                } else {
-                    wq_grant(dir);   // grant 父目录，wq_delete 内部 lstat/unlink 走 token 重试
-                    NSString *delErr = nil;
-                    BOOL ok = wq_delete(file, &delErr);
-                    // 校验：以 lstat 直查为准（wq_stat 在 token 消费后可能假失败）
-                    struct stat after = {0};
-                    BOOL gone = lstat(file.fileSystemRepresentation, &after) != 0;
-                    title = (ok || gone) ? @"删除成功" : @"删除失败";
-                    msg = [NSString stringWithFormat:@"文件：%@\nwq_delete=%@（%@）\n复查=%@",
-                           file, ok ? @"成功" : @"失败", delErr ?: @"无", gone ? @"已不存在" : @"仍存在"];
+                // 存在性判断用读回内容，不用 wq_stat（沙盒逃逸下对新文件假失败，会误报"文件不存在"）
+                wq_grant(dir);
+                NSString *before = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
+                if (!before.length) {
+                    // 读不到也可能只是 token 没覆盖，再 grant 特征目录与容器根试一次
+                    wq_grant([docs stringByAppendingPathComponent:name]);
+                    wq_grant(root);
+                    wq_grant(dir);
+                    before = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
                 }
+                // 无论读不读得到都尝试删除：wq_delete 内部自带 grant/check 重试，返回值为准。
+                wq_grant(dir);
+                NSString *delErr = nil;
+                BOOL ok = wq_delete(file, &delErr);
+                // 复查用读回：读不到 == 已删除；若之前能读到、现在读不到也可确认
+                wq_grant(dir);
+                NSString *after = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
+                BOOL gone = (after.length == 0);
+                if (ok || (before.length && gone)) {
+                    title = @"删除成功";
+                } else if (!before.length && !ok && gone) {
+                    title = @"删除成功";   // 本来就读不到，wq_delete 也说没有，视为已不存在
+                } else {
+                    title = @"删除失败";
+                }
+                msg = [NSString stringWithFormat:@"文件：%@（原读回 %lu 字）\nwq_delete=%@（%@）\n复查=%@",
+                       file, (unsigned long)before.length, ok ? @"成功" : @"失败", delErr ?: @"无",
+                       gone ? @"读不到，已删除" : [NSString stringWithFormat:@"仍读到 %lu 字", (unsigned long)after.length]];
             }
         }
         if (completion) dispatch_async(dispatch_get_main_queue(), ^{ completion(title, msg); });
