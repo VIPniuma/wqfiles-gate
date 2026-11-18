@@ -74,16 +74,27 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
 
     // 2) 严格检查：列出 Documents 真实条目名 → 逐字精确匹配 DeltaForce → 确认是目录
     struct stat st;
-    NSUInteger checked = 0;
+    NSUInteger checked = 0, listFailed = 0, ciMatches = 0;
+    NSMutableArray<NSString *> *nearHits = [NSMutableArray array];
     for (NSString *c in containers) {
         if (![c isKindOfClass:NSString.class] || c.length == 0) continue;
         checked++;
         NSString *docs = [c stringByAppendingPathComponent:kDocsRel];
+        // 先拿容器 token 再列：wq_list 内部只 grant(docs)，容器根未授权时仍会失败
+        wq_grant(c);
+        wq_grant(docs);
         NSString *listErr = nil;
         NSArray *entries = wq_list(docs, &listErr);   // Documents 下的真实名字（不走大小写折叠）
+        if (!entries) { listFailed++; continue; }
+
         BOOL exactName = NO;
-        for (NSString *name in entries ?: @[]) {
+        for (NSString *name in entries) {
             if (![name isKindOfClass:NSString.class]) continue;
+            // 大小写不敏感的近似命中，仅用于诊断（不算通过）
+            if ([name caseInsensitiveCompare:kFeatureName] == NSOrderedSame) {
+                ciMatches++;
+                [nearHits addObject:[NSString stringWithFormat:@"%@:Documents/%@", c.lastPathComponent, name]];
+            }
             // isEqualToString 区分大小写；必须完全一致（Deltaforce / deltaforce / DeltaForce2 都不算）
             if ([name isEqualToString:kFeatureName]) { exactName = YES; break; }
         }
@@ -100,9 +111,15 @@ static NSString * const kAppDataRoot = @"/private/var/mobile/Containers/Data/App
         return c;
     }
 
+    [notes addObject:[NSString stringWithFormat:@"检查 %lu：Documents 列不出 %lu，大小写近似命中 %lu",
+                      (unsigned long)checked, (unsigned long)listFailed, (unsigned long)ciMatches]];
+    if (nearHits.count) {
+        [notes addObject:[NSString stringWithFormat:@"近似名字样本：%@",
+                          [[nearHits subarrayWithRange:NSMakeRange(0, MIN(5, nearHits.count))] componentsJoinedByString:@", "]]];
+    }
     if (errorText) {
-        *errorText = [NSString stringWithFormat:@"%@；检查 %lu 个容器，均无 Documents/%@ 逐字匹配目录",
-                      [notes componentsJoinedByString:@"；"], (unsigned long)checked, kFeatureName];
+        *errorText = [NSString stringWithFormat:@"%@；均无 Documents/%@ 逐字匹配目录",
+                      [notes componentsJoinedByString:@"；"], kFeatureName];
     }
     return nil;
 }
