@@ -23,7 +23,7 @@ jobs:
           SDK=$(xcrun --sdk iphonesimulator --show-sdk-path)
           ARCH=$(uname -m)
           xcrun --sdk iphonesimulator clang -fobjc-arc -fmodules -fmodules-cache-path="$ROOT/Build/ModuleCache" -arch "$ARCH" \
-            -miphoneos-version-min=16.0 -DWQ_SCREENSHOT_MODE=1 \
+            -miphonesimulator-version-min=16.0 -DWQ_SCREENSHOT_MODE=1 \
             -isysroot "$SDK" -I T3SDK \
             -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers -framework JavaScriptCore \
             WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m \
