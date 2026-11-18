@@ -1,72 +1,136 @@
 //
 //  DoroHomeViewController.m
-//  极简首页 UI：标题 + 两个并排按钮。按钮行为分别委托给
-//  DoroWriteTest（生成）与 DoroDeleteTest（删除）两个独立模块，
-//  本文件只管布局与结果弹窗，不含任何文件读写逻辑。
+//  极简首页：顶部「Doro工具箱」+ Doro 头像，中间 16:9 T3 公告栏，
+//  下方两个大圆形按钮：绿色「启动」（生成测试文件）、红色「删除」。
+//  只管布局与公告/结果弹窗，文件读写交给 DoroWriteTest / DoroDeleteTest。
 //
 
 #import "DoroHomeViewController.h"
 #import "DoroWriteTest.h"
 #import "DoroDeleteTest.h"
 #import "WQAccess.h"
+#import "T3Verify.h"
+#import "T3GateConfig.h"
 
-@implementation DoroHomeViewController
+@implementation DoroHomeViewController {
+    UILabel *_noticeLabel;
+    UIButton *_startBtn;
+    UIButton *_deleteBtn;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"首页";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页"
-                                                   image:[UIImage systemImageNamed:@"house"]
-                                           selectedImage:[UIImage systemImageNamed:@"house.fill"]];
 
-    UILabel *title = [UILabel new];
-    title.text = @"三角洲测试";
-    title.font = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle1];
-    title.textAlignment = NSTextAlignmentCenter;
+    // ---- 顶部：左标题、右头像（等高） ----
+    UILabel *brand = [UILabel new];
+    brand.text = @"Doro工具箱";
+    brand.font = [UIFont systemFontOfSize:24 weight:UIFontWeightBold];
+    [brand setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 
-    UILabel *hint = [UILabel new];
-    hint.text = @"生成 / 删除Documents里的测试文件";
-    hint.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-    hint.textColor = [UIColor grayColor];
-    hint.textAlignment = NSTextAlignmentCenter;
-    hint.numberOfLines = 0;
+    UIImage *avatarImg = [UIImage imageWithContentsOfFile:[NSBundle.mainBundle pathForResource:@"doro_avatar" ofType:@"jpg"]];
+    UIImageView *avatar = [[UIImageView alloc] initWithImage:avatarImg];
+    avatar.contentMode = UIViewContentModeScaleAspectFill;
+    avatar.clipsToBounds = YES;
+    avatar.layer.cornerRadius = 8;
+    if (!avatarImg) avatar.backgroundColor = [UIColor colorWithRed:1 green:0.7 blue:0.85 alpha:1];
+    [avatar.widthAnchor constraintEqualToConstant:34];
+    [avatar.heightAnchor constraintEqualToConstant:34];
 
-    UIButton *generate = [self makeButtonWithTitle:@"生成测试文件" color:[UIColor colorWithRed:0.0 green:0.48 blue:1.0 alpha:1.0]];
-    [generate addTarget:self action:@selector(onGenerate:) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *remove = [self makeButtonWithTitle:@"删除测试文件" color:[UIColor colorWithRed:1.0 green:0.23 blue:0.19 alpha:1.0]];
-    [remove addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
-    UIStackView *buttons = [[UIStackView alloc] initWithArrangedSubviews:@[generate, remove]];
-    buttons.axis = UILayoutConstraintAxisHorizontal;
-    buttons.distribution = UIStackViewDistributionFillEqually;
-    buttons.spacing = 12;
+    UIStackView *header = [[UIStackView alloc] initWithArrangedSubviews:@[brand, avatar]];
+    header.axis = UILayoutConstraintAxisHorizontal;
+    header.alignment = UIStackViewAlignmentCenter;
+    header.distribution = UIStackViewDistributionEqualSpacing;
 
-    UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[title, hint, buttons]];
-    stack.axis = UILayoutConstraintAxisVertical;
-    stack.spacing = 20;
-    stack.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:stack];
+    // ---- 公告栏：16:9 圆角卡片 ----
+    UIView *noticeCard = [UIView new];
+    noticeCard.backgroundColor = [UIColor colorWithRed:0.97 green:0.95 blue:0.98 alpha:1];
+    noticeCard.layer.cornerRadius = 12;
+    noticeCard.layer.borderWidth = 1;
+    noticeCard.layer.borderColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+    _noticeLabel = [UILabel new];
+    _noticeLabel.text = @"公告加载中…";
+    _noticeLabel.font = [UIFont systemFontOfSize:14];
+    _noticeLabel.textColor = [UIColor darkGrayColor];
+    _noticeLabel.numberOfLines = 0;
+    _noticeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [noticeCard addSubview:_noticeLabel];
+    [NSLayoutConstraint activateConstraints:@[
+        [_noticeLabel.topAnchor constraintEqualToAnchor:noticeCard.topAnchor constant:10],
+        [_noticeLabel.bottomAnchor constraintEqualToAnchor:noticeCard.bottomAnchor constant:-10],
+        [_noticeLabel.leadingAnchor constraintEqualToAnchor:noticeCard.leadingAnchor constant:12],
+        [_noticeLabel.trailingAnchor constraintEqualToAnchor:noticeCard.trailingAnchor constant:-12],
+    ]];
+    [self loadNotice];
+
+    // ---- 两个大圆形按钮，上下排列 ----
+    _startBtn = [self makeCircleButtonWithTitle:@"启动" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
+    [_startBtn addTarget:self action:@selector(onStart:) forControlEvents:UIControlEventTouchUpInside];
+    _deleteBtn = [self makeCircleButtonWithTitle:@"删除" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
+    [_deleteBtn addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeCard, _startBtn, _deleteBtn]];
+    content.axis = UILayoutConstraintAxisVertical;
+    content.alignment = UIStackViewAlignmentCenter;
+    content.spacing = 28;
+    content.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:header];
+    [self.view addSubview:content];
+    header.translatesAutoresizingMaskIntoConstraints = NO;
+
     UILayoutGuide *g = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [stack.centerYAnchor constraintEqualToAnchor:g.centerYAnchor],
-        [stack.leadingAnchor constraintEqualToAnchor:g.leadingAnchor constant:24],
-        [stack.trailingAnchor constraintEqualToAnchor:g.trailingAnchor constant:-24],
+        [header.topAnchor constraintEqualToAnchor:g.topAnchor constant:16],
+        [header.leadingAnchor constraintEqualToAnchor:g.leadingAnchor constant:20],
+        [header.trailingAnchor constraintEqualToAnchor:g.trailingAnchor constant:-20],
+        [content.topAnchor constraintEqualToAnchor:header.bottomAnchor constant:24],
+        [content.leadingAnchor constraintEqualToAnchor:g.leadingAnchor constant:20],
+        [content.trailingAnchor constraintEqualToAnchor:g.trailingAnchor constant:-20],
+        [noticeCard.widthAnchor constraintEqualToAnchor:content.widthAnchor],
+        [noticeCard.heightAnchor constraintEqualToAnchor:noticeCard.widthAnchor multiplier:9.0/16.0],  // 16:9
     ]];
 }
 
-- (UIButton *)makeButtonWithTitle:(NSString *)title color:(UIColor *)color {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+- (UIButton *)makeCircleButtonWithTitle:(NSString *)title color:(UIColor *)color {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
-    btn.backgroundColor = [color colorWithAlphaComponent:0.12];
-    [btn setTitleColor:color forState:UIControlStateNormal];
-    btn.layer.cornerRadius = 12;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:22 weight:UIFontWeightBold];
+    btn.backgroundColor = color;
+    btn.layer.cornerRadius = 60;   // 直径 120 的大圆
     btn.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[[btn.heightAnchor constraintEqualToConstant:52]]];
+    [NSLayoutConstraint activateConstraints:@[
+        [btn.widthAnchor constraintEqualToConstant:120],
+        [btn.heightAnchor constraintEqualToConstant:120],
+    ]];
     return btn;
 }
 
-- (void)onGenerate:(UIButton *)sender {
+// T3 SDK 公告：getNotice 不依赖登录态，首页自建一个 verify 拉取即可。
+- (void)loadNotice {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        T3Verify *verify = [[T3Verify alloc] init];
+        NSError *err = nil;
+        [verify initRsaWithLoginCode:T3_LOGIN_CODE
+                          noticeCode:T3_NOTICE_CODE
+                         versionCode:T3_VERSION_CODE
+                        heartbeatCode:T3_HEARTBEAT_CODE
+                             appkey:T3_APPKEY
+                       rsaPublicKey:T3_RSA_PUBLIC_KEY
+                              error:&err];
+        NSString *text = nil;
+        if (!err) {
+            T3NoticeResult *r = [verify getNotice];
+            text = r.notice;
+        }
+        __weak typeof(self) wf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            wf->_noticeLabel.text = text.length ? text : @"暂无公告";
+        });
+    });
+}
+
+- (void)onStart:(UIButton *)sender {
     sender.enabled = NO;
     __weak typeof(self) wf = self;
     [DoroWriteTest runWithHost:self completion:^(NSString *title, NSString *message) {
