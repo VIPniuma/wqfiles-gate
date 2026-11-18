@@ -89,38 +89,13 @@ xcrun --sdk iphoneos clang -fobjc-arc -fmodules -fmodules-cache-path="$OUT/Modul
     DoroGate.m DoroWriteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
     main.m -lsqlite3 -lz -o "$APP/WQFiles"
 cp Info.plist "$APP/Info.plist"
-# App icon with the iOS 18+ dark and tinted variants (issue #47): a catalog
-# built from icons/ and compiled by actool into Assets.car plus the classic
-# PNGs; its CFBundleIcons replace the plain PNG list in Info.plist.
-ICON_CATALOG="$OUT/Icons.xcassets"
-mkdir -p "$ICON_CATALOG/AppIcon.appiconset"
-cp icons/AppIcon1024.png icons/AppIcon1024-dark.png icons/AppIcon1024-tinted.png "$ICON_CATALOG/AppIcon.appiconset/"
-cat > "$ICON_CATALOG/Contents.json" <<'JSON'
-{ "info" : { "author" : "xcode", "version" : 1 } }
-JSON
-cat > "$ICON_CATALOG/AppIcon.appiconset/Contents.json" <<'JSON'
-{
-  "images" : [
-    { "filename" : "AppIcon1024.png", "idiom" : "universal", "platform" : "ios", "size" : "1024x1024" },
-    { "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ],
-      "filename" : "AppIcon1024-dark.png", "idiom" : "universal", "platform" : "ios", "size" : "1024x1024" },
-    { "appearances" : [ { "appearance" : "luminosity", "value" : "tinted" } ],
-      "filename" : "AppIcon1024-tinted.png", "idiom" : "universal", "platform" : "ios", "size" : "1024x1024" }
-  ],
-  "info" : { "author" : "xcode", "version" : 1 }
-}
-JSON
-xcrun actool "$ICON_CATALOG" --compile "$APP" --platform iphoneos \
-    --minimum-deployment-target "$MINIMUM_IOS_VERSION" --target-device iphone --target-device ipad \
-    --app-icon AppIcon --output-partial-info-plist "$OUT/icon-info.plist" \
-    --errors --warnings --output-format human-readable-text >/dev/null || fail "actool could not compile the app icon"
-[[ -f "$APP/Assets.car" ]] || fail "actool wrote no Assets.car"
-for key in CFBundleIcons 'CFBundleIcons~ipad'; do
-    /usr/libexec/PlistBuddy -c "Delete :$key" "$APP/Info.plist" >/dev/null 2>&1 || true
+# 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
+# Xcode 26 下编译失败，这里直接用 sips 从 1024 源图生成各尺寸，稳定可复现。
+cp icons/AppIcon1024.png "$APP/AppIcon1024.png"
+for spec in "AppIcon40x40:40" "AppIcon60x60:60" "AppIcon76x76:76" "AppIcon83.5x83.5:83"; do
+    name=${spec%%:*}; size=${spec##*:}
+    sips -z "$size" "$size" icons/AppIcon1024.png --out "$APP/$name.png" >/dev/null || fail "sips failed for $name"
 done
-/usr/libexec/PlistBuddy -c "Merge $OUT/icon-info.plist" "$APP/Info.plist" >/dev/null
-[[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconName' "$APP/Info.plist")" == AppIcon ]] || \
-    fail "Info.plist has no catalog app icon"
 for lproj in "$ROOT"/*.lproj; do
     [[ -d "$lproj" ]] && cp -R "$lproj" "$APP/"
 done
