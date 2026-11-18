@@ -29,7 +29,9 @@ static NSString * const kTargetBundle = @"com.tencent.tmgp.dfm";
 // iOS 数据容器目录名是 UUID；容器内 .com.apple.mobile_container_manager.metadata.plist
 // 的 MCMMetadataIdentifier 映射回 bundle id（由 wq_container_label 读取）。
 static NSString * const kKnownUUID    = @"ED9354EB-FB6C-4CA3A2E6-B0509CFA08FE";
-static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/ED9354EB-FB6C-4CA3A2E6-B0509CFA08FE/Documents/DeltaForce/Saved";
+// 真机截图观察到被 grant 命中的容器 UUID（当前设备真实容器），优先尝试
+static NSString * const kKnownUUID2   = @"0244A8F4-1A25-4061-A324-C5766BE44E5E";
+static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Application/0244A8F4-1A25-4061-A324-C5766BE44E5E/Documents";
 
 @implementation DeltaForceLocator
 
@@ -39,15 +41,22 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
     [notes addObject:[NSString stringWithFormat:@"iOS %@ · AppGroup=%@",
                       UIDevice.currentDevice.systemVersion, grp ?: @"缺失（签名未带 App Group，逃沙箱必然失败）"]];
 
-    // 1) 用户提供的完整路径优先：wq_stat 被拒时内部自动 wq_grant 后重试
-    [self grantParentOfPath:kKnownRoot notes:notes];
+    // 1) 已知 UUID 容器优先（含真机观察到的 UUID），返回 Documents 根：
+    //    Saved 可能尚未创建，整条链交给 ensureChainFromRoot 新建。
     struct stat st;
-    if (wq_stat(kKnownRoot, &st) == 0 && S_ISDIR(st.st_mode)) {
-        NSString *container = [kAppDataRoot stringByAppendingPathComponent:kKnownUUID];
-        NSString *bid = [self labelForContainer:container];
-        [notes addObject:[NSString stringWithFormat:@"命中已知 UUID 容器 %@（label=%@）",
-                          kKnownUUID, bid ?: @"未知"]];
-        return kKnownRoot;
+    NSArray *knownUUIDs = @[ kKnownUUID2, kKnownUUID ];
+    for (NSString *uuid in knownUUIDs) {
+        NSString *documents = [[kAppDataRoot stringByAppendingPathComponent:uuid]
+                               stringByAppendingPathComponent:@"Documents"];
+        [self grantParentOfPath:documents notes:notes];
+        if (wq_stat(documents, &st) == 0 && S_ISDIR(st.st_mode)) {
+            NSString *container = [kAppDataRoot stringByAppendingPathComponent:uuid];
+            NSString *bid = [self labelForContainer:container];
+            [notes addObject:[NSString stringWithFormat:@"命中已知 UUID 容器 %@（label=%@），返回 Documents 根",
+                              uuid, bid ?: @"未知"]];
+            wq_grant(container);
+            return documents;
+        }
     }
     [notes addObject:@"已知 UUID 路径不可用，转入枚举"];
 
@@ -101,7 +110,7 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
 //   A. 特征目录命中（黑猫主路径）：Documents/DeltaForce/Saved 存在且 wq_stat 能过；
 //   B. bundle id 命中（含 metadata.plist 的 MCMMetadataIdentifier/xattr）：
 //      wq_container_label 读不到时回退 wq_bundle_id_for_container。
-// 命中后 wq_grant 整个容器拿 token，返回特征目录绝对路径。
+// 命中后 wq_grant 整个容器拿 token，返回容器 Documents 根（整条链由写入模块新建）。
 + (nullable NSString *)scanContainers:(NSArray<NSString *> *)containers
                              bundleID:(NSString *)bundleID
                                 notes:(NSMutableArray<NSString *> *)notes {
@@ -120,7 +129,7 @@ static NSString * const kKnownRoot    = @"/private/var/mobile/Containers/Data/Ap
             wq_grant(c);
             [notes addObject:[NSString stringWithFormat:@"A·特征命中容器 %@（bundle=%@）",
                               c.lastPathComponent, bid ?: @"未知"]];
-            return candidate;
+            return [c stringByAppendingPathComponent:@"Documents"];
         }
     }
 

@@ -5,9 +5,10 @@
 //   - 逐级建链 WQGameEnsureChain (0x10003de80)：wq_stat + wq_create_dir
 //   - 写文件 performWrite_block_invoke_2 (0x100044288)：wq_create_file_from 流式写
 //   - 写入后 wq_stat 校验
-//  目标：<DeltaForce容器>/Documents/DeltaForce/Saved/
-//        LuaDebug/LuaSource/DFM/BusinessEntrance/测试123
-//  复杂度：O(k)，k = 路径级数。
+//  目标：<DeltaForce容器>/Documents/
+//        DeltaForce/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance/测试123
+//  根用容器 Documents，整条链（含 DeltaForce/Saved）由 wq_create_dir 逐级建，
+//  这样即使游戏尚未创建 Saved 目录也能写入。复杂度 O(k)，k = 路径级数。
 //
 
 #import "DoroWriteTest.h"
@@ -15,7 +16,8 @@
 #import "WQAccess.h"
 #import <sys/stat.h>
 
-static NSString * const kChain = @"LuaDebug/LuaSource/DFM/BusinessEntrance";
+// 完整建链：从 Documents 下开始，Saved 不存在也能逐级新建
+static NSString * const kChain = @"DeltaForce/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
 static NSString * const kFile  = @"测试123";
 static NSString * const kBody  = @"测试123";
 
