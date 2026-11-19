@@ -109,8 +109,8 @@ xcrun --sdk iphoneos swiftc -target arm64-apple-ios16.1 -sdk "$SDK" -O \
     -framework WidgetKit -framework SwiftUI -framework ActivityKit -framework Foundation
 cp widget/Info.plist "$WIDGET/Info.plist"
 plutil -convert binary1 "$WIDGET/Info.plist"
-# 先签 appex（用 widget entitlements），再签整个 app
-codesign -f -s - --entitlements widget/entitlements.plist "$WIDGET"
+# 先签 appex（ad-hoc，无 entitlements：Live Activity 数据随 activity 跨进程传递，widget 不需要 App Group），再签整个 app
+codesign -f -s - "$WIDGET"
 cp Info.plist "$APP/Info.plist"
 # 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
 # Xcode 26 下编译失败，这里直接用 sips 从 1024 源图生成各尺寸，稳定可复现。
