@@ -2,7 +2,7 @@
 //  DoroWriteTest.m
 //  生成测试文件（纯逻辑，UI 由 DoroHomeViewController 负责）。
 //  流程复刻自黑猫工具箱：安全相对路径校验 → 逐级建链 → wq_create_file_from 写入 → wq_stat 校验。
-//  目标：<DeltaForce容器>/Documents/<特征名>/Saved/LuaDebug/LuaSource/DFM/BusinessEntrance/测试123
+//  目标：<DeltaForce容器>/Documents/<特征名>/Saved/LuaSource/测试123
 //  复杂度 O(k)，k = 路径级数。
 //
 
@@ -14,7 +14,7 @@
 
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kFeatureKey  = @"deltaforce";
-static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
+static NSString * const kTail = @"Saved/LuaSource";
 static NSString * const kFile = @"测试123";
 static NSString * const kBody = @"测试123";
 
