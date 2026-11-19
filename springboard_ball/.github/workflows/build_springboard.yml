@@ -1,0 +1,37 @@
+name: Build DoroSB SpringBall
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          brew install ldid dpkg || true
+
+      - name: Select Xcode
+        run: |
+          XC=$(ls -d /Applications/Xcode*.app/Contents/Developer 2>/dev/null | head -1)
+          if [ -n "$XC" ]; then sudo xcode-select -s "$XC"; fi
+          xcode-select -p
+
+      - name: Build dylib + deb
+        working-directory: springboard_ball
+        run: |
+          set -euo pipefail
+          chmod +x build.sh
+          bash build.sh
+          ls -la doro_sb_ball.deb libDoroSB.dylib
+
+      - name: Upload deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: doro_sb_ball
+          path: |
+            springboard_ball/doro_sb_ball.deb
+            springboard_ball/libDoroSB.dylib
+          if-no-files-found: error
