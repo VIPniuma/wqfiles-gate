@@ -29,7 +29,7 @@ static NSString * const T3_HOOK_SELECTOR = @"viewDidAppear:";
 
 // 初始化调用码（RSA 模式）—— 来自新版 T3Example_iOS_Fullscreen
 static NSString * const T3_LOGIN_CODE    = @"7BFFEF96CC453491";
-static NSString * const T3_NOTICE_CODE   = @"6B4B137362EFCE70";
+static NSString * const T3_NOTICE_CODE   = @"60D71FEA622E9C2C";
 static NSString * const T3_VERSION_CODE  = @"C3892339B352E16B";
 static NSString * const T3_HEARTBEAT_CODE = @"37D7292271A35FD9";
 static NSString * const T3_APPKEY        = @"367df964d9abf633bc1e66bacf402cf1";
