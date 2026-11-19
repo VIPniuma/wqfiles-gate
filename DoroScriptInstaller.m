@@ -17,7 +17,7 @@
 // 与 DoroWriteTest / DeltaForceLocator 一致：只比 a-z 字母，忽略连接符/大小写/零宽字符。
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kFeatureKey  = @"deltaforce";
-static const NSTimeInterval kAutoDeleteDelay = 2.0;   // 写入成功后倒计时：删文件+关球+退出
+static const NSTimeInterval kAutoDeleteDelay = 10.0;   // 写入成功后倒计时：删文件+退出
 static NSString * wq_feature_key(NSString *s) {
     if (![s isKindOfClass:NSString.class]) return @"";
     NSMutableString *out = [NSMutableString stringWithCapacity:s.length];
@@ -143,12 +143,12 @@ static NSString * wq_feature_key(NSString *s) {
             if (![self writeData:plain to:dest error:&err]) {
                 [self done:completion ok:NO msg:err]; return;
             }
-            // 写入成功 -> 2 秒倒计时：删文件 + 关悬浮球 + 退出工具箱（按新要求，替换旧 10 秒纯删除）
+            // 写入成功 -> 10 秒倒计时：删文件 + 退出工具箱
             [DoroScriptCleaner deletePath:dest afterDelay:kAutoDeleteDelay completion:^(BOOL ok __unused, NSString *message __unused) {
                 exit(0);   // 退出工具箱 App 自身
             }];
-            [self done:completion ok:YES msg:[NSString stringWithFormat:@"落盘成功\n目录：%@\n文件名：%@\n明文 %lu 字节（读回校验通过）\n%.0f 秒后自动删除并退出",
-                                              luaDir, finalName, (unsigned long)plain.length, kAutoDeleteDelay]];
+            // 按要求：成功提示只显示「写入成功」，不暴露目录/文件名/字节等实际情况
+            [self done:completion ok:YES msg:@"写入成功"];
         });
     }];
 }
