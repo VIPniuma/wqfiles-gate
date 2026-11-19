@@ -16,6 +16,7 @@
 #import "WQLaunchServices.h"
 #import "DoroGate.h"
 #import "DoroPIP.h"
+#import "DoroLiveActivity.h"
 #import "DoroScriptInstaller.h"
 #import "DoroHomeViewController.h"
 #import "WQUI.h"
@@ -7511,6 +7512,19 @@ static UIViewController *wq_top_view_controller(void);
 {
     for (UIOpenURLContext *context in contexts) {
         NSURL *url = context.URL;
+        // 灵动岛/锁屏点「写入脚本」-> doro://write -> 自动拉取写入
+        if ([url.scheme.lowercaseString isEqualToString:@"doro"]) {
+            [DoroLiveActivity end];
+            DoroGate *g = [DoroGate shared];
+            NSString *kami = g.kami ?: @"";
+            NSString *sc = g.statecode ?: @"";
+            if (kami.length) {
+                [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
+                    NSLog(@"[DoroLive] write via URL: %@ %@", ok ? @"OK" : @"FAIL", message);
+                }];
+            }
+            continue;
+        }
         if (!url.isFileURL) continue;
         NSString *ext = url.pathExtension.lowercaseString;
         if ([ext isEqualToString:@"wqtheme"])
