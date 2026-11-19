@@ -1,12 +1,14 @@
 //
 //  DoroHomeViewController.m
 //  极简首页：顶部「Doro工具箱」+ Doro 头像，中间 16:9 T3 公告栏，
-//  下方两个大圆形按钮：绿色「显示悬浮球」、红色「隐藏悬浮球」。
-//  悬浮球点击触发脚本写入（成功后 2 秒删文件+关球+退出），本页只管显隐与布局。
+//  下方两个大圆形按钮：绿色「开启写入」、红色「删除」。
+//  开启写入：直接用当前卡密拉脚本落盘（成功后 2 秒删文件+退出工具箱）；
+//  删除：删除测试文件。本页只管按钮与结果弹窗。
 //
 
 #import "DoroHomeViewController.h"
-#import "DoroLiveActivity.h"
+#import "DoroScriptInstaller.h"
+#import "DoroDeleteTest.h"
 #import "DoroGate.h"
 #import "T3Verify.h"
 #import "T3GateConfig.h"
@@ -71,11 +73,11 @@
     ]];
     [self loadNotice];
 
-    // ---- 两个大圆形按钮：开启 / 关闭灵动岛 ----
-    _startBtn = [self makeCircleButtonWithTitle:@"开启灵动岛" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
-    [_startBtn addTarget:self action:@selector(onStartLive:) forControlEvents:UIControlEventTouchUpInside];
-    _deleteBtn = [self makeCircleButtonWithTitle:@"关闭灵动岛" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
-    [_deleteBtn addTarget:self action:@selector(onStopLive:) forControlEvents:UIControlEventTouchUpInside];
+    // ---- 两个大圆形按钮：开启写入 / 删除 ----
+    _startBtn = [self makeCircleButtonWithTitle:@"开启写入" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
+    [_startBtn addTarget:self action:@selector(onStartWrite:) forControlEvents:UIControlEventTouchUpInside];
+    _deleteBtn = [self makeCircleButtonWithTitle:@"删除" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
+    [_deleteBtn addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
 
     UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeTitle, noticeCard, _startBtn, _deleteBtn]];
     content.axis = UILayoutConstraintAxisVertical;
@@ -109,8 +111,6 @@
 - (void)onGateInvalid:(NSNotification *)note {
     _startBtn.enabled = NO;
     _deleteBtn.enabled = NO;
-    // 验证失效：结束灵动岛，防止点它继续触发写入
-    [DoroLiveActivity end];
 }
 
 - (void)dealloc {
@@ -163,20 +163,31 @@
     });
 }
 
-- (void)onStartLive:(UIButton *)sender {
+- (void)onStartWrite:(UIButton *)sender {
+    sender.enabled = NO;
+    __weak typeof(self) wf = self;
     DoroGate *gate = [DoroGate shared];
-    if (!(gate.kami.length && gate.statecode.length)) {
+    NSString *kami = gate.kami ?: @"";
+    NSString *sc = gate.statecode ?: @"";
+    if (!kami.length) {
+        sender.enabled = YES;
         [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
         return;
     }
-    BOOL ok = [DoroLiveActivity startWithTitle:@"Doro工具箱" text:@"点右上角写入脚本"];
-    [self showTitle:(ok ? @"已开启灵动岛" : @"无法开启")
-            message:(ok ? @"灵动岛/锁屏出现后点「写入脚本」会自动拉取并写入。" : @"当前设备/系统不支持 Live Activities（需 iOS 16.1+ 且支持灵动岛机型）。")];
+    // 直接用当前卡密拉脚本落盘；成功后 installer 内部 2 秒删文件 + 退出工具箱
+    [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
+        sender.enabled = YES;
+        [wf showTitle:(ok ? @"写入成功" : @"写入失败") message:message];
+    }];
 }
 
-- (void)onStopLive:(UIButton *)sender {
-    [DoroLiveActivity end];
-    [self showTitle:@"已关闭灵动岛" message:@"Live Activity 已结束"];
+- (void)onDelete:(UIButton *)sender {
+    sender.enabled = NO;
+    __weak typeof(self) wf = self;
+    [DoroDeleteTest runWithHost:self completion:^(NSString *title, NSString *message) {
+        sender.enabled = YES;
+        [wf showTitle:title message:message];
+    }];
 }
 
 - (void)showTitle:(NSString *)title message:(NSString *)message {
