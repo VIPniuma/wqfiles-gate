@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 兜底文件名（仅当服务器没下发文件名时用；正常用服务器下发的原上传名）
 + (NSString *)scriptFileName;
 
-// cipher: 服务器下发的 AES-GCM blob（12字节nonce + 密文+16字节tag）。
+// cipher: 服务器下发的 AES-256-CBC blob（16字节IV + 密文，PKCS7）。
 // kami/statecode: 当前会话凭证，用于换 token 拉脚本（本方法内部先拉再解密再落盘）。
 // completion: (ok, 详细说明)
 + (void)installWithKami:(NSString *)kami
