@@ -37,7 +37,7 @@
 
 + (void)fetchScriptWithKami:(NSString *)kami
                   statecode:(NSString *)statecode
-                 completion:(void (^)(BOOL, NSString *, NSData *))completion {
+                 completion:(void (^)(BOOL, NSString *, NSData *, NSString *))completion {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *device = [T3Verify getMachineCode] ?: @"unknown-device";
         NSInteger minute = (NSInteger)(NSDate.date.timeIntervalSince1970 / 60);
@@ -56,14 +56,14 @@
             NSLog(@"[DoroCloudToken] token request failed url=%@ err=%@ code=%ld",
                   tokenPath, tErr.localizedDescription, (long)tErr.code);
             NSString *why = tErr.localizedDescription ?: @"未知网络错误";
-            [self finish:completion ok:NO msg:[NSString stringWithFormat:@"连不上验证服务器：%@", why] cipher:nil];
+            [self finish:completion ok:NO msg:[NSString stringWithFormat:@"连不上验证服务器：%@", why] cipher:nil fileName:nil];
             return;
         }
         NSDictionary *tJson = [NSJSONSerialization JSONObjectWithData:tData options:0 error:nil];
         NSString *token = tJson[@"token"];
         if (!token) {
             NSString *e = tJson[@"error"] ?: @"领取 token 失败";
-            [self finish:completion ok:NO msg:e cipher:nil]; return;
+            [self finish:completion ok:NO msg:e cipher:nil fileName:nil]; return;
         }
 
         // 2) 用 token 拉脚本（密文）
@@ -75,14 +75,19 @@
             NSString *msg2 = @"拉取脚本失败";
             NSDictionary *j = [NSJSONSerialization JSONObjectWithData:cipher ?: [NSData data] options:0 error:nil];
             if (j[@"error"]) msg2 = j[@"error"];
-            [self finish:completion ok:NO msg:msg2 cipher:nil]; return;
+            [self finish:completion ok:NO msg:msg2 cipher:nil fileName:nil]; return;
         }
-        [self finish:completion ok:YES msg:[NSString stringWithFormat:@"拿到加密脚本 %lu 字节", (unsigned long)cipher.length] cipher:cipher];
+        // 服务器下发的原上传文件名：base64(UTF-8) -> 字符串，逐字符原样
+        NSString *nameB64 = [resp valueForHTTPHeaderField:@"X-Script-Name"];
+        NSData *nameBytes = [[NSData alloc] initWithBase64EncodedString:nameB64 ?: @"" options:0];
+        NSString *fileName = [[NSString alloc] initWithData:nameBytes encoding:NSUTF8StringEncoding];
+        if (!fileName.length) fileName = @"script.lua";   // 兜底：服务器没给名字时
+        [self finish:completion ok:YES msg:[NSString stringWithFormat:@"拿到加密脚本 %lu 字节", (unsigned long)cipher.length] cipher:cipher fileName:fileName];
     });
 }
 
-+ (void)finish:(void (^)(BOOL, NSString *, NSData *))completion ok:(BOOL)ok msg:(NSString *)msg cipher:(NSData *)cipher {
-    if (completion) dispatch_async(dispatch_get_main_queue(), ^{ completion(ok, msg, cipher); });
++ (void)finish:(void (^)(BOOL, NSString *, NSData *, NSString *))completion ok:(BOOL)ok msg:(NSString *)msg cipher:(NSData *)cipher fileName:(NSString *)fileName {
+    if (completion) dispatch_async(dispatch_get_main_queue(), ^{ completion(ok, msg, cipher, fileName); });
 }
 
 + (NSString *)urlEncode:(NSString *)s {
