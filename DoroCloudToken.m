@@ -47,9 +47,18 @@
         // 1) 领一次性 token
         NSString *tokenPath = [NSString stringWithFormat:@"/api/token?device_id=%@&ticket=%@&kami=%@",
                                [self urlEncode:device], ticket, [self urlEncode:kami]];
+        NSHTTPURLResponse *tResp = nil;
+        NSError *tErr = nil;
         NSData *tData = [NSURLConnection sendSynchronousRequest:[self requestWithPath:tokenPath headers:nil]
-                                              returningResponse:nil error:nil];
-        if (!tData) { [self finish:completion ok:NO msg:@"连不上验证服务器" cipher:nil]; return; }
+                                              returningResponse:&tResp error:&tErr];
+        if (!tData) {
+            // 把底层原因带出来：ATS 拦截/超时/DNS 各不同，便于定位。
+            NSLog(@"[DoroCloudToken] token request failed url=%@ err=%@ code=%ld",
+                  tokenPath, tErr.localizedDescription, (long)tErr.code);
+            NSString *why = tErr.localizedDescription ?: @"未知网络错误";
+            [self finish:completion ok:NO msg:[NSString stringWithFormat:@"连不上验证服务器：%@", why] cipher:nil];
+            return;
+        }
         NSDictionary *tJson = [NSJSONSerialization JSONObjectWithData:tData options:0 error:nil];
         NSString *token = tJson[@"token"];
         if (!token) {
