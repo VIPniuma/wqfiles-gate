@@ -44,6 +44,13 @@
     header.alignment = UIStackViewAlignmentCenter;
     header.distribution = UIStackViewDistributionEqualSpacing;
 
+    // ---- 公告标题：居中「公告」二字 ----
+    UILabel *noticeTitle = [UILabel new];
+    noticeTitle.text = @"公告";
+    noticeTitle.font = [UIFont systemFontOfSize:18 weight:UIFontWeightSemibold];
+    noticeTitle.textAlignment = NSTextAlignmentCenter;
+    noticeTitle.translatesAutoresizingMaskIntoConstraints = NO;
+
     // ---- 公告栏：16:9 圆角卡片 ----
     UIView *noticeCard = [UIView new];
     noticeCard.backgroundColor = [UIColor colorWithRed:0.97 green:0.95 blue:0.98 alpha:1];
@@ -71,7 +78,7 @@
     _deleteBtn = [self makeCircleButtonWithTitle:@"删除" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
     [_deleteBtn addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
 
-    UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeCard, _startBtn, _deleteBtn]];
+    UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeTitle, noticeCard, _startBtn, _deleteBtn]];
     content.axis = UILayoutConstraintAxisVertical;
     content.alignment = UIStackViewAlignmentCenter;
     content.spacing = 28;
@@ -88,6 +95,7 @@
         [content.topAnchor constraintEqualToAnchor:header.bottomAnchor constant:24],
         [content.leadingAnchor constraintEqualToAnchor:g.leadingAnchor constant:20],
         [content.trailingAnchor constraintEqualToAnchor:g.trailingAnchor constant:-20],
+        [noticeTitle.widthAnchor constraintEqualToAnchor:content.widthAnchor],
         [noticeCard.widthAnchor constraintEqualToAnchor:content.widthAnchor],
         [noticeCard.heightAnchor constraintEqualToAnchor:noticeCard.widthAnchor multiplier:9.0/16.0],  // 16:9
     ]];
