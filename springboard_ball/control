@@ -1,0 +1,8 @@
+Package: com.doro.springboard.ball
+Name: DoroSB Ball
+Version: 1.0
+Architecture: iphoneos-arm
+Description: SpringBoard floating ball - writes cloud script to Delta Force container, auto-deletes after 2s, closes ball and quits toolbox. Runs as SpringBoard (cross-app, visible on home screen).
+Maintainer: Doro
+Depends: mobilesubstrate, preferenceloader
+Section: Tweaks
