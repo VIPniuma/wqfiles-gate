@@ -1,7 +1,7 @@
 //
 //  DoroFloatingBall.h
 //  悬浮球：显示后可拖动，点击触发云端脚本写入。
-//  写入完成后由 DoroScriptCleaner 延迟 10 秒自动删除刚写入的文件。
+//  写入完成后由 DoroScriptInstaller 调度 2 秒倒计时：删文件+关球+退出。
 //
 
 #import <Foundation/Foundation.h>
