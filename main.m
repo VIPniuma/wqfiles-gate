@@ -7462,15 +7462,20 @@ static UIViewController *wq_top_view_controller(void);
     if (options.URLContexts.count) [self scene:scene openURLContexts:options.URLContexts];
 
 #ifndef WQ_SCREENSHOT_MODE
-    // Doro：验证通过后放行。测试按钮已常驻首页，无需再挂悬浮按钮。
-    static DoroGate *gate;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        gate = [[DoroGate alloc] initWithWindow:window];
+    // Doro：验证门（单例，首页通过它读卡密换 token）。
+    DoroGate *gate = [DoroGate shared];
+    if (!gate.onSuccess) {
         gate.onSuccess = ^{
             NSLog(@"[DoroGate] 验证成功，测试功能已可用");
         };
-    });
+    }
+    if (!gate.onInvalid) {
+        gate.onInvalid = ^(NSString *reason) {
+            // 心跳失败：通知首页锁住按钮（验证框由 DoroGate 推回）
+            [NSNotificationCenter.defaultCenter postNotificationName:@"DoroGateInvalid" object:nil userInfo:@{@"reason": reason ?: @""}];
+        };
+    }
+    [gate initWithWindow:window];
     [gate start];
 #endif
 }
