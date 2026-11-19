@@ -6,6 +6,8 @@
 #ifndef DoroSBConfig_h
 #define DoroSBConfig_h
 
+#import <Foundation/Foundation.h>
+
 // 云端接口（与 tools/cloud_gate/config.py 一致）
 static NSString * const SB_SERVER_BASE        = @"http://118.31.110.187:18443";
 static NSString * const SB_CLIENT_HEADER_NAME = @"X-Doro-Client";
@@ -34,6 +36,6 @@ static const NSTimeInterval SB_AFTER_WRITE_DELAY = 2.0;
 static NSString * const SB_TOOLBOX_BUNDLE = @"cz.kolbi.wqfiles";
 
 // 悬浮球窗口层级（高于普通 App 窗口与状态栏，低于系统紧急弹窗）
-static const UIWindowLevel SB_WINDOW_LEVEL = 3000.0;
+static const CGFloat SB_WINDOW_LEVEL = 3000.0;   // CGFloat 避免依赖 UIKit 的 UIWindowLevel typedef
 
 #endif
