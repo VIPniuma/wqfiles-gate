@@ -81,36 +81,13 @@ trap cleanup EXIT
 APP="$OUT/Payload/WQFiles.app"
 mkdir -p "$APP"
 SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-OBJC_SRCS="WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m DoroGate.m DoroHeartbeat.m DoroCloudToken.m DoroScriptInstaller.m DoroScriptCleaner.m DoroPIP.m DoroLiveActivity.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m main.m"
-
-# 1) ObjC -> .o
-for f in $OBJC_SRCS; do
-    o="$OUT/$(echo "$f" | tr '/' '_').o"
-    xcrun --sdk iphoneos clang -fobjc-arc -fmodules -fmodules-cache-path="$OUT/ModuleCache" -arch arm64 \
-        -miphoneos-version-min="$MINIMUM_IOS_VERSION" \
-        -isysroot "$SDK" -O2 -I T3SDK ${WQ_EXTRA_CFLAGS:-} -c "$f" -o "$o"
-done
-
-# 2) Swift（Live Activity 桥）-> .o，再与 ObjC .o 一起用 swiftc 链接（自动带 Swift runtime）
-( cd "$OUT" && xcrun --sdk iphoneos swiftc -target arm64-apple-ios$MINIMUM_IOS_VERSION -sdk "$SDK" \
-    -O -emit-object "$ROOT/DoroActivityAttributes.swift" "$ROOT/DoroLiveActivityBridge.swift" )
-xcrun --sdk iphoneos swiftc -target arm64-apple-ios$MINIMUM_IOS_VERSION -sdk "$SDK" -O \
-    "$OUT"/*.o \
-    -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers \
-    -framework JavaScriptCore -framework ActivityKit \
-    -lsqlite3 -lz -o "$APP/WQFiles"
-
-# 3) Widget Extension（SwiftUI + ActivityKit）-> appex，放进 PlugIns
-WIDGET="$APP/PlugIns/DoroWidget.appex"
-mkdir -p "$WIDGET"
-xcrun --sdk iphoneos swiftc -target arm64-apple-ios16.1 -sdk "$SDK" -O \
-    -emit-executable DoroActivityAttributes.swift widget/DoroWidget.swift \
-    -o "$WIDGET/DoroWidget" \
-    -framework WidgetKit -framework SwiftUI -framework ActivityKit -framework Foundation
-cp widget/Info.plist "$WIDGET/Info.plist"
-plutil -convert binary1 "$WIDGET/Info.plist"
-# 先签 appex（ad-hoc，无 entitlements：Live Activity 数据随 activity 跨进程传递，widget 不需要 App Group），再签整个 app
-codesign -f -s - "$WIDGET"
+xcrun --sdk iphoneos clang -fobjc-arc -fmodules -fmodules-cache-path="$OUT/ModuleCache" -arch arm64 \
+    -miphoneos-version-min="$MINIMUM_IOS_VERSION" \
+    -isysroot "$SDK" -Wall -Wextra -O2 -I T3SDK ${WQ_EXTRA_CFLAGS:-} \
+    -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers -framework JavaScriptCore \
+    WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m \
+    DoroGate.m DoroHeartbeat.m DoroCloudToken.m DoroScriptInstaller.m DoroScriptCleaner.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
+    main.m -lsqlite3 -lz -o "$APP/WQFiles"
 cp Info.plist "$APP/Info.plist"
 # 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
 # Xcode 26 下编译失败，这里直接用 sips 从 1024 源图生成各尺寸，稳定可复现。
