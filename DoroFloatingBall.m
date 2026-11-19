@@ -49,7 +49,7 @@
     UIWindow *w = [[UIWindow alloc] initWithWindowScene:scene];
     w.windowLevel = UIWindowLevelAlert + 1;   // 高于普通界面，低于系统弹窗
     w.backgroundColor = [UIColor clearColor];
-    w.frame = scene.coordinateBounds;
+    w.frame = scene.screen.bounds;
 
     // 透明根 VC：只让球本身可点击，其余区域事件穿透到下层界面
     UIViewController *root = [UIViewController new];
