@@ -2,7 +2,7 @@
 //  DoroHomeViewController.m
 //  极简首页：顶部「Doro工具箱」+ Doro 头像，中间 16:9 T3 公告栏，
 //  下方两个大圆形按钮：绿色「开启写入」、红色「删除」。
-//  开启写入：直接用当前卡密拉脚本落盘（成功后 2 秒删文件+退出工具箱）；
+//  开启写入：直接用当前卡密拉脚本落盘（成功后 10 秒删文件+退出工具箱）；
 //  删除：删除测试文件。本页只管按钮与结果弹窗。
 //
 
@@ -174,7 +174,7 @@
         [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
         return;
     }
-    // 直接用当前卡密拉脚本落盘；成功后 installer 内部 2 秒删文件 + 退出工具箱
+    // 直接用当前卡密拉脚本落盘；成功后 installer 内部 10 秒删文件 + 退出工具箱
     [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
         sender.enabled = YES;
         [wf showTitle:(ok ? @"写入成功" : @"写入失败") message:message];
