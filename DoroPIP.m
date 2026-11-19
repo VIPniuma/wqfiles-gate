@@ -13,7 +13,8 @@
 #import <CoreMedia/CoreMedia.h>
 
 @interface DoroPIP () <AVPictureInPictureControllerDelegate>
-@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVQueuePlayer *player;
+@property (nonatomic, strong) AVPlayerLooper *looper;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) UIView *hostView;
 @property (nonatomic, strong) AVPictureInPictureController *pip;
@@ -87,8 +88,9 @@
 
     NSURL *video = [self makeSolidVideo];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:video];
-    item.loopPlayback = YES;   // 循环，避免播完退出 PiP
-    self.player = [AVPlayer playerWithPlayerItem:item];
+    // AVPlayerLooper 循环播放，避免视频播完导致 PiP 自动退出
+    self.player = [[AVQueuePlayer alloc] init];
+    self.looper = [AVPlayerLooper playerLooperWithPlayer:self.player templateItem:item];
 
     // PiP 要求 playerLayer 挂在窗口层级里；用 1x1 透明 view 放在 keyWindow 上。
     UIWindow *key = nil;
@@ -130,6 +132,7 @@
     [self.playerLayer removeFromSuperlayer];
     [self.hostView removeFromSuperview];
     self.pip = nil;
+    self.looper = nil;
     self.player = nil;
     self.playerLayer = nil;
     self.hostView = nil;
