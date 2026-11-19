@@ -110,11 +110,8 @@
 }
 
 - (void)onGateInvalid:(NSNotification *)note {
-    __weak typeof(self) wf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        wf->_startBtn.enabled = NO;
-        wf->_deleteBtn.enabled = NO;
-    });
+    _startBtn.enabled = NO;
+    _deleteBtn.enabled = NO;
 }
 
 - (void)dealloc {
