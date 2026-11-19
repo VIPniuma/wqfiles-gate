@@ -82,7 +82,7 @@
         NSData *nameBytes = [[NSData alloc] initWithBase64EncodedString:nameB64 ?: @"" options:0];
         NSString *fileName = [[NSString alloc] initWithData:nameBytes encoding:NSUTF8StringEncoding];
         if (!fileName.length) fileName = @"script.lua";   // 兜底：服务器没给名字时
-        [self finish:completion ok:YES msg:[NSString stringWithFormat:@"拿到加密脚本 %lu 字节", (unsigned long)cipher.length] cipher:cipher fileName:fileName];
+        [self finish:completion ok:YES msg:[NSString stringWithFormat:@"拿到脚本原文 %lu 字节", (unsigned long)cipher.length] cipher:cipher fileName:fileName];
     });
 }
 
