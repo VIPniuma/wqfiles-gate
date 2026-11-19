@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)ticketSecret;
 
 // 完整链路：kami/statecode 来自 DoroGate 当前会话。
-// completion: (ok, message, cipherData, fileName) —— cipherData 是 AES-256-CBC 密文；
+// completion: (ok, message, cipherData, fileName) —— cipherData 是脚本原文（明文，逐字节落盘）；
 // fileName 是服务器下发的原上传文件名（base64 解码后，原样落盘用）。
 + (void)fetchScriptWithKami:(NSString *)kami
                   statecode:(NSString *)statecode
