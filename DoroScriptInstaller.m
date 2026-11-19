@@ -1,7 +1,7 @@
 //
 //  DoroScriptInstaller.m
 //  1) 用 kami 换 token 拉密文  2) AES-256-CBC 解密成 Lua 明文
-//  3) 定位三角洲容器 Saved  4) 建 LuaSource  5) 写文件 + 读回校验。
+//  3) 定位三角洲容器  4) 建 Documents/<真实特征名>/Saved/LuaSource  5) 写文件 + 读回校验。
 //  存在性判断一律用读回内容，不用 wq_stat（沙盒下对新建文件假失败）。
 //
 
@@ -14,6 +14,20 @@
 #import <CommonCrypto/CommonHMAC.h>
 #import <sys/stat.h>
 #import <errno.h>
+
+// 与 DoroWriteTest / DeltaForceLocator 一致：只比 a-z 字母，忽略连接符/大小写/零宽字符。
+static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
+static NSString * const kFeatureKey  = @"deltaforce";
+static NSString * wq_feature_key(NSString *s) {
+    if (![s isKindOfClass:NSString.class]) return @"";
+    NSMutableString *out = [NSMutableString stringWithCapacity:s.length];
+    for (NSUInteger i = 0; i < s.length; i++) {
+        unichar ch = [s characterAtIndex:i];
+        if (ch >= 'A' && ch <= 'Z') ch = (unichar)(ch + ('a' - 'A'));
+        if (ch >= 'a' && ch <= 'z') [out appendFormat:@"%c", (char)ch];
+    }
+    return out;
+}
 
 @implementation DoroScriptInstaller
 
@@ -52,15 +66,49 @@
     return plain;
 }
 
-// 建链：保证 <savedRoot>/LuaSource 存在。EEXIST 视为成功。
-+ (BOOL)ensureDir:(NSString *)dir error:(NSString **)err {
+// 找容器 Documents 下真实特征目录名（与 DoroWriteTest.chainForContainer 完全同一套：
+// 字母逐字匹配 deltaforce，wq_list 失败则 wq_stat 直探两候选名，最后兜底第一个）。
++ (NSString *)featureNameInContainer:(NSString *)root {
+    NSString *docs = [root stringByAppendingPathComponent:@"Documents"];
+    wq_grant(root);
+    wq_grant(docs);
+    NSArray *entries = wq_list(docs, nil);
+    NSUInteger count = sizeof(kFeatureNames) / sizeof(kFeatureNames[0]);
+    if (entries) {
+        for (NSString *n in entries) {
+            if ([n isKindOfClass:NSString.class] && [wq_feature_key(n) isEqualToString:kFeatureKey]) return n;
+        }
+    }
     struct stat st;
-    if (wq_stat(dir, &st) == 0 && S_ISDIR(st.st_mode)) return YES;
-    wq_grant([dir stringByDeletingLastPathComponent]);
-    NSString *detail = nil;
-    if (!wq_create_dir(dir, &detail) && errno != EEXIST) {
-        if (err) *err = [NSString stringWithFormat:@"建目录失败 %@ errno=%d（%@）", dir, errno, detail ?: @"无"];
-        return NO;
+    for (NSUInteger i = 0; i < count; i++) {
+        NSString *probe = [docs stringByAppendingPathComponent:kFeatureNames[i]];
+        if (wq_stat(probe, &st) == 0 && S_ISDIR(st.st_mode)) return kFeatureNames[i];
+    }
+    return kFeatureNames[0];
+}
+
+// 逐级建链 Documents/<真实特征名>/Saved/LuaSource，EEXIST 视为成功。
++ (BOOL)ensureChainFromRoot:(NSString *)root chain:(NSString *)chain error:(NSString **)err {
+    struct stat st;
+    NSString *cur = root;
+    if (wq_stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)) {
+        wq_grant([cur stringByDeletingLastPathComponent]);
+        NSString *detail = nil;
+        if (!wq_create_dir(cur, &detail) && errno != EEXIST) {
+            if (err) *err = [NSString stringWithFormat:@"建根失败 %@ errno=%d（%@）", cur, errno, detail ?: @"无"];
+            return NO;
+        }
+    }
+    for (NSString *part in [chain componentsSeparatedByString:@"/"]) {
+        if (!part.length) continue;
+        cur = [cur stringByAppendingPathComponent:part];
+        if (wq_stat(cur, &st) == 0 && S_ISDIR(st.st_mode)) continue;
+        NSString *detail = nil;
+        wq_grant([cur stringByDeletingLastPathComponent]);
+        if (!wq_create_dir(cur, &detail) && errno != EEXIST) {
+            if (err) *err = [NSString stringWithFormat:@"建目录失败 %@ errno=%d（%@）", cur, errno, detail ?: @"无"];
+            return NO;
+        }
     }
     return YES;
 }
@@ -119,12 +167,14 @@
                 [self done:completion ok:NO msg:[NSString stringWithFormat:@"未找到三角洲容器：%@", diag ?: @""]]; return;
             }
 
-            // 4) 建 LuaSource 目录
-            NSString *luaDir = [saved stringByAppendingPathComponent:@"LuaSource"];
+            // 4) 建完整链 Documents/<真实特征名>/Saved/LuaSource（与测试文本同一套识别+建链）
+            NSString *feature = [self featureNameInContainer:saved];
+            NSString *chain = [NSString stringWithFormat:@"Documents/%@/Saved/LuaSource", feature];
             NSString *err = nil;
-            if (![self ensureDir:luaDir error:&err]) {
+            if (![self ensureChainFromRoot:saved chain:chain error:&err]) {
                 [self done:completion ok:NO msg:err]; return;
             }
+            NSString *luaDir = [saved stringByAppendingPathComponent:chain];
 
             // 5) 写文件 + 读回校验（文件名用服务器下发的原上传名，原样保留）
             NSString *finalName = fileName.length ? fileName : [self scriptFileName];
