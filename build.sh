@@ -83,11 +83,15 @@ mkdir -p "$APP"
 SDK=$(xcrun --sdk iphoneos --show-sdk-path)
 xcrun --sdk iphoneos clang -fobjc-arc -fmodules -fmodules-cache-path="$OUT/ModuleCache" -arch arm64 \
     -miphoneos-version-min="$MINIMUM_IOS_VERSION" \
-    -isysroot "$SDK" -Wall -Wextra -O2 -I T3SDK ${WQ_EXTRA_CFLAGS:-} \
+    -isysroot "$SDK" -Wall -Wextra -O2 -I . -I T3SDK ${WQ_EXTRA_CFLAGS:-} \
     -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers -framework JavaScriptCore \
     WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m \
     DoroGate.m DoroHeartbeat.m DoroCloudToken.m DoroScriptInstaller.m DoroScriptCleaner.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
+    DoroStringCrypt.m DoroAntiDebug.m \
     main.m -lsqlite3 -lz -o "$APP/WQFiles"
+# 符号隐藏：-x 仅剥离本地（非外部）符号，保留 ObjC 运行时所需的动态符号。
+# 放在签名前完成，避免签名后改动二进制导致签名失效。
+strip -x "$APP/WQFiles"
 cp Info.plist "$APP/Info.plist"
 # 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
 # Xcode 26 下编译失败，这里直接用 sips 从 1024 源图生成各尺寸，稳定可复现。
