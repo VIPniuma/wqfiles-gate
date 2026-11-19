@@ -8,7 +8,7 @@
 #import "DoroScriptInstaller.h"
 #import "DoroCloudToken.h"
 #import "DoroScriptCleaner.h"
-#import "DoroFloatingBall.h"
+#import "DoroPIP.h"
 #import "DeltaForceLocator.h"
 #import "WQAccess.h"
 #import <sys/stat.h>
@@ -147,7 +147,7 @@ static NSString * wq_feature_key(NSString *s) {
             // 写入成功 -> 2 秒倒计时：删文件 + 关悬浮球 + 退出工具箱（按新要求，替换旧 10 秒纯删除）
             [DoroScriptCleaner deletePath:dest afterDelay:kAutoDeleteDelay completion:^(BOOL ok __unused, NSString *message __unused) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[DoroFloatingBall shared] hide];
+                    [[DoroPIP shared] stop];   // 关画中画
                 });
                 exit(0);   // 退出工具箱 App 自身
             }];
