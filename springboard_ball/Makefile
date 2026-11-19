@@ -6,7 +6,7 @@ OUT     := libDoroSB.dylib
 SRC := DoroSBEntry.m DoroSBBall.m DoroSBWriter.m DoroSBCardBridge.m DoroSBAppExit.m
 CFLAGS := -arch arm64 -miphoneos-version-min=15.0 -isysroot $(SDK) -fobjc-arc -O2 \
           -dynamiclib -Wl,-install_name,/Library/MobileSubstrate/DynamicLibraries/$(OUT) \
-          -framework Foundation -framework UIKit -framework Security \
+          -framework Foundation -framework UIKit -framework CoreGraphics -framework QuartzCore -framework Security \
           -Wl,-no_adhoc_codesign
 
 all:
