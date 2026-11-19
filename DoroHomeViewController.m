@@ -9,6 +9,7 @@
 #import "DoroWriteTest.h"
 #import "DoroDeleteTest.h"
 #import "DoroCloudToken.h"
+#import "DoroScriptInstaller.h"
 #import "DoroGate.h"
 #import "WQAccess.h"
 #import "T3Verify.h"
@@ -176,13 +177,9 @@
         [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
         return;
     }
-    [DoroCloudToken fetchScriptWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message, NSData *cipher) {
+    [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
         sender.enabled = YES;
-        NSString *title = ok ? @"启动成功" : @"启动失败";
-        NSString *full = ok
-            ? [NSString stringWithFormat:@"%@\n卡密校验通过，已用一次性 token 拉取云端脚本。", message]
-            : message;
-        [wf showTitle:title message:full];
+        [wf showTitle:(ok ? @"启动成功" : @"启动失败") message:message];
     }];
 }
 
