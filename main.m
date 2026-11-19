@@ -16,6 +16,7 @@
 #import "WQLaunchServices.h"
 #import "DoroGate.h"
 #import "DoroHomeViewController.h"
+#import "DoroAntiDebug.h"
 #import "WQUI.h"
 #import "WQScanJournal.h"
 #import "WQSharing.h"
@@ -7728,6 +7729,9 @@ configurationForConnectingSceneSession:(UISceneSession *)session
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
+        // 反调试/反注入：仅作用于本 App，检测到附加或注入则退出。
+        [DoroAntiDebug install];
+
         // Container folders get their bundle id from the LaunchServices database
         // when the identifier attribute can't be read (iOS 27.2).
         wq_set_container_label_resolver(wq_bundle_id_for_container);
