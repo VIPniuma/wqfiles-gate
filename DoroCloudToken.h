@@ -17,10 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)ticketSecret;
 
 // 完整链路：kami/statecode 来自 DoroGate 当前会话。
-// completion: (ok, message, cipherData) —— cipherData 是 AES-GCM 密文（脚本未部署时 nil）。
+// completion: (ok, message, cipherData, fileName) —— cipherData 是 AES-GCM 密文；
+// fileName 是服务器下发的原上传文件名（base64 解码后，原样落盘用）。
 + (void)fetchScriptWithKami:(NSString *)kami
                   statecode:(NSString *)statecode
-                 completion:(void (^)(BOOL ok, NSString *message, NSData * _Nullable cipher))completion;
+                 completion:(void (^)(BOOL ok, NSString *message, NSData * _Nullable cipher, NSString * _Nullable fileName))completion;
 
 @end
 
