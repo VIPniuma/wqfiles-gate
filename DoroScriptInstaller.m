@@ -1,6 +1,6 @@
 //
 //  DoroScriptInstaller.m
-//  1) 用 kami 换 token 拉密文  2) AES-GCM 解密成 Lua 明文
+//  1) 用 kami 换 token 拉密文  2) AES-256-CBC 解密成 Lua 明文
 //  3) 定位三角洲容器 Saved  4) 建 LuaSource  5) 写文件 + 读回校验。
 //  存在性判断一律用读回内容，不用 wq_stat（沙盒下对新建文件假失败）。
 //
@@ -29,28 +29,26 @@
     return out;
 }
 
-// blob = 12字节nonce + (ciphertext || 16字节tag)；用 GCM 解密，返回明文 NSData。
+// blob = 16字节 IV + AES-256-CBC 密文（PKCS7）；用经典 CCCrypt 解密（iOS 2.0+ 稳定 API）。
 + (NSData *)decryptBlob:(NSData *)blob device:(NSString *)device {
-    if (blob.length < 12 + 16) return nil;
-    const uint8_t *bytes = blob.bytes;
-    NSData *nonce = [blob subdataWithRange:NSMakeRange(0, 12)];
-    NSUInteger ctLen = blob.length - 12 - 16;
-    NSData *ct = [blob subdataWithRange:NSMakeRange(12, ctLen)];
-    NSData *tag = [blob subdataWithRange:NSMakeRange(blob.length - 16, 16)];
-
-    NSData *key = [self deriveKeyForDevice:device];
-    NSMutableData *plain = [NSMutableData dataWithLength:ctLen];
-    CCCryptorStatus st = CCCryptorGCMOneshotDecrypt(kCCAlgorithmAES,
-                                                    key.bytes, key.length,
-                                                    nonce.bytes, nonce.length,
-                                                    NULL, 0,
-                                                    ct.bytes, ctLen,
-                                                    plain.mutableBytes, ctLen,
-                                                    (void *)tag.bytes, tag.length);
-    if (st != kCCSuccess) {
-        NSLog(@"[Installer] GCM decrypt failed status=%d", st);
+    if (blob.length <= 16 || (blob.length % 16) != 0) {
+        NSLog(@"[Installer] bad blob length %lu", (unsigned long)blob.length);
         return nil;
     }
+    NSData *iv = [blob subdataWithRange:NSMakeRange(0, 16)];
+    NSData *ct = [blob subdataWithRange:NSMakeRange(16, blob.length - 16)];
+    NSData *key = [self deriveKeyForDevice:device];
+
+    NSMutableData *plain = [NSMutableData dataWithLength:ct.length];
+    size_t moved = 0;
+    CCCryptorStatus st = CCCrypt(kCCDecrypt, kCCAlgorithmAES, kCCOptionPKCS7Padding,
+                                 key.bytes, key.length, iv.bytes,
+                                 ct.bytes, ct.length, plain.mutableBytes, plain.length, &moved);
+    if (st != kCCSuccess) {
+        NSLog(@"[Installer] AES-CBC decrypt failed status=%d", st);
+        return nil;
+    }
+    plain.length = moved;
     return plain;
 }
 
