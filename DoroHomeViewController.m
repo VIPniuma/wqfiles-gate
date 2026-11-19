@@ -1,15 +1,12 @@
 //
 //  DoroHomeViewController.m
 //  极简首页：顶部「Doro工具箱」+ Doro 头像，中间 16:9 T3 公告栏，
-//  下方两个大圆形按钮：绿色「启动」（生成测试文件）、红色「删除」。
-//  只管布局与公告/结果弹窗，文件读写交给 DoroWriteTest / DoroDeleteTest。
+//  下方两个大圆形按钮：绿色「显示悬浮球」、红色「隐藏悬浮球」。
+//  悬浮球点击触发脚本写入（写入后 10 秒自动删除），本页只管显隐与布局。
 //
 
 #import "DoroHomeViewController.h"
-#import "DoroWriteTest.h"
-#import "DoroDeleteTest.h"
-#import "DoroCloudToken.h"
-#import "DoroScriptInstaller.h"
+#import "DoroFloatingBall.h"
 #import "DoroGate.h"
 #import "WQAccess.h"
 #import "T3Verify.h"
@@ -75,11 +72,11 @@
     ]];
     [self loadNotice];
 
-    // ---- 两个大圆形按钮，上下排列 ----
-    _startBtn = [self makeCircleButtonWithTitle:@"启动" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
-    [_startBtn addTarget:self action:@selector(onStart:) forControlEvents:UIControlEventTouchUpInside];
-    _deleteBtn = [self makeCircleButtonWithTitle:@"删除" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
-    [_deleteBtn addTarget:self action:@selector(onDelete:) forControlEvents:UIControlEventTouchUpInside];
+    // ---- 两个大圆形按钮：显示 / 隐藏悬浮球 ----
+    _startBtn = [self makeCircleButtonWithTitle:@"显示悬浮球" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
+    [_startBtn addTarget:self action:@selector(onShowBall:) forControlEvents:UIControlEventTouchUpInside];
+    _deleteBtn = [self makeCircleButtonWithTitle:@"隐藏悬浮球" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
+    [_deleteBtn addTarget:self action:@selector(onHideBall:) forControlEvents:UIControlEventTouchUpInside];
 
     UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeTitle, noticeCard, _startBtn, _deleteBtn]];
     content.axis = UILayoutConstraintAxisVertical;
@@ -113,6 +110,8 @@
 - (void)onGateInvalid:(NSNotification *)note {
     _startBtn.enabled = NO;
     _deleteBtn.enabled = NO;
+    // 验证失效：收起悬浮球，防止继续点球触发写入
+    [[DoroFloatingBall shared] hide];
 }
 
 - (void)dealloc {
@@ -165,31 +164,19 @@
     });
 }
 
-- (void)onStart:(UIButton *)sender {
-    sender.enabled = NO;
-    __weak typeof(self) wf = self;
-    // 点启动：用当前会话的卡密 + statecode 去服务器换一次性 token、拉加密脚本
+- (void)onShowBall:(UIButton *)sender {
     DoroGate *gate = [DoroGate shared];
-    NSString *kami = gate.kami ?: @"";
-    NSString *sc = gate.statecode ?: @"";
-    if (!kami.length) {
-        sender.enabled = YES;
+    if (!(gate.kami.length && gate.statecode.length)) {
         [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
         return;
     }
-    [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
-        sender.enabled = YES;
-        [wf showTitle:(ok ? @"启动成功" : @"启动失败") message:message];
-    }];
+    [[DoroFloatingBall shared] show];
+    [self showTitle:@"已显示悬浮球" message:@"点击悬浮球写入脚本，写入后 10 秒自动删除。可拖动到任意位置。"];
 }
 
-- (void)onDelete:(UIButton *)sender {
-    sender.enabled = NO;
-    __weak typeof(self) wf = self;
-    [DoroDeleteTest runWithHost:self completion:^(NSString *title, NSString *message) {
-        sender.enabled = YES;
-        [wf showTitle:title message:message];
-    }];
+- (void)onHideBall:(UIButton *)sender {
+    [[DoroFloatingBall shared] hide];
+    [self showTitle:@"已隐藏悬浮球" message:@"悬浮球已收起"];
 }
 
 - (void)showTitle:(NSString *)title message:(NSString *)message {
