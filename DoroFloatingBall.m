@@ -1,7 +1,7 @@
 //
 //  DoroFloatingBall.m
 //  悬浮球：独立 UIWindow（Alert+1 层级，跨页面可见、不抢 key），
-//  可拖动、点击触发 DoroScriptInstaller 写入，写入后 10 秒自动删由 installer 调 DoroScriptCleaner。
+//  可拖动、点击触发 DoroScriptInstaller 写入，写入后 2 秒删+关球+退出由 installer 调度。
 //  点击结果用轻量 toast（UILabel）提示，不弹 alert 打断操作。
 //
 
