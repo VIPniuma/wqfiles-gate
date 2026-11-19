@@ -10,6 +10,7 @@
 #import "DoroScriptCleaner.h"
 #import "DeltaForceLocator.h"
 #import "WQAccess.h"
+#import "DoroStringTable.h"
 #import <sys/stat.h>
 #import <errno.h>
 #import <stdlib.h>
@@ -130,7 +131,7 @@ static NSString * wq_feature_key(NSString *s) {
 
             // 3) 建完整链 Documents/<真实特征名>/Saved/LuaSource（与测试文本同一套识别+建链）
             NSString *feature = [self featureNameInContainer:saved];
-            NSString *chain = [NSString stringWithFormat:@"Documents/%@/Saved/LuaSource", feature];
+            NSString *chain = [NSString stringWithFormat:DORO_LUA_CHAIN_FMT, feature];
             NSString *err = nil;
             if (![self ensureChainFromRoot:saved chain:chain error:&err]) {
                 [self done:completion ok:NO msg:err]; return;
