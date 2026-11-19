@@ -136,7 +136,7 @@
     __weak typeof(self) wf = self;
     [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
         wf.installing = NO;
-        NSString *brief = ok ? @"已写入，10 秒后自动删除" : [NSString stringWithFormat:@"写入失败：%@", message];
+        NSString *brief = ok ? @"已写入，2 秒后删除并退出" : [NSString stringWithFormat:@"写入失败：%@", message];
         [wf toastText:brief];
     }];
 }
