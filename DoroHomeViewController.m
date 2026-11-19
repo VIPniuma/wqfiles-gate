@@ -6,7 +6,7 @@
 //
 
 #import "DoroHomeViewController.h"
-#import "DoroPIP.h"
+#import "DoroLiveActivity.h"
 #import "DoroGate.h"
 #import "T3Verify.h"
 #import "T3GateConfig.h"
@@ -71,11 +71,11 @@
     ]];
     [self loadNotice];
 
-    // ---- 两个大圆形按钮：开启 / 关闭画中画 ----
-    _startBtn = [self makeCircleButtonWithTitle:@"开启画中画" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
-    [_startBtn addTarget:self action:@selector(onStartPIP:) forControlEvents:UIControlEventTouchUpInside];
-    _deleteBtn = [self makeCircleButtonWithTitle:@"关闭画中画" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
-    [_deleteBtn addTarget:self action:@selector(onStopPIP:) forControlEvents:UIControlEventTouchUpInside];
+    // ---- 两个大圆形按钮：开启 / 关闭灵动岛 ----
+    _startBtn = [self makeCircleButtonWithTitle:@"开启灵动岛" color:[UIColor colorWithRed:0.18 green:0.72 blue:0.35 alpha:1]];
+    [_startBtn addTarget:self action:@selector(onStartLive:) forControlEvents:UIControlEventTouchUpInside];
+    _deleteBtn = [self makeCircleButtonWithTitle:@"关闭灵动岛" color:[UIColor colorWithRed:0.9 green:0.23 blue:0.2 alpha:1]];
+    [_deleteBtn addTarget:self action:@selector(onStopLive:) forControlEvents:UIControlEventTouchUpInside];
 
     UIStackView *content = [[UIStackView alloc] initWithArrangedSubviews:@[noticeTitle, noticeCard, _startBtn, _deleteBtn]];
     content.axis = UILayoutConstraintAxisVertical;
@@ -109,8 +109,8 @@
 - (void)onGateInvalid:(NSNotification *)note {
     _startBtn.enabled = NO;
     _deleteBtn.enabled = NO;
-    // 验证失效：关闭画中画，防止点小窗继续触发写入
-    [[DoroPIP shared] stop];
+    // 验证失效：结束灵动岛，防止点它继续触发写入
+    [DoroLiveActivity end];
 }
 
 - (void)dealloc {
@@ -163,20 +163,20 @@
     });
 }
 
-- (void)onStartPIP:(UIButton *)sender {
+- (void)onStartLive:(UIButton *)sender {
     DoroGate *gate = [DoroGate shared];
     if (!(gate.kami.length && gate.statecode.length)) {
         [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
         return;
     }
-    BOOL ok = [[DoroPIP shared] start];
-    [self showTitle:(ok ? @"已开启画中画" : @"无法开启")
-            message:(ok ? @"退到桌面后点小窗回到工具箱，会自动拉取并写入脚本。" : @"当前设备/系统不支持画中画，或尚未就绪。")];
+    BOOL ok = [DoroLiveActivity startWithTitle:@"Doro工具箱" text:@"点右上角写入脚本"];
+    [self showTitle:(ok ? @"已开启灵动岛" : @"无法开启")
+            message:(ok ? @"灵动岛/锁屏出现后点「写入脚本」会自动拉取并写入。" : @"当前设备/系统不支持 Live Activities（需 iOS 16.1+ 且支持灵动岛机型）。")];
 }
 
-- (void)onStopPIP:(UIButton *)sender {
-    [[DoroPIP shared] stop];
-    [self showTitle:@"已关闭画中画" message:@"画中画小窗已关闭"];
+- (void)onStopLive:(UIButton *)sender {
+    [DoroLiveActivity end];
+    [self showTitle:@"已关闭灵动岛" message:@"Live Activity 已结束"];
 }
 
 - (void)showTitle:(NSString *)title message:(NSString *)message {
