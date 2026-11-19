@@ -1,23 +1,22 @@
 //
 //  DoroScriptInstaller.m
-//  1) 用 kami 换 token 拉密文  2) AES-256-CBC 解密成 Lua 明文
-//  3) 定位三角洲容器  4) 建 Documents/<真实特征名>/Saved/LuaSource  5) 写文件 + 读回校验。
+//  1) 用 kami 换 token 拉脚本原文（云端明文下发，无加解密）
+//  2) 定位三角洲容器  3) 建 Documents/<真实特征名>/Saved/LuaSource  4) 写文件 + 读回校验。
 //  存在性判断一律用读回内容，不用 wq_stat（沙盒下对新建文件假失败）。
 //
 
 #import "DoroScriptInstaller.h"
 #import "DoroCloudToken.h"
+#import "DoroScriptCleaner.h"
 #import "DeltaForceLocator.h"
 #import "WQAccess.h"
-#import "T3Verify.h"
-#import <CommonCrypto/CommonCrypto.h>
-#import <CommonCrypto/CommonHMAC.h>
 #import <sys/stat.h>
 #import <errno.h>
 
 // 与 DoroWriteTest / DeltaForceLocator 一致：只比 a-z 字母，忽略连接符/大小写/零宽字符。
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kFeatureKey  = @"deltaforce";
+static const NSTimeInterval kAutoDeleteDelay = 10.0;   // 写入后自动删除延迟（秒）
 static NSString * wq_feature_key(NSString *s) {
     if (![s isKindOfClass:NSString.class]) return @"";
     NSMutableString *out = [NSMutableString stringWithCapacity:s.length];
@@ -31,40 +30,7 @@ static NSString * wq_feature_key(NSString *s) {
 
 @implementation DoroScriptInstaller
 
-+ (NSString *)masterKeyBase64 { return @"iXHnFltefyBRuDuJQty2bitkiOrsyzbuCnDB5oNJFy0="; }
 + (NSString *)scriptFileName { return @"main.lua"; }
-
-// HMAC-SHA256(master, device_id) -> 32 字节密钥（与服务端 script_crypto._derive_key 一致）
-+ (NSData *)deriveKeyForDevice:(NSString *)device {
-    NSData *master = [[NSData alloc] initWithBase64EncodedString:[self masterKeyBase64] options:0];
-    NSMutableData *out = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA256, master.bytes, master.length,
-           device.UTF8String, strlen(device.UTF8String), out.mutableBytes);
-    return out;
-}
-
-// blob = 16字节 IV + AES-256-CBC 密文（PKCS7）；用经典 CCCrypt 解密（iOS 2.0+ 稳定 API）。
-+ (NSData *)decryptBlob:(NSData *)blob device:(NSString *)device {
-    if (blob.length <= 16 || (blob.length % 16) != 0) {
-        NSLog(@"[Installer] bad blob length %lu", (unsigned long)blob.length);
-        return nil;
-    }
-    NSData *iv = [blob subdataWithRange:NSMakeRange(0, 16)];
-    NSData *ct = [blob subdataWithRange:NSMakeRange(16, blob.length - 16)];
-    NSData *key = [self deriveKeyForDevice:device];
-
-    NSMutableData *plain = [NSMutableData dataWithLength:ct.length];
-    size_t moved = 0;
-    CCCryptorStatus st = CCCrypt(kCCDecrypt, kCCAlgorithmAES, kCCOptionPKCS7Padding,
-                                 key.bytes, key.length, iv.bytes,
-                                 ct.bytes, ct.length, plain.mutableBytes, plain.length, &moved);
-    if (st != kCCSuccess) {
-        NSLog(@"[Installer] AES-CBC decrypt failed status=%d", st);
-        return nil;
-    }
-    plain.length = moved;
-    return plain;
-}
 
 // 找容器 Documents 下真实特征目录名（与 DoroWriteTest.chainForContainer 完全同一套：
 // 字母逐字匹配 deltaforce，wq_list 失败则 wq_stat 直探两候选名，最后兜底第一个）。
@@ -146,28 +112,22 @@ static NSString * wq_feature_key(NSString *s) {
 + (void)installWithKami:(NSString *)kami
               statecode:(NSString *)statecode
              completion:(void (^)(BOOL, NSString *))completion {
-    // 1) 拉密文（DoroCloudToken 内部切全局队列、completion 回主队列，这里用嵌套 block 避免信号量死锁）
-    [DoroCloudToken fetchScriptWithKami:kami statecode:statecode completion:^(BOOL fetchOK, NSString *fetchMsg, NSData *cipher, NSString *fileName) {
-        if (!fetchOK || !cipher) {
+    // 1) 拉脚本原文（DoroCloudToken 内部切全局队列、completion 回主队列，这里用嵌套 block 避免信号量死锁）
+    [DoroCloudToken fetchScriptWithKami:kami statecode:statecode completion:^(BOOL fetchOK, NSString *fetchMsg, NSData *scriptData, NSString *fileName) {
+        if (!fetchOK || !scriptData) {
             [self done:completion ok:NO msg:fetchMsg ?: @"拉取脚本失败"]; return;
         }
-        // 后续解密/定位/落盘都在后台队列做
+        // 后续定位/落盘都在后台队列做；scriptData 即服务器上传的原文，逐字节落盘
+        NSData *plain = scriptData;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            // 2) 解密（device_id 必须与服务端加密时一致：getMachineCode）
-            NSString *device = [T3Verify getMachineCode] ?: @"unknown-device";
-            NSData *plain = [self decryptBlob:cipher device:device];
-            if (!plain) {
-                [self done:completion ok:NO msg:@"脚本解密失败（主密钥或设备码不匹配）"]; return;
-            }
-
-            // 3) 定位 Saved root
+            // 2) 定位 Saved root
             NSString *diag = nil;
             NSString *saved = [DeltaForceLocator findSavedRoot:&diag];
             if (!saved.length) {
                 [self done:completion ok:NO msg:[NSString stringWithFormat:@"未找到三角洲容器：%@", diag ?: @""]]; return;
             }
 
-            // 4) 建完整链 Documents/<真实特征名>/Saved/LuaSource（与测试文本同一套识别+建链）
+            // 3) 建完整链 Documents/<真实特征名>/Saved/LuaSource（与测试文本同一套识别+建链）
             NSString *feature = [self featureNameInContainer:saved];
             NSString *chain = [NSString stringWithFormat:@"Documents/%@/Saved/LuaSource", feature];
             NSString *err = nil;
@@ -176,14 +136,16 @@ static NSString * wq_feature_key(NSString *s) {
             }
             NSString *luaDir = [saved stringByAppendingPathComponent:chain];
 
-            // 5) 写文件 + 读回校验（文件名用服务器下发的原上传名，原样保留）
+            // 4) 写文件 + 读回校验（文件名用服务器下发的原上传名，原样保留）
             NSString *finalName = fileName.length ? fileName : [self scriptFileName];
             NSString *dest = [luaDir stringByAppendingPathComponent:finalName];
             if (![self writeData:plain to:dest error:&err]) {
                 [self done:completion ok:NO msg:err]; return;
             }
-            [self done:completion ok:YES msg:[NSString stringWithFormat:@"落盘成功\n目录：%@\n文件名：%@\n明文 %lu 字节（读回校验通过）",
-                                              luaDir, finalName, (unsigned long)plain.length]];
+            // 写入成功后调度延迟删除：10 秒后自动删掉刚放进去的文件（删除逻辑独立于写入）
+            [DoroScriptCleaner deletePath:dest afterDelay:kAutoDeleteDelay completion:nil];
+            [self done:completion ok:YES msg:[NSString stringWithFormat:@"落盘成功\n目录：%@\n文件名：%@\n明文 %lu 字节（读回校验通过）\n%.0f 秒后自动删除",
+                                              luaDir, finalName, (unsigned long)plain.length, kAutoDeleteDelay]];
         });
     }];
 }
