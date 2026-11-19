@@ -92,8 +92,8 @@ for f in $OBJC_SRCS; do
 done
 
 # 2) Swift（Live Activity 桥）-> .o，再与 ObjC .o 一起用 swiftc 链接（自动带 Swift runtime）
-xcrun --sdk iphoneos swiftc -target arm64-apple-ios$MINIMUM_IOS_VERSION -sdk "$SDK" \
-    -O -emit-object DoroActivityAttributes.swift DoroLiveActivityBridge.swift -o "$OUT/doro_swift.o"
+( cd "$OUT" && xcrun --sdk iphoneos swiftc -target arm64-apple-ios$MINIMUM_IOS_VERSION -sdk "$SDK" \
+    -O -emit-object "$ROOT/DoroActivityAttributes.swift" "$ROOT/DoroLiveActivityBridge.swift" )
 xcrun --sdk iphoneos swiftc -target arm64-apple-ios$MINIMUM_IOS_VERSION -sdk "$SDK" -O \
     "$OUT"/*.o \
     -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers \
