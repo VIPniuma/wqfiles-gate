@@ -12,7 +12,7 @@
 
 static NSString * const kFeatureNames[] = { @"DeltaForce", @"Delta-Force" };
 static NSString * const kFeatureKey  = @"deltaforce";
-static NSString * const kTail = @"Saved/LuaDebug/LuaSource/DFM/BusinessEntrance";
+static NSString * const kTail = @"Saved/LuaSource";
 static NSString * const kFile = @"测试123";
 
 static NSString *wq_feature_key(NSString *s) {
