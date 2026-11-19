@@ -7432,10 +7432,8 @@ static BOOL wq_ios_supported(void)
 
 static UIViewController *wq_make_root_view_controller(void)
 {
-    // 极简版：只保留一个「首页」tab，容器分类 / 作者链接 / 其它导航项全部不接入。
-    UITabBarController *tabs = [UITabBarController new];
-    tabs.viewControllers = @[[DoroHomeViewController new]];
-    return tabs;
+    // 极简版：不用导航栏，直接进首页（容器分类 / 作者链接 / 其它导航全部不接入）。
+    return [DoroHomeViewController new];
 }
 
 static UIViewController *wq_top_view_controller(void);
