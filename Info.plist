@@ -84,6 +84,15 @@
 	<string>Doro工具箱</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key><array><string>doro</string></array>
+			<key>CFBundleURLName</key><string>cz.kolbi.wqfiles.write</string>
+		</dict>
+	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.18</string>
 	<key>CFBundleSupportedPlatforms</key>
