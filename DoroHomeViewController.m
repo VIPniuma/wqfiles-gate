@@ -146,14 +146,20 @@
                        rsaPublicKey:T3_RSA_PUBLIC_KEY
                               error:&err];
         NSString *text = nil;
-        if (!err) {
+        if (err) {
+            text = [NSString stringWithFormat:@"公告初始化失败：%@", err.localizedDescription];
+        } else {
             T3NoticeResult *r = [verify getNotice];
-            text = r.notice;
+            if (r.success) {
+                text = r.notice.length ? r.notice : @"暂无公告";
+            } else {
+                text = [NSString stringWithFormat:@"公告拉取失败：%@", r.error ?: @"未知错误"];
+            }
         }
         __weak typeof(self) wf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             __strong typeof(self) strongSelf = wf;
-            if (strongSelf) strongSelf->_noticeLabel.text = text.length ? text : @"暂无公告";
+            if (strongSelf) strongSelf->_noticeLabel.text = text;
         });
     });
 }
