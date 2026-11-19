@@ -2,13 +2,12 @@
 //  DoroHomeViewController.m
 //  极简首页：顶部「Doro工具箱」+ Doro 头像，中间 16:9 T3 公告栏，
 //  下方两个大圆形按钮：绿色「显示悬浮球」、红色「隐藏悬浮球」。
-//  悬浮球点击触发脚本写入（写入后 10 秒自动删除），本页只管显隐与布局。
+//  悬浮球点击触发脚本写入（成功后 2 秒删文件+关球+退出），本页只管显隐与布局。
 //
 
 #import "DoroHomeViewController.h"
 #import "DoroFloatingBall.h"
 #import "DoroGate.h"
-#import "WQAccess.h"
 #import "T3Verify.h"
 #import "T3GateConfig.h"
 
@@ -171,7 +170,7 @@
         return;
     }
     [[DoroFloatingBall shared] show];
-    [self showTitle:@"已显示悬浮球" message:@"点击悬浮球写入脚本，写入后 10 秒自动删除。可拖动到任意位置。"];
+    [self showTitle:@"已显示悬浮球" message:@"点击悬浮球写入脚本，成功后 2 秒自动删除、收起悬浮球并退出工具箱。可拖动到任意位置。"];
 }
 
 - (void)onHideBall:(UIButton *)sender {
@@ -180,13 +179,9 @@
 }
 
 - (void)showTitle:(NSString *)title message:(NSString *)message {
-    NSString *log = wq_log_text();
-    NSString *full = log.length
-        ? [NSString stringWithFormat:@"%@\n\n---- worse_query 日志 ----\n%@", message,
-           log.length > 1000 ? [log substringFromIndex:log.length - 1000] : log]
-        : message;
+    // 按要求去掉 worse_query 日志，弹窗只显示纯结果文案
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:title
-                                                                message:full
+                                                                message:message
                                                          preferredStyle:UIAlertControllerStyleAlert];
     [ac addAction:[UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleDefault handler:nil]];
     [self presentViewController:ac animated:YES completion:nil];
