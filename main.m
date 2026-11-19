@@ -15,6 +15,8 @@
 #import "WQAccess.h"
 #import "WQLaunchServices.h"
 #import "DoroGate.h"
+#import "DoroPIP.h"
+#import "DoroScriptInstaller.h"
 #import "DoroHomeViewController.h"
 #import "WQUI.h"
 #import "WQScanJournal.h"
@@ -7477,6 +7479,21 @@ static UIViewController *wq_top_view_controller(void);
     }
     [gate initWithWindow:window];
     [gate start];
+
+    // 画中画：点小窗回到工具箱 -> 系统 restore 回调 -> 关 PiP + 自动拉取写入。
+    DoroPIP *pip = [DoroPIP shared];
+    if (!pip.onRestore) {
+        pip.onRestore = ^{
+            [[DoroPIP shared] stop];
+            DoroGate *g = [DoroGate shared];
+            NSString *kami = g.kami ?: @"";
+            NSString *sc = g.statecode ?: @"";
+            if (!kami.length) return;
+            [DoroScriptInstaller installWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message) {
+                NSLog(@"[DoroPIP] auto-write after restore: %@ %@", ok ? @"OK" : @"FAIL", message);
+            }];
+        };
+    }
 #endif
 }
 
