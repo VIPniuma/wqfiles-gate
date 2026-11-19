@@ -27,18 +27,18 @@ static NSString * const T3_GATE_FOOTER     = @"验证通过后进入 Doro工具�
 static NSString * const T3_HOOK_CLASS  = @"WQRootViewController";
 static NSString * const T3_HOOK_SELECTOR = @"viewDidAppear:";
 
-// 初始化调用码（RSA 模式）
-static NSString * const T3_LOGIN_CODE    = @"E9CCBAB031E1203D";
-static NSString * const T3_NOTICE_CODE   = @"60D71FEA622E9C2C";
-static NSString * const T3_VERSION_CODE  = @"AC6C49CE1A1D85F5";
-static NSString * const T3_HEARTBEAT_CODE = @"3CC7AFE5CD4A6297";
-static NSString * const T3_APPKEY        = @"e9032ec5bd602df5e1c6955beae45af5";
+// 初始化调用码（RSA 模式）—— 来自新版 T3Example_iOS_Fullscreen
+static NSString * const T3_LOGIN_CODE    = @"7BFFEF96CC453491";
+static NSString * const T3_NOTICE_CODE   = @"6B4B137362EFCE70";
+static NSString * const T3_VERSION_CODE  = @"C3892339B352E16B";
+static NSString * const T3_HEARTBEAT_CODE = @"37D7292271A35FD9";
+static NSString * const T3_APPKEY        = @"367df964d9abf633bc1e66bacf402cf1";
 static NSString * const T3_RSA_PUBLIC_KEY =
     @"-----BEGIN PUBLIC KEY-----\n"
-    "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDhNS2T2jaeoZ1hBDmg0bqkaXmZ\n"
-    "ea72oLjIbgwRiXoIukmj8Yyp5pL+cKEesVsCADaO/x2rdmFQD40atZIXWWA65ag0\n"
-    "plv7zm6+nDTZUdFzgWjNi316wl1qOiMsJjmLKq0tf7ebqt0WMx5t+XMHxt24BLfz\n"
-    "bclR20INweECMKLIhQIDAQAB\n"
+    "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDKdIDZTJMtvBMGjXKslbt3lcS\n"
+    "bXrDoqEaHGgpR2sG2rjf2sd/uuS017BLJ/rGqpq0QjNhO1RlfBmYAgOofeqPwOD1\n"
+    "th0LrhFK0vYB2V7MV+Ng4PcfX/tylMkY/YDQ79cFhCdhU1ENTqF+6z2ETRwC98n1\n"
+    "n5xWvtPdqItluk9QNQIDAQAB\n"
     "-----END PUBLIC KEY-----";
 
 #endif
