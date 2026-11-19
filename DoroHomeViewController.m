@@ -8,6 +8,8 @@
 #import "DoroHomeViewController.h"
 #import "DoroWriteTest.h"
 #import "DoroDeleteTest.h"
+#import "DoroCloudToken.h"
+#import "DoroGate.h"
 #import "WQAccess.h"
 #import "T3Verify.h"
 #import "T3GateConfig.h"
@@ -99,6 +101,24 @@
         [noticeCard.widthAnchor constraintEqualToAnchor:content.widthAnchor],
         [noticeCard.heightAnchor constraintEqualToAnchor:noticeCard.widthAnchor multiplier:9.0/16.0],  // 16:9
     ]];
+
+    // 心跳失败：DoroGate 推回验证框，这里锁住两个按钮，防止验过期继续操作
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(onGateInvalid:)
+                                               name:@"DoroGateInvalid"
+                                             object:nil];
+}
+
+- (void)onGateInvalid:(NSNotification *)note {
+    __weak typeof(self) wf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        wf->_startBtn.enabled = NO;
+        wf->_deleteBtn.enabled = NO;
+    });
+}
+
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (UIButton *)makeCircleButtonWithTitle:(NSString *)title color:(UIColor *)color {
@@ -144,9 +164,22 @@
 - (void)onStart:(UIButton *)sender {
     sender.enabled = NO;
     __weak typeof(self) wf = self;
-    [DoroWriteTest runWithHost:self completion:^(NSString *title, NSString *message) {
+    // 点启动：用当前会话的卡密 + statecode 去服务器换一次性 token、拉加密脚本
+    DoroGate *gate = [DoroGate shared];
+    NSString *kami = gate.kami ?: @"";
+    NSString *sc = gate.statecode ?: @"";
+    if (!kami.length) {
         sender.enabled = YES;
-        [wf showTitle:title message:message];
+        [self showTitle:@"未验证" message:@"卡密未就绪，请完成验证后重试"];
+        return;
+    }
+    [DoroCloudToken fetchScriptWithKami:kami statecode:sc completion:^(BOOL ok, NSString *message, NSData *cipher) {
+        sender.enabled = YES;
+        NSString *title = ok ? @"启动成功" : @"启动失败";
+        NSString *full = ok
+            ? [NSString stringWithFormat:@"%@\n卡密校验通过，已用一次性 token 拉取云端脚本。", message]
+            : message;
+        [wf showTitle:title message:full];
     }];
 }
 
