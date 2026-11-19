@@ -86,7 +86,7 @@ xcrun --sdk iphoneos clang -fobjc-arc -fmodules -fmodules-cache-path="$OUT/Modul
     -isysroot "$SDK" -Wall -Wextra -O2 -I T3SDK ${WQ_EXTRA_CFLAGS:-} \
     -framework UIKit -framework Foundation -framework Security -framework UniformTypeIdentifiers -framework JavaScriptCore \
     WQCore.m WQAccess.m WQScanTask.m WQLocalization.m WQLaunchServices.m WQUI.m WQSharing.m WQApps.m WQCache.m WQPlistEditor.m WQHexViewer.m WQSQLiteViewer.m WQSQLiteSave.m WQHealth.m WQTrash.m WQArchive.m WQSyntax.m WQMediaStream.m WQWebServer.m WQTheme.m WQInspector.m \
-    DoroGate.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
+    DoroGate.m DoroHeartbeat.m DoroCloudToken.m DoroHomeViewController.m DoroWriteTest.m DoroDeleteTest.m DeltaForceLocator.m T3SDK/T3Verify.m T3SDK/T3VerifyDialog.m \
     main.m -lsqlite3 -lz -o "$APP/WQFiles"
 cp Info.plist "$APP/Info.plist"
 # 传统 PNG 图标：Info.plist 已声明这些文件名。actool 的 dark/tinted 目录在
