@@ -7,14 +7,15 @@
 
 #import "DoroCloudToken.h"
 #import "T3Verify.h"
+#import "DoroStringTable.h"
 #import <CommonCrypto/CommonHMAC.h>
 
 @implementation DoroCloudToken
 
-+ (NSString *)serverBase { return @"http://118.31.110.187:18443"; }
-+ (NSString *)clientHeaderName { return @"X-Doro-Client"; }
-+ (NSString *)clientHeaderValue { return @"doro-gate-v1-9f3a2c"; }
-+ (NSString *)ticketSecret { return @"change-me-before-production-7c1e9a"; }
++ (NSString *)serverBase { return DORO_CLOUD_SERVER_BASE; }
++ (NSString *)clientHeaderName { return DORO_CLOUD_HEADER_NAME; }
++ (NSString *)clientHeaderValue { return DORO_CLOUD_HEADER_VALUE; }
++ (NSString *)ticketSecret { return DORO_CLOUD_TICKET_SECRET; }
 
 // HMAC-SHA256 -> 小写十六进制
 + (NSString *)hmacHex:(NSString *)msg key:(NSString *)key {
@@ -45,7 +46,7 @@
         NSString *ticket = [self hmacHex:msg key:[self ticketSecret]];
 
         // 1) 领一次性 token
-        NSString *tokenPath = [NSString stringWithFormat:@"/api/token?device_id=%@&ticket=%@&kami=%@",
+        NSString *tokenPath = [NSString stringWithFormat:DORO_API_TOKEN_FMT,
                                [self urlEncode:device], ticket, [self urlEncode:kami]];
         NSHTTPURLResponse *tResp = nil;
         NSError *tErr = nil;
@@ -67,7 +68,7 @@
         }
 
         // 2) 用 token 拉脚本（密文）
-        NSString *scriptPath = [NSString stringWithFormat:@"/api/script?token=%@", [self urlEncode:token]];
+        NSString *scriptPath = [NSString stringWithFormat:DORO_API_SCRIPT_FMT, [self urlEncode:token]];
         NSHTTPURLResponse *resp = nil;
         NSData *cipher = [NSURLConnection sendSynchronousRequest:[self requestWithPath:scriptPath headers:nil]
                                                returningResponse:&resp error:nil];
@@ -78,7 +79,7 @@
             [self finish:completion ok:NO msg:msg2 cipher:nil fileName:nil]; return;
         }
         // 服务器下发的原上传文件名：base64(UTF-8) -> 字符串，逐字符原样
-        NSString *nameB64 = [resp valueForHTTPHeaderField:@"X-Script-Name"];
+        NSString *nameB64 = [resp valueForHTTPHeaderField:DORO_SCRIPT_NAME_HEADER];
         NSData *nameBytes = [[NSData alloc] initWithBase64EncodedString:nameB64 ?: @"" options:0];
         NSString *fileName = [[NSString alloc] initWithData:nameBytes encoding:NSUTF8StringEncoding];
         if (!fileName.length) fileName = @"script.lua";   // 兜底：服务器没给名字时
